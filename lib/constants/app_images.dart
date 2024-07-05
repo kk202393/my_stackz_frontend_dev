@@ -37,4 +37,8 @@ class AppImages {
   static const String closeIcon = "$baseImage/close_icon.png";
   static const String paymentIconCall = "$baseImage/payment_icon_call.png";
   static const String newLogo = "$baseImage/new_logo.png";
+  static const String cancelIcon = "$baseImage/cancel.png";
+  static const String timeIcon = "$baseImage/time.png";
+  static const String interiorDesign = "$baseImage/interior_design.png";
+  static const String homeDesign = "$baseImage/home_design.png";
 }

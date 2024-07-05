@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
+import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
 import 'package:my_stackz/screens/cleaning/provider/cleaning_provider.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
+import 'package:my_stackz/screens/payments/provider/payment_Provider.dart';
 import 'package:my_stackz/screens/signUp/provider/sign_up_Provider.dart';
 
 
@@ -39,7 +41,15 @@ void main() {
         create: (context) => HandymanProvider(),
         lazy: true,
       ),
-     
+       ChangeNotifierProvider(
+        create: (context) => PaymentProvider(),
+        lazy: true,
+      ),
+       ChangeNotifierProvider(
+        create: (context) => CartSummaryProvider(),
+        lazy: true,
+      ),
+
     ], child: const MyStackz()),
   );
 }

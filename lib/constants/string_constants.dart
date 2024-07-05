@@ -125,4 +125,15 @@ class StringConstants {
   static const String finalInstallment = "Final Installment";
   static const String paymentToBeDone = "Payment To Be Done";
   static const String choosePaymentMethod = "Choose Payment method";
+  static const String reschedule = "Reschedule";
+  static const String cancel = "Cancel";
+  static const String bookingDetails = "Booking Details";
+  static const String serviceLocation = "Service Location";
+  static const String timings = "Timings";
+  static const String loremIpsum = "Lorem Ipsum is the dummy text of the printing";
+  static const String topPicks = "Top Picks For You";
+  static const String payViaCreditCard = "Pay via credit card";
+  static const String balance = "Balance";
+  static const String transferMoney = "Transfer Money";
+  static const String cartSummary = "Cart Summary";
 }

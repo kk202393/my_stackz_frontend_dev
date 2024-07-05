@@ -21,9 +21,9 @@ class BookingAcceptedView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
-                InkWell(
+                const InkWell(
                   // onTap: () => Get.back(),
-                  child: const Icon(Icons.chevron_left_outlined,
+                  child: Icon(Icons.chevron_left_outlined,
                       size: 30, color: AppColors.pineTree),
                 ),
                 SizedBox(width: width * 0.3),
