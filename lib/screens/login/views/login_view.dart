@@ -73,8 +73,9 @@ class LoginView extends StatelessWidget {
                     text: StringConstants.rememberMe, style: context.bodySmall),
                 const Spacer(),
                 InkWell(
-                  onTap: () {},
-                  // => Get.toNamed(Routes.FORGOT_PASSWORD),
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.FORGOT_PASSWORD);
+                  },
                   child: TextWidget(
                       text: StringConstants.forgotPassword,
                       style: context.bodySmall),

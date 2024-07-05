@@ -105,7 +105,7 @@ class AirconView extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               TextWidget(
-                                text:homeProvider.homeAPIResponse.allCategories[categoryID].subcategories[index].subcategoryName,
+                                text:homeProvider.homeAPIResponse.allCategories[1].subcategories[0].subcategoryName,
                                 //  "item.subcategoryName!",
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w500, fontSize: 14),

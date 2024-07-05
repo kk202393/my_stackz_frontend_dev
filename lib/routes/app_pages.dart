@@ -61,6 +61,11 @@ class AppPages {
           settings: setting,
           builder: (_) => const AdditionalDetailsView(),
         );
+      // case Routes.FORGOT_PASSWORD:
+      //   return MaterialPageRoute(
+      //     settings: setting,
+      //     builder: (_) => const (),
+      //   );
       default:
         return MaterialPageRoute(
           settings: setting,
