@@ -19,6 +19,7 @@ class CartSummaryView extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppColors.cultured,
       body: SafeArea(
           child: SingleChildScrollView(
