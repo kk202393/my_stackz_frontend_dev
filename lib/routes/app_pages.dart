@@ -94,6 +94,11 @@ class AppPages {
           settings: setting,
           builder: (_) => const CartSummaryView(),
         );
+      // case Routes.FORGOT_PASSWORD:
+      //   return MaterialPageRoute(
+      //     settings: setting,
+      //     builder: (_) => const (),
+      //   );
       default:
         return MaterialPageRoute(
           settings: setting,

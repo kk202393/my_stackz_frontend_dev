@@ -13,7 +13,7 @@ class SignUpView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-             SignUpProvider controller = Provider.of<SignUpProvider>(context, listen: false);
+             // SignUpProvider controller = Provider.of<SignUpProvider>(context, listen: false);
 
     return Scaffold(
         backgroundColor: context.getTheme.primaryColor,
@@ -33,8 +33,8 @@ class SignUpView extends StatelessWidget {
               ButtonWidget(
                   buttonText: StringConstants.signUp,
                   onTap: () {
-                    controller.validateFields(context);
-                    controller.callCreateAccountApi();
+                    // controller.validateFields(context);
+                    // controller.callCreateAccountApi();
                     Navigator.pushNamed(context, Routes.HOME);
                   }),
             ])));

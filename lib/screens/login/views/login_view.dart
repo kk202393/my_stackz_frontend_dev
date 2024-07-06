@@ -26,27 +26,61 @@ class LoginView extends StatelessWidget {
       backgroundColor: AppColors.white,
       body: SafeArea(
         child: Stack(children: [
-          InkWell(
-            onTap: () => Navigator.pushNamed(context, Routes.CART_SUMMARY),
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                child: Column(children: [
-                  Image.asset(
-                    AppImages.newLogo,
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                  ),
-                  const SizedBox(height: 20),
-                   Form(
-                  key: controller.formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-            AppFormField(
-              controller: controller.emailController,
-              hintText: StringConstants.enterEmail,
-              validator: (value) => InputValidator.isValidEmail(value),
-            ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Column(children: [
+                Image.asset(
+                  AppImages.newLogo,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                ),
+                const SizedBox(height: 20),
+                 Form(
+      key: controller.formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AppFormField(
+            controller: controller.emailController,
+            hintText: StringConstants.enterEmail,
+            validator: (value) => InputValidator.isValidEmail(value),
+          ),
+          const SizedBox(height: 20),
+          AppFormField(
+            controller: controller.passwordController,
+            obscureText: controller.obscureText.value,
+            hintText: StringConstants.enterPassword,
+            onTapSuffixIcon: () => controller.onChangePasswordVisibility(),
+            validator: (value) =>
+                InputValidator.validateFields("password", value),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: () => controller.onClickRememberMe(),
+                  child: Icon(
+                      controller.rememberMe.value
+                          ? Icons.check_box_outlined
+                          : Icons.check_box_outline_blank,
+                      size: 15),
+                ),
+                const SizedBox(width: 7),
+                TextWidget(
+                    text: StringConstants.rememberMe, style: context.bodySmall),
+                const Spacer(),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.FORGOT_PASSWORD);
+                  },
+                  child: TextWidget(
+                      text: StringConstants.forgotPassword,
+                      style: context.bodySmall),
+                )
+              ],
+            ),),
             const SizedBox(height: 20),
             AppFormField(
               controller: controller.passwordController,
@@ -124,7 +158,6 @@ class LoginView extends StatelessWidget {
                           ])),
                   const SizedBox(height: 20)
                 ])),
-          ),
         ]),
       ),
     );

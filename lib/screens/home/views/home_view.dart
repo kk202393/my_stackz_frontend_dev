@@ -46,7 +46,8 @@ class HomeView extends StatelessWidget{
                                     style: context.headlineMedium,
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: controller.name.value,
+                                        text:"Name",
+                                        //   text: controller.name.value,
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () => Navigator.pushNamed(context, Routes.SIGN_UP),
                                           style: context.headlineSmall),

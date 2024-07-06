@@ -5,17 +5,24 @@ import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
+import 'package:my_stackz/screens/handyman/views/handyman_dialogue_box.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 class HandymanView extends StatelessWidget {
-    int categoryID;
-   HandymanView({super.key, required this.categoryID});
+  int categoryID;
+
+  HandymanView({super.key, required this.categoryID});
 
   @override
- Widget build(BuildContext context) {
-      HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
+  Widget build(BuildContext context) {
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
+    HandymanProvider handymanProvider =
+        Provider.of<HandymanProvider>(context, listen: false);
+    // print("this is list ${homeProvider.homeAPIResponse.allCategories.length}");
+    // print("handyman.name.value=${homeProvider.homeAPIResponse.allCategories[0].subcategories[0].subcategoryName}");
 
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -38,8 +45,9 @@ class HandymanView extends StatelessWidget {
                       top: 20,
                       left: 10,
                       child: InkWell(
-                          onTap: () =>Navigator.pop(context),
-                          child: const Icon(Icons.chevron_left_outlined, size: 50)),
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(Icons.chevron_left_outlined,
+                              size: 50)),
                     ),
                     Positioned(
                       bottom: 15,
@@ -56,7 +64,8 @@ class HandymanView extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -76,6 +85,8 @@ class HandymanView extends StatelessWidget {
                           // Subcategories item = controller.subcategories[index];
                           return InkWell(
                             onTap: () {
+                              openScheduleHandymanService(
+                                  handymanProvider, context);
                               // openHandymanOptions(controller, context);
                             },
                             child: Column(
@@ -84,7 +95,8 @@ class HandymanView extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                      border: Border.all(color: AppColors.darkGray),
+                                      border:
+                                          Border.all(color: AppColors.darkGray),
                                       borderRadius: BorderRadius.circular(5),
                                       color: AppColors.white),
                                   child: Image.asset(
@@ -101,12 +113,19 @@ class HandymanView extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 TextWidget(
-                                  text: homeProvider.homeAPIResponse.allCategories[categoryID].subcategories[index].subcategoryName,
-                                  
+                                  text:
+
+                                  homeProvider
+                                      .homeAPIResponse
+                                      .allCategories[2]
+                                      .subcategories[2]
+                                      .subcategoryName,
+
                                   // "subcategoryName",
                                   // text: item.subcategoryName!,
                                   style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500, fontSize: 14),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
