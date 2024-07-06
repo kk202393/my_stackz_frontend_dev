@@ -48,7 +48,7 @@ openAirconOptions(AirconProvider controller, context) {
                           crossAxisCount: 2, crossAxisSpacing: 20, mainAxisSpacing: 20),
               itemBuilder: (BuildContext context, int index) {  
                 return InkWell(
-                        onTap: () => openScheduleAirconService(controller,index),
+                        onTap: () => openScheduleAirconService(controller,context),
                         child: Column(
                           
                           crossAxisAlignment: CrossAxisAlignment.center,

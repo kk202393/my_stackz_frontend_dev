@@ -85,7 +85,7 @@ class CleaningView extends StatelessWidget {
                         // List<Subcategories> item = homeProvider.homeAPIResponse.allCategories[0].subcategories;
                         return InkWell(
                           onTap: () {
-                            openCleaningOptions(cleaningController,context);
+                            openScheduleCleaningService(cleaningController,context);
                             // openCleaningOptions(controller, context);
                           },
                           child: Column(
