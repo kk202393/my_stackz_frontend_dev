@@ -17,10 +17,10 @@ class ResetPasswordForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
                  ResetPasswordProvider controller = Provider.of<ResetPasswordProvider>(context, listen: false);
-             LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
+             //LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
 
     return Form(
-      key: loginController.formKey,
+      key: controller.formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

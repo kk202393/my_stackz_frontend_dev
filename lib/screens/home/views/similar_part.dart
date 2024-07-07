@@ -17,18 +17,20 @@ import '../../../../widgets/text_widget.dart';
 import '../../../routes/app_pages.dart';
 
 class SimilarPart extends StatelessWidget {
-   HomeProvider controller;
+  HomeProvider controller;
 
-   SimilarPart({super.key, required this.controller});
+  SimilarPart({super.key, required this.controller});
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-         LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
-         HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    //LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
 
-      // final LoginProvider loginController = Get.put(LoginProvider());
+    // final LoginProvider loginController = Get.put(LoginProvider());
     // var addressList = <Addresses>[].obs;
-    
 
     // void parseLoginResponse(String responseBody) {
     //   final responseJson = jsonDecode(responseBody);
@@ -42,18 +44,18 @@ class SimilarPart extends StatelessWidget {
 
     // print(" cjsndcjsdcsdc${defaultAddress}");
     // final Map<String, dynamic> userData;SSS
-    
+
 // print("lst=${loginController.addressList}");
     final width = MediaQuery.of(context).size.width;
- print("this is list ${homeProvider.homeAPIResponse.allCategories}");
+    print("this is list ${homeProvider.homeAPIResponse.allCategories}");
     return Column(
       children: [
         Row(
           children: [
-              //  TextWidget(
-              //       text: loginController.logInAPIResponse.userAddress[0]["addresses"][0]['address'],
-              //       style: context.bodyMedium
-              //           .copyWith(fontWeight: FontWeight.w600, fontSize: 17)),
+            //  TextWidget(
+            //       text: loginController.logInAPIResponse.userAddress[0]["addresses"][0]['address'],
+            //       style: context.bodyMedium
+            //           .copyWith(fontWeight: FontWeight.w600, fontSize: 17)),
 
             //  Obx(() {
             //   if (loginController.addressList.isEmpty) {
@@ -69,24 +71,24 @@ class SimilarPart extends StatelessWidget {
             //     );
             //   }
             // }),
-             
+
             // Obx(() {
-              // TextWidget(
-              //       text: controller.address.value,
-              //       style: context.bodyMedium
-              //           .copyWith(fontWeight: FontWeight.w600, fontSize: 17));
-              // if (addressList.isNotEmpty) {
-              //   return Column(
-              //     children: addressList.map((address) {
-              //       return Text(
-              //         '${address.address}, ${address.city}, ${address.pincode},${address.latitude},${address.longitude}',
-              //         style: TextStyle(fontSize: 15),
-              //       );
-              //     }).toList(),
-              //   );
-              // } else {
-              //   return Text('No addresses found');
-              // }
+            // TextWidget(
+            //       text: controller.address.value,
+            //       style: context.bodyMedium
+            //           .copyWith(fontWeight: FontWeight.w600, fontSize: 17));
+            // if (addressList.isNotEmpty) {
+            //   return Column(
+            //     children: addressList.map((address) {
+            //       return Text(
+            //         '${address.address}, ${address.city}, ${address.pincode},${address.latitude},${address.longitude}',
+            //         style: TextStyle(fontSize: 15),
+            //       );
+            //     }).toList(),
+            //   );
+            // } else {
+            //   return Text('No addresses found');
+            // }
             // }),
             const Spacer(),
             const Icon(Icons.edit_outlined, size: 20),
@@ -94,19 +96,20 @@ class SimilarPart extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-      AppTextFieldSearch(
-            keyboardType: TextInputType.text,
-            validator: (value) =>
-                InputValidator.validateFields(value!, "Search"),
-            // formKey: controller.formKey,
-            controller: controller.searchController,
-            hint: 'Search for a Service, Product, Solution',
-            fontWeight: FontWeight.w600,
-            fontSize: 12,
-            textColor: AppColors.darkGray,
-            isTyped: controller.isTyped.value,
-            onChanged: (value) => controller.onChangeSearchField(value),
-            onTap: () {}, formKey: loginController.formKey,),
+        AppTextFieldSearch(
+          keyboardType: TextInputType.text,
+          validator: (value) => InputValidator.validateFields(value!, "Search"),
+          // formKey: controller.formKey,
+          controller: controller.searchController,
+          hint: 'Search for a Service, Product, Solution',
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
+          textColor: AppColors.darkGray,
+          isTyped: controller.isTyped.value,
+          onChanged: (value) => controller.onChangeSearchField(value),
+          onTap: () {},
+          formKey: formKey,
+        ),
         const SizedBox(height: 20),
         Align(
           alignment: Alignment.center,
@@ -124,58 +127,60 @@ class SimilarPart extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
-  SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: controller.categoryList.value
-                    .map((element) => InkWell(
-                          onTap: () {
-                            print("element=${HomePageResponse}");
-                            print("this is data ${element.subcategories[0].subcategoryName}");
-                            print("this is data ${element.subcategories[2].subcategoryName}");
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: controller.categoryList.value
+                .map((element) => InkWell(
+                      onTap: () {
+                        print("element=${HomePageResponse}");
+                        print(
+                            "this is data ${element.subcategories[0].subcategoryName}");
+                        print(
+                            "this is data ${element.subcategories[2].subcategoryName}");
 
-                            element.categoryId == 1
-                                ? 
-                                Navigator.pushNamed(context, Routes.CLEANING, arguments: {
+                        element.categoryId == 1
+                            ? Navigator.pushNamed(context, Routes.CLEANING,
+                                arguments: {
                                     "subcategories": element.categoryId
                                   })
-                                : element.categoryId == 2
-                                    ? Navigator.pushNamed(context,Routes.AIRCON_SERVICES,
-                                        arguments: {
-                                            "subcategories":
-                                                element.categoryId
-                                          })
-                                    :Navigator.pushNamed(context,Routes.HANDYMAN, arguments: {
+                            : element.categoryId == 2
+                                ? Navigator.pushNamed(
+                                    context, Routes.AIRCON_SERVICES,
+                                    arguments: {
+                                        "subcategories": element.categoryId
+                                      })
+                                : Navigator.pushNamed(context, Routes.HANDYMAN,
+                                    arguments: {
                                         "subcategories": element.categoryId
                                       });
-                          },
-                          child: Column(
-                            children: [
-                              CircleAvatar(
-                                radius: 40,
-                                backgroundColor: context.getTheme.primaryColor,
-                                child: ClipOval(
-                                    child: Image.asset(element.categoryId == 1
-                                        ? AppImages.cleaningIcon
-                                        : element.categoryId == 2
-                                            ? AppImages.airconServicing
-                                            : AppImages.handymanIcon)),
-                              ),
-                              const SizedBox(height: 6),
-                              TextWidget(
-                                  // text: "last",
-                                  text: "${element.categoryName}",
-                                  style: context.bodyMedium.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12))
-                            ],
+                      },
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundColor: context.getTheme.primaryColor,
+                            child: ClipOval(
+                                child: Image.asset(element.categoryId == 1
+                                    ? AppImages.cleaningIcon
+                                    : element.categoryId == 2
+                                        ? AppImages.airconServicing
+                                        : AppImages.handymanIcon)),
                           ),
-                        ))
-                    .toList(),
-              ),
-            ),
+                          const SizedBox(height: 6),
+                          TextWidget(
+                              // text: "last",
+                              text: "${element.categoryName}",
+                              style: context.bodyMedium.copyWith(
+                                  fontWeight: FontWeight.w700, fontSize: 12))
+                        ],
+                      ),
+                    ))
+                .toList(),
+          ),
+        ),
         const SizedBox(height: 20),
         Row(
           children: [
@@ -187,11 +192,11 @@ class SimilarPart extends StatelessWidget {
             InkWell(
                 onTap: () => controller.onArrowClicked(),
                 child: Icon(
-                      !controller.isArrowClicked.value
-                          ? Icons.keyboard_arrow_up_outlined
-                          : Icons.keyboard_arrow_down_outlined,
-                      size: 40,
-                    )),
+                  !controller.isArrowClicked.value
+                      ? Icons.keyboard_arrow_up_outlined
+                      : Icons.keyboard_arrow_down_outlined,
+                  size: 40,
+                )),
           ],
         ),
       ],

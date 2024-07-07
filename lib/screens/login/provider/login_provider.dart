@@ -4,7 +4,7 @@ import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
 
 class LoginProvider with ChangeNotifier {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  //final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   ValueNotifier<bool> obscureText = ValueNotifier<bool>(true);
@@ -54,7 +54,7 @@ class LoginProvider with ChangeNotifier {
     rememberMe.value = !rememberMe.value;
   }
 
-  Future<bool> validateFields() async {
+  Future<bool> validateFields(formKey) async {
     if (!formKey.currentState!.validate()) {
       return false;
     } else {

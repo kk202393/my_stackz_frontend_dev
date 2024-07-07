@@ -7,6 +7,7 @@ import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:provider/provider.dart';
 
 class SignUpProvider with ChangeNotifier {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -44,10 +45,8 @@ class SignUpProvider with ChangeNotifier {
   }
 
   validateFields(BuildContext context) {
-    LoginProvider loginController =
-        Provider.of<LoginProvider>(context, listen: false);
 
-    if (loginController.formKey.currentState!.validate()) {
+    if (formKey.currentState!.validate()) {
       return;
     } else {
       Navigator.pushNamed(context, Routes.DASHBOARD);

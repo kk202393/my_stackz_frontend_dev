@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
@@ -14,12 +15,16 @@ import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  LoginView({super.key});
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
- Widget build(BuildContext context) {
-         LoginProvider controller = Provider.of<LoginProvider>(context, listen: false);
-         HomeProvider homeController = Provider.of<HomeProvider>(context, listen: false);
+  Widget build(BuildContext context) {
+    final LoginProvider controller =
+        Provider.of<LoginProvider>(context, listen: false);
+    HomeProvider homeController =
+        Provider.of<HomeProvider>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -29,138 +34,110 @@ class LoginView extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Column(children: [
-                Image.asset(
-                  AppImages.newLogo,
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  width: MediaQuery.of(context).size.width * 0.8,
+                Align(
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    AppImages.newLogo,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                  ),
                 ),
                 const SizedBox(height: 20),
-                 Form(
-      key: controller.formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AppFormField(
-            controller: controller.emailController,
-            hintText: StringConstants.enterEmail,
-            validator: (value) => InputValidator.isValidEmail(value),
-          ),
-          const SizedBox(height: 20),
-          AppFormField(
-            controller: controller.passwordController,
-            obscureText: controller.obscureText.value,
-            hintText: StringConstants.enterPassword,
-            onTapSuffixIcon: () => controller.onChangePasswordVisibility(),
-            validator: (value) =>
-                InputValidator.validateFields("password", value),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () => controller.onClickRememberMe(),
-                  child: Icon(
-                      controller.rememberMe.value
-                          ? Icons.check_box_outlined
-                          : Icons.check_box_outline_blank,
-                      size: 15),
-                ),
-                const SizedBox(width: 7),
-                TextWidget(
-                    text: StringConstants.rememberMe, style: context.bodySmall),
-                const Spacer(),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.FORGOT_PASSWORD);
-                  },
-                  child: TextWidget(
-                      text: StringConstants.forgotPassword,
-                      style: context.bodySmall),
-                )
-              ],
-            ),),
-            const SizedBox(height: 20),
-            AppFormField(
-              controller: controller.passwordController,
-              obscureText: controller.obscureText.value,
-              hintText: StringConstants.enterPassword,
-              onTapSuffixIcon: () => controller.onChangePasswordVisibility(),
-              validator: (value) =>
-                  InputValidator.validateFields("password", value),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () => controller.onClickRememberMe(),
-                    child: Icon(
-                        controller.rememberMe.value
-                            ? Icons.check_box_outlined
-                            : Icons.check_box_outline_blank,
-                        size: 15),
-                  ),
-                  const SizedBox(width: 7),
-                  TextWidget(
-                      text: StringConstants.rememberMe, style: context.bodySmall),
-                  const Spacer(),
-                  InkWell(
-                    onTap: () {},
-                    // => Get.toNamed(Routes.FORGOT_PASSWORD),
-                    child: TextWidget(
-                        text: StringConstants.forgotPassword,
-                        style: context.bodySmall),
-                  )
-                ],
-              ),
-            ),
-            // ignore: prefer_const_constructors
-            SizedBox(height: 50),
-            ButtonWidget(
-              buttonText: StringConstants.login,
-              onTap: () async {
-                bool _isSuccess = await controller.validateFields();
-                if (_isSuccess) {
-                  bool another =
-                      await homeController.callGetViewHomePageApi(context);
-                  if (another) {
-                    Navigator.pushNamed(context, Routes.HOME);
-                  }
-                } else {}
-              },
-            ),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AppFormField(
+                        controller: controller.emailController,
+                        hintText: StringConstants.enterEmail,
+                        validator: (value) =>
+                            InputValidator.isValidEmail(value),
+                      ),
+                      const SizedBox(height: 20),
+                      AppFormField(
+                        controller: controller.passwordController,
+                        obscureText: controller.obscureText.value,
+                        hintText: StringConstants.enterPassword,
+                        onTapSuffixIcon: () =>
+                            controller.onChangePasswordVisibility(),
+                        validator: (value) =>
+                            InputValidator.validateFields("password", value),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () => controller.onClickRememberMe(),
+                              child: Icon(
+                                  controller.rememberMe.value
+                                      ? Icons.check_box_outlined
+                                      : Icons.check_box_outline_blank,
+                                  size: 15),
+                            ),
+                            const SizedBox(width: 7),
+                            TextWidget(
+                                text: StringConstants.rememberMe,
+                                style: context.bodySmall),
+                            const Spacer(),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, Routes.FORGOT_PASSWORD);
+                              },
+                              child: TextWidget(
+                                  text: StringConstants.forgotPassword,
+                                  style: context.bodySmall),
+                            )
+                          ],
+                        ),
+                      ),
+                      // ignore: prefer_const_constructors
+                      SizedBox(height: 50),
+                      ButtonWidget(
+                        buttonText: StringConstants.login,
+                        onTap: () async {
+                          bool _isSuccess =
+                              await controller.validateFields(formKey);
+                          if (_isSuccess) {
+                            bool another = await homeController
+                                .callGetViewHomePageApi(context);
+                            if (another) {
+                              Navigator.pushNamed(context, Routes.HOME);
+                            }
+                          } else {}
+                        },
+                      ),
                     ],
                   ),
                 ),
 
-                  // const LoginForm(
+                // const LoginForm(
 
-                  // ),
-                  const Spacer(),
-                  RichText(
-                      textAlign: TextAlign.start,
-                      text: TextSpan(
-                          text: StringConstants.notHaveAccount,
-                          style: context.titleMedium,
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: "${StringConstants.signUp}!",
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.pushNamed(context, Routes.SIGN_UP);
-                                  },
-                                style: context.titleMedium.copyWith(
-                                    color: AppColors.cyanBlue,
-                                    fontWeight: FontWeight.w700)),
-                          ])),
-                  const SizedBox(height: 20)
-                ])),
+                // ),
+                const Spacer(),
+                RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                        text: StringConstants.notHaveAccount,
+                        style: context.titleMedium,
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: "${StringConstants.signUp}!",
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushNamed(context, Routes.SIGN_UP);
+                                },
+                              style: context.titleMedium.copyWith(
+                                  color: AppColors.cyanBlue,
+                                  fontWeight: FontWeight.w700)),
+                        ])),
+                const SizedBox(height: 20)
+              ])),
         ]),
       ),
     );
   }
-
 }

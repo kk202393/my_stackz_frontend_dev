@@ -19,8 +19,16 @@ class DashboardView extends StatelessWidget {
             child: AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle.light,
                 child:
-                dashboardProvider.children[dashboardProvider.selectedIndex.value])),
-        // bottomNavigationBar: Obx(() => MyStackzBottomNavigationBar(
+                dashboardProvider.children[dashboardProvider.currentIndex])),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: dashboardProvider.currentIndex,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+        ],
+        onTap: (index) => dashboardProvider.updateIndex(index),
+      ),
+      // bottomNavigationBar: Obx(() => MyStackzBottomNavigationBar(
         //     currentIndex: dashboardProvider.selectedIndex.value,
         //     onTap: dashboardProvider.onItemTapped,))
             );

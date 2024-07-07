@@ -29,7 +29,7 @@ class AppPages {
       case Routes.LOGIN:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => const LoginView(),
+          builder: (_) =>  LoginView(),
         );
       case Routes.SIGN_UP:
         return MaterialPageRoute(
@@ -102,7 +102,7 @@ class AppPages {
       default:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => const LoginView(),
+          builder: (_) =>  LoginView(),
         );
     }
   }

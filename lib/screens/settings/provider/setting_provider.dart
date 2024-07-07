@@ -5,7 +5,7 @@ import 'package:my_stackz/utils/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 class SettingsProvider with ChangeNotifier{
-
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController oldPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
   ValueNotifier<String> token = ValueNotifier("");
@@ -31,9 +31,9 @@ class SettingsProvider with ChangeNotifier{
   }
 
   validateFields(BuildContext context) {
-                 LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
+                 //LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
 
-    if (loginController.formKey.currentState!.validate()) {
+    if (formKey.currentState!.validate()) {
       return;
     } else {
       // callChangePasswordApi();

@@ -10,14 +10,16 @@ import '../../../../widgets/app_form_field.dart';
 class DetailsFormField extends StatelessWidget {
   final PersonalDetailsProvider controller;
 
-  const DetailsFormField({super.key, required this.controller});
+  DetailsFormField({super.key, required this.controller});
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-             LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
+    //LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
 
     return Form(
-      key: loginController.formKey,
+      key: formKey,
       child: Column(
         children: [
           AppFormField(
@@ -43,7 +45,8 @@ class DetailsFormField extends StatelessWidget {
             controller: controller.addressController,
             maxLines: 4,
             hintText: StringConstants.detailsAddress,
-            validator: (value) => InputValidator.validateFields("Address", value),
+            validator: (value) =>
+                InputValidator.validateFields("Address", value),
           ),
           const SizedBox(height: 10),
         ],

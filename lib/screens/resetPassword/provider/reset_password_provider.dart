@@ -3,8 +3,8 @@ import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:provider/provider.dart';
 
 class ResetPasswordProvider with ChangeNotifier{
-  
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -27,9 +27,7 @@ class ResetPasswordProvider with ChangeNotifier{
   }
 
   validateFields(BuildContext context) {
-                 LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
-
-    if (loginController.formKey.currentState!.validate()) {
+    if (formKey.currentState!.validate()) {
       return;
     } else {
       // callResetPasswordApi();

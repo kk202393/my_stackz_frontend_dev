@@ -19,13 +19,12 @@ class SettingsView extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     SettingsProvider controller =
         Provider.of<SettingsProvider>(context, listen: false);
-        LoginProvider loginController = Provider.of<LoginProvider>(context, listen: false);
 
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
       child: Form(
-        key: loginController.formKey,
+        key: controller.formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -81,7 +80,7 @@ class SettingsView extends StatelessWidget {
                 keyboardType: TextInputType.text,
                 validator: (String? value) => InputValidator.validateFields(
                     value!, StringConstants.enterOldPassword),
-                formKey: loginController.formKey,
+                formKey: controller.formKey,
                 controller: controller.oldPasswordController),
             const SizedBox(height: 20),
             TextWidget(
@@ -93,7 +92,7 @@ class SettingsView extends StatelessWidget {
                 keyboardType: TextInputType.text,
                 validator: (String? value) => InputValidator.validateFields(
                     value!, StringConstants.enterNewPassword),
-                formKey: loginController.formKey,
+                formKey: controller.formKey,
                 controller: controller.newPasswordController),
             const SizedBox(height: 10),
             Row(

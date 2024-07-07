@@ -11,29 +11,25 @@ import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:provider/provider.dart';
 
 class HomeProvider with ChangeNotifier {
-
   final TextEditingController searchController = TextEditingController();
   ValueNotifier<int> scrollIndex = ValueNotifier<int>(0);
   ValueNotifier<List<AllCategories>> categoryList = ValueNotifier([]);
-    ValueNotifier<String> address = ValueNotifier("");
+  ValueNotifier<String> address = ValueNotifier("");
   ValueNotifier<String> token = ValueNotifier("");
-ValueNotifier<String> name = ValueNotifier("");
+  ValueNotifier<String> name = ValueNotifier("");
   RxBool isIconClicked = false.obs;
   RxBool isTyped = false.obs;
   RxBool isArrowClicked = false.obs;
   RxBool isLoading = false.obs;
 
-
-
-    
-
   @override
-  void onInit() {
-  }
+  void onInit() {}
   ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);
+
   onSelectKeyTab(int index) {
     selectedIndex.value = index;
   }
+
   onIconClicked() {
     isIconClicked.value = !isIconClicked.value;
   }
@@ -41,6 +37,7 @@ ValueNotifier<String> name = ValueNotifier("");
   scrollingIndex(int value) {
     scrollIndex.value = value;
   }
+
   onArrowClicked() {
     isArrowClicked.value = !isArrowClicked.value;
   }
@@ -53,18 +50,17 @@ ValueNotifier<String> name = ValueNotifier("");
     }
   }
 
+  HomePageResponse? _response;
 
-HomePageResponse? _response;
   HomePageResponse get homeAPIResponse => _response!;
-  
-    // List<dynamic> _services = [];
 
+  // List<dynamic> _services = [];
 
   //  void setAddressList(List<dynamic> serviceCategory ) {
   //   _services = serviceCategory;
   //   notifyListeners();
   // }
-  
+
   // @override
   // void onInit() {print("homeAPIResponse:${homeAPIResponse}");
   //   // getCustomerDetails();
@@ -82,15 +78,14 @@ HomePageResponse? _response;
     debugPrint("firstName ${token.value}");
   }
 
-
   Future<bool> callGetViewHomePageApi(BuildContext context) async {
     isLoading.value = true;
     try {
       LoginProvider loginProvider =
           Provider.of<LoginProvider>(context, listen: false);
-       _response = await ApiHandler()
+      _response = await ApiHandler()
           .callGetViewHomePageApi(loginProvider.logInAPIResponse.token);
-          print("objectOne=${_response}");
+      print("objectOne=${_response}");
 
       isLoading.value = false;
       if (_response!.success && _response!.allCategories != null) {
@@ -119,7 +114,7 @@ HomePageResponse? _response;
             content: response.message ?? '',
             snackType: SnackType.info,
             behavior: SnackBarBehavior.floating);
-       Navigator.pushNamed(context, Routes.LOGIN);
+        Navigator.pushNamed(context, Routes.LOGIN);
       } else {
         Snack.show(
             content: response.message ?? '',
@@ -130,6 +125,4 @@ HomePageResponse? _response;
       isLoading.value = false;
     }
   }
-
-
 }
