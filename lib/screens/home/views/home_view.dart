@@ -8,272 +8,278 @@ import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/home/views/similar_part.dart';
+import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
-class HomeView extends StatelessWidget{
-
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-             HomeProvider controller = Provider.of<HomeProvider>(context, listen: false);
+    HomeProvider controller = Provider.of<HomeProvider>(context, listen: false);
+    LoginProvider loginProvider =
+        Provider.of<LoginProvider>(context, listen: false);
 
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Stack(
+            child: Stack(children: [
+          Column(
             children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                         ValueListenableBuilder(
-                           valueListenable: controller.name,
-                           builder: (BuildContext context, value, Widget? child) {
-                            return RichText(
-                                textAlign: TextAlign.start,
-                                text: TextSpan(
-                                    text: "${StringConstants.welcome} ",
-                                    style: context.headlineMedium,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text:"Name",
-                                        //   text: controller.name.value,
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = () => Navigator.pushNamed(context, Routes.SIGN_UP),
-                                          style: context.headlineSmall),
-                                    ]));
-                             },
-                          
-                         ),
-        
-                        const Spacer(),
-                        InkWell(
-                          onTap: () => controller.onIconClicked(),
-                          child: Container(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: AppColors.darkGray),
-                                color: AppColors.bgColor),
-                            child: const Icon(Icons.menu_outlined, size: 30),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ValueListenableBuilder(
+                      valueListenable: controller.name,
+                      builder: (BuildContext context, value, Widget? child) {
+                        return RichText(
+                          textAlign: TextAlign.start,
+                          text: TextSpan(
+                            text: "${StringConstants.welcome} ",
+                            style: context.headlineMedium,
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: loginProvider
+                                      .logInAPIResponse.user.firstName,
+                                  //   text: controller.name.value,
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => Navigator.pushNamed(
+                                        context, Routes.SIGN_UP),
+                                  style: context.headlineSmall),
+                            ],
                           ),
-                        )
-                      ],
+                        );
+                      },
                     ),
-                  ),
-                 Visibility(
-                    visible: controller.isIconClicked.value,
-                    child: Container(
-                      width: width,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: AppColors.white),
-                          color: AppColors.white),
-                      child: Column(
-                        children: [
-                          InkWell(
-                            // onTap: () => Navigator.pushNamed(context, Routes.MY_PROFILE),
-                            child: Container(
-                              width: width,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color:
-                                      AppColors.princeTonOrange.withOpacity(0.3)),
-                                  color: AppColors.white),
-                              child: TextWidget(
-                                text: StringConstants.myAccount,
-                                style: context.bodyMedium.copyWith(
-                                    fontWeight: FontWeight.w500, fontSize: 17),
-                              ),
-                            ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: () => controller.onIconClicked(),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 2),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: AppColors.darkGray),
+                            color: AppColors.bgColor),
+                        child: const Icon(Icons.menu_outlined, size: 30),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Visibility(
+                visible: controller.isIconClicked.value,
+                child: Container(
+                  width: width,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: AppColors.white),
+                      color: AppColors.white),
+                  child: Column(
+                    children: [
+                      InkWell(
+                        // onTap: () => Navigator.pushNamed(context, Routes.MY_PROFILE),
+                        child: Container(
+                          width: width,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: AppColors.princeTonOrange
+                                      .withOpacity(0.3)),
+                              color: AppColors.white),
+                          child: TextWidget(
+                            text: StringConstants.myAccount,
+                            style: context.bodyMedium.copyWith(
+                                fontWeight: FontWeight.w500, fontSize: 17),
                           ),
-                          AppDivider(width: width),
-                          Container(
-                            width: width,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color:
+                        ),
+                      ),
+                      AppDivider(width: width),
+                      Container(
+                        width: width,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color:
                                     AppColors.princeTonOrange.withOpacity(0.2)),
-                                color: AppColors.princeTonOrange.withOpacity(0.3)),
-                            child: TextWidget(
-                              text: StringConstants.settings,
-                              style: context.bodyMedium.copyWith(
-                                  fontWeight: FontWeight.w500, fontSize: 17),
-                            ),
+                            color: AppColors.princeTonOrange.withOpacity(0.3)),
+                        child: TextWidget(
+                          text: StringConstants.settings,
+                          style: context.bodyMedium.copyWith(
+                              fontWeight: FontWeight.w500, fontSize: 17),
+                        ),
+                      ),
+                      AppDivider(width: width),
+                      InkWell(
+                        // onTap: ()=> controller.callLogoutApi(),
+                        child: Container(
+                          width: width,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: AppColors.princeTonOrange
+                                      .withOpacity(0.2)),
+                              color:
+                                  AppColors.princeTonOrange.withOpacity(0.3)),
+                          child: TextWidget(
+                            text: StringConstants.logOut,
+                            style: context.bodyMedium.copyWith(
+                                fontWeight: FontWeight.w500, fontSize: 17),
                           ),
-                          AppDivider(width: width),
-                          InkWell(
-                            // onTap: ()=> controller.callLogoutApi(),
-                            child: Container(
-                              width: width,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color:
-                                      AppColors.princeTonOrange.withOpacity(0.2)),
-                                  color: AppColors.princeTonOrange.withOpacity(0.3)),
-                              child: TextWidget(
-                                text: StringConstants.logOut,
-                                style: context.bodyMedium.copyWith(
-                                    fontWeight: FontWeight.w500, fontSize: 17),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SimilarPart(),
+              ),
+              Visibility(
+                  visible: !controller.isArrowClicked.value,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: CarouselSlider(
+                      items: [
+                        SizedBox(
+                          height: 220,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Image.asset(AppImages.carousalOne),
+                              Positioned(
+                                top: 20,
+                                child: TextWidget(
+                                  text: "We provide you the best services",
+                                  style: GoogleFonts.knewave(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.pineTree),
+                                ),
                               ),
-                            ),
+                              Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    width: 80,
+                                    padding:
+                                        const EdgeInsets.fromLTRB(12, 5, 0, 5),
+                                    decoration: BoxDecoration(
+                                        border:
+                                            Border.all(color: AppColors.white),
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: AppColors.white),
+                                    child: TextWidget(
+                                      text: StringConstants.bookNow,
+                                      style: context.headlineSmall
+                                          .copyWith(fontSize: 10),
+                                    ),
+                                  )),
+                            ],
                           ),
-                        ],
+                        ),
+                      ],
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        enlargeCenterPage: false,
+                        aspectRatio: 2.5,
+                        viewportFraction: 0.5,
+                        initialPage: 1,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SimilarPart(
-                      controller: controller,
-                    ),
-                  ),
-                 Visibility(
-                      visible: !controller.isArrowClicked.value,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: CarouselSlider(
-                          items: [
-                            SizedBox(
-                              height: 220,
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Image.asset(AppImages.carousalOne),
-                                  Positioned(
-                                    top: 20,
-                                    child: TextWidget(
-                                      text: "We provide you the best services",
-                                      style: GoogleFonts.knewave(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w600,
-                                          color: AppColors.pineTree),
-                                    ),
-                                  ),
-                                  Align(
-                                      alignment: Alignment.center,
-                                      child: Container(
-                                        width: 80,
-                                        padding: const EdgeInsets.fromLTRB(12, 5, 0, 5),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(color: AppColors.white),
-                                            borderRadius: BorderRadius.circular(5),
-                                            color: AppColors.white),
-                                        child: TextWidget(
-                                          text: StringConstants.bookNow,
-                                          style: context.headlineSmall
-                                              .copyWith(fontSize: 10),
-                                        ),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ],
-                          options: CarouselOptions(
-                            autoPlay: true,
-                            enlargeCenterPage: false,
-                            aspectRatio: 2.5,
-                            viewportFraction: 0.5,
-                            initialPage: 1,
-                          ),
-                        ),
-                      )),
-                  const SizedBox(height: 20),
-                  Container(
-                    width: width,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    decoration: BoxDecoration(
-                        color: AppColors.white,
-                        border: Border.all(color: AppColors.white),
-                        boxShadow: [
-                          BoxShadow(
-                              color: AppColors.darkGray.withOpacity(0.3),
-                              blurRadius: 8,
-                              spreadRadius: 5)
-                        ]),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                  )),
+              const SizedBox(height: 20),
+              Container(
+                width: width,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: BoxDecoration(
+                    color: AppColors.white,
+                    border: Border.all(color: AppColors.white),
+                    boxShadow: [
+                      BoxShadow(
+                          color: AppColors.darkGray.withOpacity(0.3),
+                          blurRadius: 8,
+                          spreadRadius: 5)
+                    ]),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(AppImages.tokenIcon, height: 30, width: 16),
+                    const SizedBox(width: 20),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset(AppImages.tokenIcon, height: 30, width: 16),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                                text: StringConstants.referFriend,
-                                style: context.headlineMedium
-                                    .copyWith(color: AppColors.primaryButtonColor)),
-                            const SizedBox(height: 20),
-                            TextWidget(
-                                text: StringConstants.referToGetRewardFriend,
-                                style: context.labelMedium.copyWith(
-                                    color: AppColors.pineTree,
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.w600)),
-                          ],
-                        ),
+                        TextWidget(
+                            text: StringConstants.referFriend,
+                            style: context.headlineMedium
+                                .copyWith(color: AppColors.primaryButtonColor)),
+                        const SizedBox(height: 20),
+                        TextWidget(
+                            text: StringConstants.referToGetRewardFriend,
+                            style: context.labelMedium.copyWith(
+                                color: AppColors.pineTree,
+                                fontSize: 9,
+                                fontWeight: FontWeight.w600)),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(AppImages.deliveryIcon, height: 41, width: 42),
+                    const SizedBox(width: 20),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.asset(AppImages.deliveryIcon, height: 41, width: 42),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextWidget(
-                                text: StringConstants.deliveringLove,
-                                style: context.headlineMedium
-                                    .copyWith(color: AppColors.princeTonOrange)),
-                            const SizedBox(height: 20),
-                            TextWidget(
-                                text: StringConstants.hearFromCustomers,
-                                style: context.headlineMedium
-                                    .copyWith(color: AppColors.princeTonOrange)),
-                          ],
-                        ),
+                        TextWidget(
+                            text: StringConstants.deliveringLove,
+                            style: context.headlineMedium
+                                .copyWith(color: AppColors.princeTonOrange)),
+                        const SizedBox(height: 20),
+                        TextWidget(
+                            text: StringConstants.hearFromCustomers,
+                            style: context.headlineMedium
+                                .copyWith(color: AppColors.princeTonOrange)),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    width: width,
-                    height: 190,
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryButtonColor,
-                      border: Border.all(color: AppColors.primaryButtonColor),
-                    ),
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => Container(
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                width: width,
+                height: 190,
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryButtonColor,
+                  border: Border.all(color: AppColors.primaryButtonColor),
+                ),
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Container(
                           height: 160,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 15),
@@ -295,19 +301,24 @@ class HomeView extends StatelessWidget{
                               const Row(
                                 children: [
                                   Icon(Icons.star,
-                                      color: AppColors.princeTonOrange, size: 15),
+                                      color: AppColors.princeTonOrange,
+                                      size: 15),
                                   SizedBox(width: 5),
                                   Icon(Icons.star,
-                                      color: AppColors.princeTonOrange, size: 15),
+                                      color: AppColors.princeTonOrange,
+                                      size: 15),
                                   SizedBox(width: 5),
                                   Icon(Icons.star,
-                                      color: AppColors.princeTonOrange, size: 15),
+                                      color: AppColors.princeTonOrange,
+                                      size: 15),
                                   SizedBox(width: 5),
                                   Icon(Icons.star,
-                                      color: AppColors.princeTonOrange, size: 15),
+                                      color: AppColors.princeTonOrange,
+                                      size: 15),
                                   SizedBox(width: 5),
                                   Icon(Icons.star,
-                                      color: AppColors.princeTonOrange, size: 15),
+                                      color: AppColors.princeTonOrange,
+                                      size: 15),
                                 ],
                               ),
                               const SizedBox(height: 10),
@@ -366,18 +377,18 @@ class HomeView extends StatelessWidget{
                             ],
                           ),
                         ),
-                        separatorBuilder: (context, index) => const SizedBox(width: 5),
-                        itemCount: 15),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 5),
+                    itemCount: 15),
               ),
-             controller.isLoading.value
-                  ? Utils.getLoadingUI(context)
-                  : const SizedBox(),
-            ]
-          )
-        ),
+              const SizedBox(height: 20),
+            ],
+          ),
+          controller.isLoading.value
+              ? Utils.getLoadingUI(context)
+              : const SizedBox(),
+        ])),
       ),
     );
-  }}
+  }
+}

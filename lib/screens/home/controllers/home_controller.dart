@@ -85,11 +85,8 @@ class HomeProvider with ChangeNotifier {
           Provider.of<LoginProvider>(context, listen: false);
       _response = await ApiHandler()
           .callGetViewHomePageApi(loginProvider.logInAPIResponse.token);
-      print("objectOne=${_response}");
-
       isLoading.value = false;
       if (_response!.success && _response!.allCategories != null) {
-        print("object=${_response}");
         categoryList.value = _response!.allCategories;
         notifyListeners();
         return true;

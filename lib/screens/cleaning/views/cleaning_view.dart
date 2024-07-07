@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
@@ -13,21 +15,19 @@ import 'package:provider/provider.dart';
 
 class CleaningView extends StatelessWidget {
   int categoryID;
-   CleaningView({super.key,required this.categoryID});
+  CleaningView({super.key, required this.categoryID});
 
   @override
   Widget build(BuildContext context) {
-    HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
-    CleaningProvider cleaningController = Provider.of<CleaningProvider>(context, listen: false);
-  //  List<AllCategories> lst =  controller.homeAPIResponse.allCategories;
-
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
+    CleaningProvider cleaningController =
+        Provider.of<CleaningProvider>(context, listen: false);
     final width = MediaQuery.of(context).size.width;
-// print("categoryid=${controller.homeAPIResponse.allCategories.length}");
-    print("this is list ${homeProvider.homeAPIResponse.allCategories.length}");
-    print("homeProvider.name.value=${homeProvider.homeAPIResponse.allCategories[0].subcategories[0].subcategoryName}");
-
-
-    
+    List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
+        .where((element){
+          return element.categoryId == categoryID;
+        }).toList();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -43,22 +43,25 @@ class CleaningView extends StatelessWidget {
                     width: width,
                     fit: BoxFit.fitWidth,
                   ),
-                   Positioned(
+                  Positioned(
                     top: 15,
                     left: 10,
                     child: InkWell(
                         onTap: () => Navigator.pop(context),
-                        child:  Icon(Icons.chevron_left_outlined, size: 50)),
+                        child:
+                            const Icon(Icons.chevron_left_outlined, size: 50)),
                   ),
                   Positioned(
                     bottom: 15,
                     left: width * 0.1,
                     child: TextWidget(
-                        text: StringConstants.homeAndOfficeCleaning,
-                        style: GoogleFonts.montserrat(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.white)),
+                      text: StringConstants.homeAndOfficeCleaning,
+                      style: GoogleFonts.montserrat(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -77,16 +80,16 @@ class CleaningView extends StatelessWidget {
                       shrinkWrap: true,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 20,
-                              mainAxisSpacing: 20),
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                      ),
                       itemCount: 4,
                       itemBuilder: (context, index) {
-                        // List<Subcategories> item = homeProvider.homeAPIResponse.allCategories[0].subcategories;
                         return InkWell(
                           onTap: () {
-                            openScheduleCleaningService(cleaningController,context);
-                            // openCleaningOptions(controller, context);
+                            openScheduleCleaningService(
+                                cleaningController, context);
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,7 +97,8 @@ class CleaningView extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: AppColors.darkGray),
+                                    border:
+                                        Border.all(color: AppColors.darkGray),
                                     borderRadius: BorderRadius.circular(5),
                                     color: AppColors.white),
                                 child: Image.asset(
@@ -111,8 +115,13 @@ class CleaningView extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               TextWidget(
-                                text:homeProvider.homeAPIResponse.allCategories[categoryID].subcategories[index].subcategoryName,
-                                
+                                text: subcategories.first.subcategories[index].subcategoryName,
+
+                                // homeProvider
+                                //     .homeAPIResponse
+                                //     .allCategories[categoryID]
+                                //     .subcategories[index]
+                                //     .subcategoryName,
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w500, fontSize: 14),
                               ),
@@ -141,7 +150,8 @@ class CleaningView extends StatelessWidget {
                       ),
                       SizedBox(width: width * 0.4),
                       InkWell(
-                        onTap:()=>openCleaningOptions(cleaningController, context),
+                        onTap: () =>
+                            openCleaningOptions(cleaningController, context),
                         child: TextWidget(
                           text: "View All",
                           style: GoogleFonts.montserrat(
@@ -161,5 +171,4 @@ class CleaningView extends StatelessWidget {
       ),
     );
   }
-
 }
