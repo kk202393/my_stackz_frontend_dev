@@ -17,18 +17,29 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/divider.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../../routes/app_pages.dart';
+import '../../home/controllers/home_controller.dart';
 
-openScheduleHandymanService(HandymanProvider controller,BuildContext context) {
+openScheduleHandymanService(HandymanProvider controller,BuildContext context,int categoryID,int index) {
+  HomeProvider homeProvider =
+  Provider.of<HomeProvider>(context, listen: false);
+  List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
+      .where((element){
+    return element.categoryId == categoryID;
+  }).toList();
   showDialog(
+
       context: context,
       useSafeArea: true,
       builder: (builder) {
+
         return AlertDialog(
           insetPadding: const EdgeInsets.symmetric(horizontal: 10),
           contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
@@ -44,9 +55,8 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context) {
                     Row(
                       children: [
                         TextWidget(
-
                           // text: handymanSubcategories[index].subcategoryName ??
-                          text:  'No Name',),
+                          text:subcategories.isNotEmpty?subcategories[index].categoryName : 'No Name'),
                         const Spacer(),
                         InkWell(
                           onTap: () =>Navigator.pop(context),
@@ -69,10 +79,8 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context) {
                             ),
                             const Spacer(),
                             TextWidget(
-                              text: '0.00',
+                               text: '0.00',
 
-
-                              // "\$. ${handymanSubcategoriesPrice[index].price ?? '0.00'}",
                               style: GoogleFonts.montserrat(
                                   color: AppColors.princeTonOrange,
                                   fontWeight: FontWeight.w500,

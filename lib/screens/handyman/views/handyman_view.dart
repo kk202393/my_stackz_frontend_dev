@@ -23,7 +23,10 @@ class HandymanView extends StatelessWidget {
         Provider.of<HandymanProvider>(context, listen: false);
     // print("this is list ${homeProvider.homeAPIResponse.allCategories.length}");
     // print("handyman.name.value=${homeProvider.homeAPIResponse.allCategories[0].subcategories[0].subcategoryName}");
-
+    List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
+        .where((element){
+      return element.categoryId == categoryID;
+    }).toList();
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
@@ -86,7 +89,7 @@ class HandymanView extends StatelessWidget {
                           return InkWell(
                             onTap: () {
                               openScheduleHandymanService(
-                                  handymanProvider, context);
+                                  handymanProvider, context,categoryID,index);
                               // openHandymanOptions(controller, context);
                             },
                             child: Column(
@@ -113,13 +116,7 @@ class HandymanView extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 TextWidget(
-                                  text:
-
-                                  homeProvider
-                                      .homeAPIResponse
-                                      .allCategories[2]
-                                      .subcategories[2]
-                                      .subcategoryName,
+                                  text: subcategories.first.subcategories[index].subcategoryName,
 
                                   // "subcategoryName",
                                   // text: item.subcategoryName!,
