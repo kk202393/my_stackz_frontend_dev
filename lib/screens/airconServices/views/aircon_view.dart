@@ -20,6 +20,10 @@ class AirconView extends StatelessWidget {
         HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
         AirconProvider airconController = Provider.of<AirconProvider>(context, listen: false);
+        List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
+            .where((element){
+          return element.categoryId == categoryID;
+        }).toList();
 
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -105,11 +109,22 @@ class AirconView extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               TextWidget(
+                                text: subcategories.first.subcategories[index].subcategoryName,
+
+                                // homeProvider
+                                //     .homeAPIResponse
+                                //     .allCategories[categoryID]
+                                //     .subcategories[index]
+                                //     .subcategoryName,
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w500, fontSize: 14),
+                              ),
+                              /*TextWidget(
                                 text:homeProvider.homeAPIResponse.allCategories[1].subcategories[0].subcategoryName,
                                 //  "item.subcategoryName!",
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w500, fontSize: 14),
-                              ),
+                              ),*/
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
