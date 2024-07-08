@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/screens/cleaning/provider/cleaning_provider.dart';
+import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../widgets/button_widget.dart';
 import '../../../../widgets/divider.dart';
@@ -11,18 +14,26 @@ import '../../../routes/app_pages.dart';
 
   //   final filteredSubcategoriesPrice = controller.getFilteredSubcategoriesPrice();
   // final filteredSubcategories = controller.getFilteredSubcategories();
-openScheduleCleaningService(CleaningProvider controller,BuildContext context) {
+openScheduleCleaningService(CleaningProvider controller,BuildContext context ,int categoryID,int index) {
     showDialog(
       context: context,
       useSafeArea: true,
       builder: (builder) {
+        HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
+
+
+        List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
+            .where((element){
+          return element.categoryId == categoryID;
+        }).toList();
         return AlertDialog(
           contentPadding: const EdgeInsets.all(0),
           insetPadding: const EdgeInsets.all(0),
           clipBehavior: Clip.antiAliasWithSaveLayer,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(32))),
-          title:const Text("mdmc mkc"),
+          title:null,
           content:  SizedBox(
       width: double.infinity,
       // width: MediaQuery.of(Get.context!).size.width,
@@ -33,11 +44,9 @@ openScheduleCleaningService(CleaningProvider controller,BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Row(
+               Row(
                 children: [
-                  TextWidget(text: 
-                    // text: filteredSubcategories[index].subcategoryName ??
-                        'No Name',
+                  TextWidget(text: subcategories.isNotEmpty?subcategories[index].categoryName:'No Name',
                   ),
                   Spacer(),
                   InkWell(

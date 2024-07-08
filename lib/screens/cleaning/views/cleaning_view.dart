@@ -89,7 +89,7 @@ class CleaningView extends StatelessWidget {
                         return InkWell(
                           onTap: () {
                             openScheduleCleaningService(
-                                cleaningController, context);
+                                cleaningController, context,categoryID,index);
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,

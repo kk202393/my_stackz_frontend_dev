@@ -86,7 +86,7 @@ openCleaningOptions(CleaningProvider controller,BuildContext context) {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () => openScheduleCleaningService(controller,context),
+                      // onTap: () => openScheduleCleaningService(controller,context,categoryID,index),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
