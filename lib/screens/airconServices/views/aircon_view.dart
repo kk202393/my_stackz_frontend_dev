@@ -18,7 +18,6 @@ class AirconView extends StatelessWidget {
   @override
    Widget build(BuildContext context) {
         HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
-
         AirconProvider airconController = Provider.of<AirconProvider>(context, listen: false);
         List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
             .where((element){
