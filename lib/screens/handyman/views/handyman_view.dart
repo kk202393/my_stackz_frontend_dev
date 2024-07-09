@@ -12,9 +12,8 @@ import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 class HandymanView extends StatelessWidget {
-  int categoryID;
 
-  HandymanView({super.key, required this.categoryID});
+  HandymanView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class HandymanView extends StatelessWidget {
         Provider.of<HandymanProvider>(context, listen: false);
     List<AllCategories> subcategories =
     homeProvider.homeAPIResponse.allCategories.where((element) {
-      return element.categoryId == categoryID;
+      return element.categoryId == homeProvider.categoryId.value;
     }).toList();
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -93,7 +92,7 @@ class HandymanView extends StatelessWidget {
                             onTap: () {
                               openScheduleHandymanService(
                                   handymanProvider, context,
-                                  categoryID,
+
                                   index,
                                   subcategories.first.subcategories[index]);
                               // openHandymanOptions(controller, context);

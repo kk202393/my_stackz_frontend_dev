@@ -72,18 +72,30 @@ class SimilarPart extends StatelessWidget {
                 .map(
                   (element) => InkWell(
                     onTap: () {
-                      element.categoryId == 1
-                          ? Navigator.pushNamed(context, Routes.CLEANING,
-                              arguments: {"subcategories": element.categoryId})
-                          : element.categoryId == 2
-                              ? Navigator.pushNamed(
-                                  context, Routes.AIRCON_SERVICES, arguments: {
-                                  "subcategories": element.categoryId
-                                })
-                              : Navigator.pushNamed(context, Routes.HANDYMAN,
-                                  arguments: {
-                                      "subcategories": element.categoryId
-                                    });
+                      print("object");
+                      if (element.categoryId == 1){
+                        homeProvider.categoryId.value = element.categoryId;
+                        Navigator.pushNamed(context, Routes.CLEANING);
+                      } else if (element.categoryId == 2){
+                        homeProvider.categoryId.value = element.categoryId;
+                        Navigator.pushNamed(
+                            context, Routes.AIRCON_SERVICES);
+                      } else if (element.categoryId == 3){
+                        homeProvider.categoryId.value = element.categoryId;
+                        Navigator.pushNamed(context, Routes.HANDYMAN);
+                      }
+                      // element.categoryId == 1
+                      //     ? Navigator.pushNamed(context, Routes.CLEANING,
+                      //         arguments: {"subcategories": element.categoryId})
+                      //     : element.categoryId == 2
+                      //         ? Navigator.pushNamed(
+                      //             context, Routes.AIRCON_SERVICES, arguments: {
+                      //             "subcategories": element.categoryId
+                      //           })
+                      //         : Navigator.pushNamed(context, Routes.HANDYMAN,
+                      //             arguments: {
+                      //                 "subcategories": element.categoryId
+                      //               });
                     },
                     child: Column(
                       children: [

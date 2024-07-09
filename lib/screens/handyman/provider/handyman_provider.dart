@@ -7,6 +7,7 @@ class HandymanProvider with ChangeNotifier{
  ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
     ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
     ValueNotifier<int> numberOfRooms = ValueNotifier<int>(1);
+ ValueNotifier<int> categoryId = ValueNotifier<int>(3);
 
   // RxList<Subcategories> subcategories = <Subcategories>[].obs;
   // RxList<ServiceCategory> serviceCategory = <ServiceCategory>[].obs;

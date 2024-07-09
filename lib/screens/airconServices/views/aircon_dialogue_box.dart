@@ -14,17 +14,18 @@ import '../../home/controllers/home_controller.dart';
 
 
 openScheduleAirconService(AirconProvider controller,BuildContext context,
-    int categoryID, int index, Subcategories subcategory) {
+   int subcategoriesIndex, Subcategories subcategory) {
   showDialog(
       context: context,
       useSafeArea: true,
       builder: (builder) {
         HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
-
+        AirconProvider airconProvider =
+        Provider.of<AirconProvider>(context, listen: false);
         List<AllCategories> subcategories =
         homeProvider.homeAPIResponse.allCategories.where((element) {
-          return element.categoryId == categoryID;
+          return element.categoryId == airconProvider.categoryId.value;
         }).toList();
 
         final size = MediaQuery.sizeOf(context);
@@ -49,7 +50,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                       children: [
                         TextWidget(
                           text: subcategories.isNotEmpty
-                            ? subcategories[index].categoryName
+                            ? subcategories[0].subcategories[subcategoriesIndex].subcategoryName
                             : 'No Name',),
                         //  TextWidget(text: airconSubcategories[index.].subcategoryName ?? 'No Name'),
                         const Spacer(),

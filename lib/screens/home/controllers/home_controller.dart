@@ -21,6 +21,9 @@ class HomeProvider with ChangeNotifier {
   RxBool isTyped = false.obs;
   RxBool isArrowClicked = false.obs;
   RxBool isLoading = false.obs;
+  ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
+  ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
+  ValueNotifier<int> categoryId = ValueNotifier<int>(1);
 
   @override
   void onInit() {}

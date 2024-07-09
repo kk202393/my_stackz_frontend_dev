@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/string_constants.dart';
@@ -14,17 +16,19 @@ import '../../../routes/app_pages.dart';
 //   final filteredSubcategoriesPrice = controller.getFilteredSubcategoriesPrice();
 // final filteredSubcategories = controller.getFilteredSubcategories();
 openScheduleCleaningService(CleaningProvider controller, BuildContext context,
-    int categoryID, int index, Subcategories subcategory) {
+     int subcategoriesIndex, Subcategories subcategory) {
   showDialog(
       context: context,
       useSafeArea: true,
       builder: (builder) {
         HomeProvider homeProvider =
             Provider.of<HomeProvider>(context, listen: false);
+        CleaningProvider cleaningProvider =
+        Provider.of<CleaningProvider>(context, listen: false);
 
         List<AllCategories> subcategories =
             homeProvider.homeAPIResponse.allCategories.where((element) {
-          return element.categoryId == categoryID;
+          return element.categoryId == cleaningProvider.categoryId.value;
         }).toList();
         return AlertDialog(
           contentPadding: const EdgeInsets.all(0),
@@ -47,7 +51,7 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                       children: [
                         TextWidget(
                           text: subcategories.isNotEmpty
-                              ? subcategories[index].categoryName
+                              ? subcategories[0].subcategories[subcategoriesIndex].subcategoryName
                               : 'No Name',
                         ),
                         const Spacer(),

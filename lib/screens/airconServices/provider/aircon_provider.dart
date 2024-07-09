@@ -11,6 +11,7 @@ class AirconProvider with ChangeNotifier{
     ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
      
     ValueNotifier<int> numberOfRooms = ValueNotifier<int>(1);
+  ValueNotifier<int> categoryId = ValueNotifier<int>(2);
 
 
 

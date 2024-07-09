@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
@@ -14,9 +16,8 @@ import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 class CleaningView extends StatelessWidget {
-  int categoryID;
 
-  CleaningView({super.key, required this.categoryID});
+  CleaningView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,10 @@ class CleaningView extends StatelessWidget {
     CleaningProvider cleaningController =
         Provider.of<CleaningProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
+
     List<AllCategories> subcategories =
         homeProvider.homeAPIResponse.allCategories.where((element) {
-      return element.categoryId == categoryID;
+      return element.categoryId == cleaningController.categoryId.value;
     }).toList();
     return Scaffold(
       body: SingleChildScrollView(
@@ -92,7 +94,6 @@ class CleaningView extends StatelessWidget {
                             openScheduleCleaningService(
                                 cleaningController,
                                 context,
-                                categoryID,
                                 index,
                                 subcategories.first.subcategories[index]);
                           },

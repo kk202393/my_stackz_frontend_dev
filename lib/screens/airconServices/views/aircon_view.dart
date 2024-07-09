@@ -12,8 +12,7 @@ import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 class AirconView extends StatelessWidget {
-  int categoryID;
-   AirconView({super.key,required this.categoryID});
+   AirconView({super.key});
 
   @override
    Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class AirconView extends StatelessWidget {
         AirconProvider airconController = Provider.of<AirconProvider>(context, listen: false);
         List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
             .where((element){
-          return element.categoryId == categoryID;
+          return element.categoryId == homeProvider.categoryId.value;
         }).toList();
 
     final size = MediaQuery.of(context).size;
@@ -84,7 +83,6 @@ class AirconView extends StatelessWidget {
                           onTap: () {
                             openScheduleAirconService(airconController,
                                 context,
-                                categoryID,
                                 index,
                                 subcategories.first.subcategories[index]);
                             // openAirconOptions(controller, context);

@@ -13,11 +13,12 @@ import '../../../routes/app_pages.dart';
 import '../../home/controllers/home_controller.dart';
 
 openScheduleHandymanService(HandymanProvider controller, BuildContext context,
-    int categoryID, int index, Subcategories subcategory) {
+    int subcategoriesIndex, Subcategories subcategory) {
   HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
   List<AllCategories> subcategories =
       homeProvider.homeAPIResponse.allCategories.where((element) {
-    return element.categoryId == categoryID;
+    return element.categoryId == homeProvider.categoryId.value;
   }).toList();
   showDialog(
       context: context,
@@ -46,7 +47,7 @@ openScheduleHandymanService(HandymanProvider controller, BuildContext context,
                         TextWidget(
                           // text: handymanSubcategories[index].subcategoryName ??
                           text: subcategories.isNotEmpty
-                              ? subcategories[index].categoryName
+                              ? subcategories[0].subcategories[subcategoriesIndex].subcategoryName
                               : 'No Name',
                         ),
                         const Spacer(),

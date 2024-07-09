@@ -37,22 +37,19 @@ class AppPages {
           builder: (_) => const SignUpView(),
         );
       case Routes.CLEANING:
-        final arguments = setting.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => CleaningView(categoryID: arguments["subcategories"]),
+          builder: (_) => CleaningView(),
         );
       case Routes.AIRCON_SERVICES:
-        final arguments = setting.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => AirconView(categoryID: arguments["subcategories"]),
+          builder: (_) => AirconView(),
         );
       case Routes.HANDYMAN:
-        final arguments = setting.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => HandymanView(categoryID: arguments["subcategories"]),
+          builder: (_) => HandymanView(),
         );
       case Routes.ADDITIONAL_DETAILS:
         return MaterialPageRoute(
