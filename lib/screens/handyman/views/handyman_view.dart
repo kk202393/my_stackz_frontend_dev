@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
@@ -21,13 +22,11 @@ class HandymanView extends StatelessWidget {
         Provider.of<HomeProvider>(context, listen: false);
     HandymanProvider handymanProvider =
         Provider.of<HandymanProvider>(context, listen: false);
-    // print("this is list ${homeProvider.homeAPIResponse.allCategories.length}");
-    // print("handyman.name.value=${homeProvider.homeAPIResponse.allCategories[0].subcategories[0].subcategoryName}");
-    List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
-        .where((element){
+    List<AllCategories> subcategories =
+    homeProvider.homeAPIResponse.allCategories.where((element) {
       return element.categoryId == categoryID;
     }).toList();
-    final width = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -35,13 +34,13 @@ class HandymanView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: width,
+                width: size.width,
                 height: 220,
                 child: Stack(
                   children: [
                     Image.asset(
                       AppImages.handymanBanner,
-                      width: width,
+                      width: size.width,
                       fit: BoxFit.fitWidth,
                     ),
                     Positioned(
@@ -54,7 +53,7 @@ class HandymanView extends StatelessWidget {
                     ),
                     Positioned(
                       bottom: 15,
-                      left: width * 0.1,
+                      left: size.width * 0.1,
                       child: TextWidget(
                           text: StringConstants.handyman,
                           style: GoogleFonts.montserrat(
@@ -65,17 +64,21 @@ class HandymanView extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: size.height*0.05),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const TextWidget(
+                    TextWidget(
                       text: StringConstants.selectCategory,
+                      style: GoogleFonts.montserrat(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.black),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: size.height*0.05),
                     GridView.builder(
                         shrinkWrap: true,
                         gridDelegate:
@@ -89,7 +92,10 @@ class HandymanView extends StatelessWidget {
                           return InkWell(
                             onTap: () {
                               openScheduleHandymanService(
-                                  handymanProvider, context,categoryID,index);
+                                  handymanProvider, context,
+                                  categoryID,
+                                  index,
+                                  subcategories.first.subcategories[index]);
                               // openHandymanOptions(controller, context);
                             },
                             child: Column(
@@ -110,7 +116,7 @@ class HandymanView extends StatelessWidget {
                                             : index == 2
                                                 ? AppImages.springCleaning
                                                 : AppImages.movingInOutCleaning,
-                                    width: width * 0.5,
+                                    width: size.width * 0.5,
                                     fit: BoxFit.fitWidth,
                                   ),
                                 ),
@@ -124,30 +130,30 @@ class HandymanView extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(Icons.star,
-                                        color: AppColors.primaryButtonColor),
-                                    TextWidget(
-                                      text: " 4.83 (18.3K reviews)",
-                                      style: GoogleFonts.montserrat(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                )
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     const Icon(Icons.star,
+                                //         color: AppColors.primaryButtonColor),
+                                //     TextWidget(
+                                //       text: " 4.83 (18.3K reviews)",
+                                //       style: GoogleFonts.montserrat(
+                                //           fontWeight: FontWeight.w500,
+                                //           fontSize: 14),
+                                //     ),
+                                //   ],
+                                // )
                               ],
                             ),
                           );
                         }),
-                    const SizedBox(height: 20),
+                    /*const SizedBox(height: 20),
                     Row(
                       children: [
                         const TextWidget(
                           text: "Reviews (1000)",
                         ),
-                        SizedBox(width: width * 0.4),
+                        SizedBox(width: size.width * 0.4),
                         TextWidget(
                           text: "View All",
                           style: GoogleFonts.montserrat(
@@ -156,11 +162,11 @@ class HandymanView extends StatelessWidget {
                               color: AppColors.princeTonOrange),
                         ),
                       ],
-                    )
+                    )*/
                   ],
                 ),
               ),
-              SizedBox(height: width * 0.4),
+              SizedBox(height: size.width * 0.4),
               // Padding(
               //   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               //   child: Column(

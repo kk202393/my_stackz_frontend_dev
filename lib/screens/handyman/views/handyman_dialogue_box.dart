@@ -1,18 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:my_stackz/app/modules/handyman/controllers/handyman_controller.dart';
-// import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
-
-// import '../../../../constants/app_colors.dart';
-// import '../../../../constants/string_constants.dart';
-// import '../../../../widgets/button_widget.dart';
-// import '../../../../widgets/divider.dart';
-// import '../../../../widgets/text_widget.dart';
-// import '../../../routes/app_pages.dart';
-
-
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
@@ -27,27 +12,31 @@ import 'package:provider/provider.dart';
 import '../../../routes/app_pages.dart';
 import '../../home/controllers/home_controller.dart';
 
-openScheduleHandymanService(HandymanProvider controller,BuildContext context,int categoryID,int index) {
-  HomeProvider homeProvider =
-  Provider.of<HomeProvider>(context, listen: false);
-  List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
-      .where((element){
+openScheduleHandymanService(HandymanProvider controller, BuildContext context,
+    int categoryID, int index, Subcategories subcategory) {
+  HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
+  List<AllCategories> subcategories =
+      homeProvider.homeAPIResponse.allCategories.where((element) {
     return element.categoryId == categoryID;
   }).toList();
   showDialog(
-
       context: context,
       useSafeArea: true,
       builder: (builder) {
-
         return AlertDialog(
-          insetPadding: const EdgeInsets.symmetric(horizontal: 10),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          contentPadding: const EdgeInsets.all(0),
+          insetPadding: const EdgeInsets.all(0),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32))),
+          title: null,
           content: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Material(
               color: AppColors.white,
               child: SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,10 +45,13 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                       children: [
                         TextWidget(
                           // text: handymanSubcategories[index].subcategoryName ??
-                          text:subcategories.isNotEmpty?subcategories[index].categoryName : 'No Name'),
+                          text: subcategories.isNotEmpty
+                              ? subcategories[index].categoryName
+                              : 'No Name',
+                        ),
                         const Spacer(),
                         InkWell(
-                          onTap: () =>Navigator.pop(context),
+                          onTap: () => Navigator.pop(context),
                           child: const Icon(Icons.close_outlined,
                               size: 30, color: AppColors.darkGray),
                         )
@@ -79,8 +71,7 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                             ),
                             const Spacer(),
                             TextWidget(
-                               text: '0.00',
-
+                              text: '${subcategory.price}',
                               style: GoogleFonts.montserrat(
                                   color: AppColors.princeTonOrange,
                                   fontWeight: FontWeight.w500,
@@ -99,45 +90,56 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                                   fontSize: 16),
                             ),
                             const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 8),
-                              decoration: BoxDecoration(
-                                  border:
-                                  Border.all(color: AppColors.primaryButtonColor),
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: AppColors.primaryButtonColor),
-                              child: TextWidget(
-                                text: "-",
-                                style: GoogleFonts.montserrat(
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16),
+                            InkWell(
+                              onTap: () => controller.onClickRemoveRooms(),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: AppColors.primaryButtonColor),
+                                    borderRadius: BorderRadius.circular(3),
+                                    color: AppColors.primaryButtonColor),
+                                child: TextWidget(
+                                  text: "-",
+                                  style: GoogleFonts.montserrat(
+                                      color: AppColors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
                               ),
                             ),
                             const SizedBox(width: 20),
-                            TextWidget(
-                              text: "1",
-                              style: GoogleFonts.montserrat(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16),
+                            ValueListenableBuilder(
+                                valueListenable: controller.numberOfRooms,
+                                builder: (context, value, child) {
+                                  return TextWidget(
+                                    text: "${controller.numberOfRooms.value}",
+                                    style: GoogleFonts.montserrat(
+                                        color: AppColors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  );
+                                }
                             ),
                             const SizedBox(width: 20),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 8),
-                              decoration: BoxDecoration(
-                                  border:
-                                  Border.all(color: AppColors.primaryButtonColor),
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: AppColors.primaryButtonColor),
-                              child: TextWidget(
-                                text: "+",
-                                style: GoogleFonts.montserrat(
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16),
+                            InkWell(
+                              onTap: () => controller.onClickAddRooms(),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: AppColors.primaryButtonColor),
+                                    borderRadius: BorderRadius.circular(3),
+                                    color: AppColors.primaryButtonColor),
+                                child: TextWidget(
+                                  text: "+",
+                                  style: GoogleFonts.montserrat(
+                                      color: AppColors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
                               ),
                             )
                           ],
@@ -145,8 +147,8 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                         const HorizontalAppDivider(color: AppColors.darkGray),
                         const Align(
                             alignment: Alignment.centerLeft,
-                            child:
-                            TextWidget(text: StringConstants.additionalServices)),
+                            child: TextWidget(
+                                text: StringConstants.additionalServices)),
                         const SizedBox(height: 20),
                         Row(
                           children: [
@@ -158,14 +160,14 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                                   fontSize: 16),
                             ),
                             const Spacer(),
-                             InkWell(
+                            InkWell(
                               onTap: () => controller.onBoxClicked(),
                               child: Container(
                                 height: 20,
                                 padding: controller.isBoxClicked.value
                                     ? const EdgeInsets.symmetric(horizontal: 2)
                                     : const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
+                                        horizontal: 10, vertical: 8),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: controller.isBoxClicked.value
@@ -177,7 +179,7 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                                         : AppColors.white),
                                 child: controller.isBoxClicked.value
                                     ? const Icon(Icons.check,
-                                    color: AppColors.white, size: 16)
+                                        color: AppColors.white, size: 16)
                                     : null,
                               ),
                             )
@@ -201,7 +203,7 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                                 padding: controller.isBoxClicked.value
                                     ? const EdgeInsets.symmetric(horizontal: 2)
                                     : const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
+                                        horizontal: 10, vertical: 8),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: controller.isBoxClicked.value
@@ -213,7 +215,7 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                                         : AppColors.white),
                                 child: controller.isBoxClicked.value
                                     ? const Icon(Icons.check,
-                                    color: AppColors.white, size: 16)
+                                        color: AppColors.white, size: 16)
                                     : null,
                               ),
                             )
@@ -230,14 +232,14 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                                   fontSize: 16),
                             ),
                             const Spacer(),
-                             InkWell(
+                            InkWell(
                               onTap: () => controller.onBoxClicked(),
                               child: Container(
                                 height: 20,
                                 padding: controller.isBoxClicked.value
                                     ? const EdgeInsets.symmetric(horizontal: 2)
                                     : const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
+                                        horizontal: 10, vertical: 8),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: controller.isBoxClicked.value
@@ -249,7 +251,7 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                                         : AppColors.white),
                                 child: controller.isBoxClicked.value
                                     ? const Icon(Icons.check,
-                                    color: AppColors.white, size: 16)
+                                        color: AppColors.white, size: 16)
                                     : null,
                               ),
                             )
@@ -260,7 +262,8 @@ openScheduleHandymanService(HandymanProvider controller,BuildContext context,int
                         ButtonWidget(
                             buttonText: "Check Out >>",
                             onTap: () {
-                              Navigator.pushNamed(context, Routes.ADDITIONAL_DETAILS);
+                              Navigator.pushNamed(
+                                  context, Routes.ADDITIONAL_DETAILS);
                             }),
                       ],
                     )

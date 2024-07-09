@@ -24,20 +24,20 @@ class AirconView extends StatelessWidget {
           return element.categoryId == categoryID;
         }).toList();
 
-    final width = MediaQuery.of(context).size.width;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: width,
+              width: size.width,
               height: 220,
               child: Stack(
                 children: [
                   Image.asset(
                     AppImages.airconBanner,
-                    width: width,
+                    width: size.width,
                     fit: BoxFit.fitWidth,
                   ),
                   Positioned(
@@ -49,7 +49,7 @@ class AirconView extends StatelessWidget {
                   ),
                   Positioned(
                     bottom: 15,
-                    left: width * 0.1,
+                    left: size.width * 0.1,
                     child: TextWidget(
                         text: StringConstants.airconAllServices,
                         style: GoogleFonts.montserrat(
@@ -60,7 +60,7 @@ class AirconView extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: size.height*0.05),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: Column(
@@ -69,7 +69,7 @@ class AirconView extends StatelessWidget {
                   const TextWidget(
                     text: StringConstants.selectCategory,
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: size.height*0.05),
                   GridView.builder(
                       shrinkWrap: true,
                       gridDelegate:
@@ -82,7 +82,11 @@ class AirconView extends StatelessWidget {
                         // Subcategories item = controller.subcategories[index];
                         return InkWell(
                           onTap: () {
-                            openScheduleAirconService(airconController,context);
+                            openScheduleAirconService(airconController,
+                                context,
+                                categoryID,
+                                index,
+                                subcategories.first.subcategories[index]);
                             // openAirconOptions(controller, context);
                           },
                           child: Column(
@@ -102,13 +106,15 @@ class AirconView extends StatelessWidget {
                                           : index == 2
                                               ? AppImages.acRepair
                                               : AppImages.acRepair,
-                                  width: width * 0.5,
+                                  width: size.width * 0.5,
                                   fit: BoxFit.fitWidth,
                                 ),
                               ),
                               const SizedBox(height: 10),
                               TextWidget(
-                                text: subcategories.first.subcategories[index].subcategoryName,
+                                text: subcategories
+                                    .first.subcategories[index].subcategoryName,
+
 
                                 // homeProvider
                                 //     .homeAPIResponse
@@ -124,24 +130,24 @@ class AirconView extends StatelessWidget {
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w500, fontSize: 14),
                               ),*/
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.star,
-                                      color: AppColors.primaryButtonColor),
-                                  TextWidget(
-                                    text: " 4.83 (18.3K reviews)",
-                                    style: GoogleFonts.montserrat(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
-                                  ),
-                                ],
-                              )
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     const Icon(Icons.star,
+                              //         color: AppColors.primaryButtonColor),
+                              //     TextWidget(
+                              //       text: " 4.83 (18.3K reviews)",
+                              //       style: GoogleFonts.montserrat(
+                              //           fontWeight: FontWeight.w500,
+                              //           fontSize: 14),
+                              //     ),
+                              //   ],
+                              // )
                             ],
                           ),
                         );
                       }),
-                  const SizedBox(height: 20),
+                  /*const SizedBox(height: 20),
                   Row(
                     children: [
                       const TextWidget(
@@ -159,11 +165,11 @@ class AirconView extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  )*/
                 ],
               ),
             ),
-            SizedBox(height: width * 0.4),
+            SizedBox(height: size.height * 0.4),
           ],
         ),
       ),

@@ -2,38 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
+import 'package:provider/provider.dart';
 import '../../../../widgets/button_widget.dart';
 import '../../../../widgets/divider.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/string_constants.dart';
 import '../../../../widgets/text_widget.dart';
+import '../../../models/home_page_response.dart';
 import '../../../routes/app_pages.dart';
+import '../../home/controllers/home_controller.dart';
 
 
-openScheduleAirconService(AirconProvider controller,BuildContext context) {
+openScheduleAirconService(AirconProvider controller,BuildContext context,
+    int categoryID, int index, Subcategories subcategory) {
   showDialog(
       context: context,
       useSafeArea: true,
       builder: (builder) {
+        HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
+
+        List<AllCategories> subcategories =
+        homeProvider.homeAPIResponse.allCategories.where((element) {
+          return element.categoryId == categoryID;
+        }).toList();
+
+        final size = MediaQuery.sizeOf(context);
         return AlertDialog(
-          insetPadding: const EdgeInsets.symmetric(horizontal: 10),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          contentPadding: const EdgeInsets.all(0),
+          insetPadding: const EdgeInsets.all(0),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32))),
+          title: null,
           content: SizedBox(
-            width: MediaQuery.of(Get.context!).size.width,
+            width: size.width,
             child: Material(
               color: AppColors.white,
               child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Row(
                       children: [
-                        TextWidget(text: "no name",),
+                        TextWidget(
+                          text: subcategories.isNotEmpty
+                            ? subcategories[index].categoryName
+                            : 'No Name',),
                         //  TextWidget(text: airconSubcategories[index.].subcategoryName ?? 'No Name'),
                         const Spacer(),
                         InkWell(
-                          onTap: () => Get.back(),
+                          onTap: () => Navigator.pushNamed(context, Routes.AIRCON_SERVICES),
                           child: const Icon(Icons.close_outlined,
                               size: 30, color: AppColors.darkGray),
                         )
@@ -53,8 +74,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context) {
                             ),
                             const Spacer(),
                             TextWidget(
-                              text: '0.00',
-                              // "\$. ${airconSubcategoriesPrice[index].price ?? '0.00'}",
+                              text: '${subcategory.price}',
                               style: GoogleFonts.montserrat(
                                   color: AppColors.princeTonOrange,
                                   fontWeight: FontWeight.w500,
@@ -73,45 +93,56 @@ openScheduleAirconService(AirconProvider controller,BuildContext context) {
                                   fontSize: 16),
                             ),
                             const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 8),
-                              decoration: BoxDecoration(
-                                  border:
-                                  Border.all(color: AppColors.primaryButtonColor),
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: AppColors.primaryButtonColor),
-                              child: TextWidget(
-                                text: "-",
-                                style: GoogleFonts.montserrat(
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16),
+                            InkWell(
+                              onTap: () => controller.onClickRemoveRooms(),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                    border:
+                                    Border.all(color: AppColors.primaryButtonColor),
+                                    borderRadius: BorderRadius.circular(3),
+                                    color: AppColors.primaryButtonColor),
+                                child: TextWidget(
+                                  text: "-",
+                                  style: GoogleFonts.montserrat(
+                                      color: AppColors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
                               ),
                             ),
                             const SizedBox(width: 20),
-                            TextWidget(
-                              text: "1",
-                              style: GoogleFonts.montserrat(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16),
+                            ValueListenableBuilder(
+                                valueListenable: controller.numberOfRooms,
+                                builder: (context, value, child) {
+                                  return TextWidget(
+                                    text: "${controller.numberOfRooms.value}",
+                                    style: GoogleFonts.montserrat(
+                                        color: AppColors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  );
+                                }
                             ),
                             const SizedBox(width: 20),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 8),
-                              decoration: BoxDecoration(
-                                  border:
-                                  Border.all(color: AppColors.primaryButtonColor),
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: AppColors.primaryButtonColor),
-                              child: TextWidget(
-                                text: "+",
-                                style: GoogleFonts.montserrat(
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16),
+                            InkWell(
+                              onTap: () => controller.onClickAddRooms(),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                    border:
+                                    Border.all(color: AppColors.primaryButtonColor),
+                                    borderRadius: BorderRadius.circular(3),
+                                    color: AppColors.primaryButtonColor),
+                                child: TextWidget(
+                                  text: "+",
+                                  style: GoogleFonts.montserrat(
+                                      color: AppColors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
                               ),
                             )
                           ],
@@ -132,7 +163,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context) {
                                   fontSize: 16),
                             ),
                             const Spacer(),
-                            Obx(() => InkWell(
+                            InkWell(
                               onTap: () => controller.onBoxClicked(),
                               child: Container(
                                 height: 20,
@@ -154,7 +185,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context) {
                                     color: AppColors.white, size: 16)
                                     : null,
                               ),
-                            ))
+                            ),
                           ],
                         ),
                         const HorizontalAppDivider(color: AppColors.darkGray),
@@ -168,7 +199,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context) {
                                   fontSize: 16),
                             ),
                             const Spacer(),
-                            Obx(() => InkWell(
+                            InkWell(
                               onTap: () => controller.onBoxClicked(),
                               child: Container(
                                 height: 20,
@@ -190,7 +221,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context) {
                                     color: AppColors.white, size: 16)
                                     : null,
                               ),
-                            ))
+                            )
                           ],
                         ),
                         const HorizontalAppDivider(color: AppColors.darkGray),
@@ -204,7 +235,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context) {
                                   fontSize: 16),
                             ),
                             const Spacer(),
-                            Obx(() => InkWell(
+                            InkWell(
                               onTap: () => controller.onBoxClicked(),
                               child: Container(
                                 height: 20,
@@ -226,8 +257,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context) {
                                     color: AppColors.white, size: 16)
                                     : null,
                               ),
-                            ))
-                          ],
+                            )                          ],
                         ),
                         const HorizontalAppDivider(color: AppColors.darkGray),
                         const SizedBox(height: 10),
@@ -235,7 +265,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context) {
                             buttonText: "Check Out >>",
                             onTap: () {
                               //  Navigator.pushNamed(context, Routes.HOME);
-                              Get.toNamed(Routes.ADDITIONAL_DETAILS);
+                              Navigator.pushNamed(context, Routes.ADDITIONAL_DETAILS);
                             }),
                       ],
                     )

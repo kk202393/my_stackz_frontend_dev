@@ -8,6 +8,7 @@ class CleaningProvider with ChangeNotifier{
     ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
     ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
     ValueNotifier<int> numberOfRooms = ValueNotifier<int>(1);
+    ValueNotifier<int> numberOfHours = ValueNotifier<int>(1);
 
   // RxList<Subcategories> subcategories = <Subcategories>[].obs;
   // RxList<ServiceCategory> serviceCategory = <ServiceCategory>[].obs;
@@ -39,10 +40,19 @@ void getFilteredSubcategoriesPrice(List<Subcategories> subcategories) {
   onClickAddRooms() {
     numberOfRooms.value = numberOfRooms.value + 1;
   }
-
   onClickRemoveRooms() {
     if (numberOfRooms.value > 1) {
       numberOfRooms.value = numberOfRooms.value - 1;
+    }
+  }
+
+  onClickAddHours() {
+    numberOfHours.value = numberOfHours.value + 1;
+  }
+
+  onClickRemoveHours() {
+    if (numberOfHours.value > 1) {
+      numberOfHours.value = numberOfHours.value - 1;
     }
   }
 

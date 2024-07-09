@@ -9,6 +9,7 @@ import '../../../../constants/string_constants.dart';
 import '../../../../widgets/text_widget.dart';
 import '../provider/cleaning_provider.dart';
 import 'cleaning_dialogue_box.dart';
+
 openCleaningOptions(CleaningProvider controller,BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
@@ -20,6 +21,7 @@ openCleaningOptions(CleaningProvider controller,BuildContext context) {
               HomeProvider homeProvider = Provider.of<HomeProvider>(context , listen: false);
 
         return Scaffold(
+          backgroundColor: AppColors.white,
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
@@ -51,7 +53,7 @@ openCleaningOptions(CleaningProvider controller,BuildContext context) {
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
                       // onTap: () => Get.toNamed(Routes.ADDITIONAL_DETAILS),
-                      onTap: () => openScheduleCleaningService(controller,context),
+                      // onTap: () => openScheduleCleaningService(controller,context),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

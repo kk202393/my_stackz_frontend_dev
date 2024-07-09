@@ -83,7 +83,7 @@ class MyStackz extends StatelessWidget {
           builder: (context, child) {
             return Stack(children: [
               MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+                data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1)),
                 child: GestureDetector(
                     onTap: () {
                       FocusScope.of(context).requestFocus(FocusNode());

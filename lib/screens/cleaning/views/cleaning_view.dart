@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 
 class CleaningView extends StatelessWidget {
   int categoryID;
+
   CleaningView({super.key, required this.categoryID});
 
   @override
@@ -23,24 +24,24 @@ class CleaningView extends StatelessWidget {
         Provider.of<HomeProvider>(context, listen: false);
     CleaningProvider cleaningController =
         Provider.of<CleaningProvider>(context, listen: false);
-    final width = MediaQuery.of(context).size.width;
-    List<AllCategories>  subcategories = homeProvider.homeAPIResponse.allCategories
-        .where((element){
-          return element.categoryId == categoryID;
-        }).toList();
+    final size = MediaQuery.of(context).size;
+    List<AllCategories> subcategories =
+        homeProvider.homeAPIResponse.allCategories.where((element) {
+      return element.categoryId == categoryID;
+    }).toList();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: width,
+              width: size.width,
               height: 220,
               child: Stack(
                 children: [
                   Image.asset(
                     AppImages.cleaningBanner,
-                    width: width,
+                    width: size.width,
                     fit: BoxFit.fitWidth,
                   ),
                   Positioned(
@@ -53,7 +54,7 @@ class CleaningView extends StatelessWidget {
                   ),
                   Positioned(
                     bottom: 15,
-                    left: width * 0.1,
+                    left: size.width * 0.1,
                     child: TextWidget(
                       text: StringConstants.homeAndOfficeCleaning,
                       style: GoogleFonts.montserrat(
@@ -66,7 +67,7 @@ class CleaningView extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: size.height*0.05),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: Column(
@@ -75,7 +76,7 @@ class CleaningView extends StatelessWidget {
                   const TextWidget(
                     text: StringConstants.selectCategory,
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: size.height*0.05),
                   GridView.builder(
                       shrinkWrap: true,
                       gridDelegate:
@@ -89,7 +90,11 @@ class CleaningView extends StatelessWidget {
                         return InkWell(
                           onTap: () {
                             openScheduleCleaningService(
-                                cleaningController, context,categoryID,index);
+                                cleaningController,
+                                context,
+                                categoryID,
+                                index,
+                                subcategories.first.subcategories[index]);
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -109,13 +114,14 @@ class CleaningView extends StatelessWidget {
                                           : index == 2
                                               ? AppImages.springCleaning
                                               : AppImages.movingInOutCleaning,
-                                  width: width * 0.5,
+                                  width: size.width * 0.5,
                                   fit: BoxFit.fitWidth,
                                 ),
                               ),
                               const SizedBox(height: 10),
                               TextWidget(
-                                text: subcategories.first.subcategories[index].subcategoryName,
+                                text: subcategories
+                                    .first.subcategories[index].subcategoryName,
 
                                 // homeProvider
                                 //     .homeAPIResponse
@@ -125,6 +131,7 @@ class CleaningView extends StatelessWidget {
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w500, fontSize: 14),
                               ),
+/*
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -138,11 +145,12 @@ class CleaningView extends StatelessWidget {
                                   ),
                                 ],
                               )
+*/
                             ],
                           ),
                         );
                       }),
-                  const SizedBox(height: 20),
+                  /*const SizedBox(height: 20),
                   Row(
                     children: [
                       const TextWidget(
@@ -161,11 +169,11 @@ class CleaningView extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  )*/
                 ],
               ),
             ),
-            SizedBox(height: width * 0.4),
+            SizedBox(height: size.width * 0.4),
           ],
         ),
       ),
