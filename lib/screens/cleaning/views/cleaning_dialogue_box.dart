@@ -368,7 +368,7 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                         ButtonWidget(
                             buttonText: "Check Out >>",
                             onTap: () {
-                              // Get.toNamed(Routes.ADDITIONAL_DETAILS);
+                              Navigator.pushNamed(context,Routes.ADDITIONAL_DETAILS);
                             }),
                       ],
                     )
