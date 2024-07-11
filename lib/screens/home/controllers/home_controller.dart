@@ -17,14 +17,22 @@ class HomeProvider with ChangeNotifier {
   ValueNotifier<String> address = ValueNotifier("");
   ValueNotifier<String> token = ValueNotifier("");
   ValueNotifier<String> name = ValueNotifier("");
-  RxBool isIconClicked = false.obs;
-  RxBool isTyped = false.obs;
-  RxBool isArrowClicked = false.obs;
-  RxBool isLoading = false.obs;
+  // RxBool isIconClicked = false.obs;
+  // RxBool isTyped = false.obs;
+  // RxBool isArrowClicked = false.obs;
+  // RxBool isLoading = false.obs;
+    ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
+    ValueNotifier<bool> isIconClicked = ValueNotifier<bool>(false);
+    ValueNotifier<bool> isTyped = ValueNotifier<bool>(false);
+    ValueNotifier<bool> isArrowClicked = ValueNotifier<bool>(false);
+
   ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
   ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
   ValueNotifier<int> categoryId = ValueNotifier<int>(1);
-
+ void setIsLoadingDialogOpened(bool isOpened) {
+    isLoading.value = isOpened;
+    isLoading.notifyListeners();
+  }
   @override
   void onInit() {}
   ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);
@@ -104,8 +112,6 @@ class HomeProvider with ChangeNotifier {
   callLogoutApi(BuildContext context) async {
     final body = {"token": token.value};
     try {
-      print(body);
-
       isLoading.value = true;
       LogoutResponse response = await ApiHandler().callLogoutApi(body);
       isLoading.value = false;

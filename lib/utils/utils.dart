@@ -50,3 +50,44 @@ class Utils {
     );
   }
 }
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
+
+
+class ConstValue {
+  ConstValue._();
+  // padding
+  static const double LEFT_PADDING = 12.0;
+  static const double RIGHT_PADING = 12.0;
+  static const double TOP_PADDING = 12.0;
+  static const double BOTTOM_PADDING = 12.0;
+  static const double ALL_PADDING = 12.0;
+  static const double SMALL_PADDING = 12.0;
+  static const double X_SMALL_PADDING = 4.0;
+  static const double LARGE_PADDING = 16.0;
+
+  // space between
+  static const double HORIZONTAL_SPACE = 20.0;
+  static const double SMALL_VERTICAL_SPACE = 8.0;
+  static const double X_SMALL_VERTICAL_SPACE = 4.0;
+  static const double SMALL_HORIZONTAL_SPACE = 8.0;
+  static const double LARGE_VERTICAL_SPACE = 30.0;
+  static const double LARGE_HORIZONTAL_SPACE = 30.0;
+  static const double VERTICAL_SPACE = 20.0;
+
+  //border Radius
+  static const double SMALL_BORDER_RADIUS = 8.0;
+  static const double BORDER_RADIUS = 16.0;
+  static const double LARGE_BORDER_RADIUS = 30.0;
+
+  //elevation
+  static const double ELEVATION = 8.0;
+  static const double SMALL_ELEVATION = 2.0;
+  static const double LARGE_ELEVATION = 12.0;
+
+  // date formatter 
+  // static DateFormat DATE_FORMAT =DateFormat("yyyy-MM-dd");
+  // static DateFormat API_DATE_FORMAT =DateFormat("dd/MM/yyyy");
+  // static DateFormat API_DATE_FORMAT_UTS =DateFormat("MM/dd/yyyy");
+  // static DateFormat DATE_CAL_FORMAT =DateFormat("yyyy, MM, dd");
+}
+
