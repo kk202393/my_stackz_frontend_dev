@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
+import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/app_colors.dart';
@@ -21,14 +23,23 @@ class SimilarPart extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
+    LoginProvider loginProvider =
+        Provider.of<LoginProvider>(context, listen: false);
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        const Row(
+        Row(
           children: [
-            Spacer(),
-            Icon(Icons.edit_outlined, size: 20),
-            SizedBox(width: 30)
+            TextWidget(
+                text: loginProvider.logInAPIResponse.userAddress.isNotEmpty 
+                    ? loginProvider
+                        .logInAPIResponse.userAddress.first["addresses"][0]["address"]
+                    : 'No address found',
+                style: context.bodyMedium
+                    .copyWith(fontWeight: FontWeight.w700, fontSize: 12)),
+            const Spacer(),
+            const Icon(Icons.edit_outlined, size: 20),
+            const SizedBox(width: 30)
           ],
         ),
         const SizedBox(height: 20),
@@ -73,14 +84,13 @@ class SimilarPart extends StatelessWidget {
                   (element) => InkWell(
                     onTap: () {
                       print("object");
-                      if (element.categoryId == 1){
+                      if (element.categoryId == 1) {
                         homeProvider.categoryId.value = element.categoryId;
                         Navigator.pushNamed(context, Routes.CLEANING);
-                      } else if (element.categoryId == 2){
+                      } else if (element.categoryId == 2) {
                         homeProvider.categoryId.value = element.categoryId;
-                        Navigator.pushNamed(
-                            context, Routes.AIRCON_SERVICES);
-                      } else if (element.categoryId == 3){
+                        Navigator.pushNamed(context, Routes.AIRCON_SERVICES);
+                      } else if (element.categoryId == 3) {
                         homeProvider.categoryId.value = element.categoryId;
                         Navigator.pushNamed(context, Routes.HANDYMAN);
                       }
@@ -170,7 +180,7 @@ class AddressText extends StatelessWidget {
 
     return Text(
       addressText,
-      style: TextStyle(fontSize: 16),
+      style: const TextStyle(fontSize: 16),
     );
   }
 }

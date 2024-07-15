@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/models/login_response.dart';
+import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
+import 'package:provider/provider.dart';
 
 class LoginProvider with ChangeNotifier {
   //final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -54,11 +58,13 @@ class LoginProvider with ChangeNotifier {
     rememberMe.value = !rememberMe.value;
   }
 
-  Future<bool> validateFields(formKey) async {
+  
+
+  Future<bool> validateFields(formKey,homeController,BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return false;
     } else {
-      bool _isSuccess = await callLoginApi();
+      bool _isSuccess = await callLoginApi(homeController,context);
       if (_isSuccess) {
         return true;
       }
@@ -66,21 +72,46 @@ class LoginProvider with ChangeNotifier {
     return false;
   }
 
-  Future<bool> callLoginApi() async {
-    isLoading.value = true;
+  Future<bool> callLoginApi(homeController,BuildContext context) async {
+    homeController.isLoading.value = true;
     final body = {
       "email": emailController.text,
       "password": passwordController.text
     };
+    
     try {
       _response = await ApiHandler().callLoginApi(body);
-      // debugPrint("Login response ${response.userAddress}");
+      // debugPrint("Login response ${_response?.userAddress}");
       // _addressList = _response!.userAddress;
-      isLoading.value = false;
-
+      homeController.isLoading.value = false;
+      notifyListeners();
       return true;
     } catch (e) {
-      isLoading.value = false;
+    //   String errorMessage = "An unexpected error occurred.";
+    // if (e is SocketException) {
+    //   errorMessage = "Network error, please check your internet connection.";
+    // } else if (e is HttpException) {
+    //   errorMessage = "Server error, please try again later.";
+    // } else if (e is FormatException) {
+    //   errorMessage = "Data format error, please contact support.";
+    // }
+    //  DialogHelper().showSnackBar(
+      
+
+    //                                       context: context,
+    //                                       msg: _response!.massage ?? errorMessage,
+    //                                       backgroundColor: Colors.red.shade600,
+    //                                     );
+
+      homeController.isLoading.value = true;
+      notifyListeners();
+
+    
+    // Snack.show(
+    //   content: _response!.massage ?? errorMessage,
+    //   snackType: SnackType.error,
+    //   behavior: SnackBarBehavior.floating
+    // );
       Snack.show(
           content: _response!.massage ?? 'Something went wrong',
           snackType: SnackType.error,

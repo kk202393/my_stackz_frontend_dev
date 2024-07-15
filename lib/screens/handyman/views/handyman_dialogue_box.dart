@@ -4,13 +4,13 @@ import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
+import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/divider.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../routes/app_pages.dart';
-import '../../home/controllers/home_controller.dart';
 
 openScheduleHandymanService(HandymanProvider controller, BuildContext context,
     int subcategoriesIndex, Subcategories subcategory) {

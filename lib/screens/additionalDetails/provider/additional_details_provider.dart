@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../../models/home_page_response.dart';
 
@@ -36,10 +35,10 @@ void getFilteredSubcategoriesPrice(List<Subcategories> subcategories) {
   // }
 
   @override
-  void onInit() {
+  // void onInit() {
     // subcategories.addAll(Get.arguments["subcategories"]);
     // super.onInit();
-  }
+  // }
 
   onBoxClicked() {
     isBoxClicked.value = !isBoxClicked.value;
