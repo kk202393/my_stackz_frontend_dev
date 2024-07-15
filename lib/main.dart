@@ -10,9 +10,7 @@ import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/screens/payments/provider/payment_Provider.dart';
 import 'package:my_stackz/screens/signUp/provider/sign_up_Provider.dart';
 
-
 import 'package:provider/provider.dart';
-
 import 'themes/themes.dart';
 
 void main() {
