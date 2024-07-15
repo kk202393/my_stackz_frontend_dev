@@ -18,14 +18,14 @@ class CleaningProvider with ChangeNotifier{
 
 
 
-    void getFilteredSubcategories(List<Subcategories> subcategories) {
+   /* void getFilteredSubcategories(List<Subcategories> subcategories) {
     subcategories = subcategories;
     notifyListeners();
   }
 void getFilteredSubcategoriesPrice(List<Subcategories> subcategories) {
     subcategories = subcategories;
     notifyListeners();
-  }
+  }*/
 //  List<Subcategories> getFilteredSubcategories() {
 //     return subcategories.where((subcategory) => subcategory.subcategoryName != null).toList();
 //   }

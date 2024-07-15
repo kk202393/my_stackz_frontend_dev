@@ -16,6 +16,7 @@ import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
+import '../../../utils/utils.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
@@ -196,6 +197,7 @@ class LoginView extends StatelessWidget {
                                   ])),
                           const SizedBox(height: 20)
                         ])),
+                    const SizedBox(height: 20),
                     homeController.isLoading.value
                         ? Utils.getLoadingUI(context)
                         : const SizedBox(),
