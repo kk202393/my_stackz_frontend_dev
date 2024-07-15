@@ -1,3 +1,4 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class LoginResponse {
   late String massage;
   late bool success;
@@ -21,9 +22,18 @@ class LoginResponse {
     user = User.fromJson(json['user']);
     userAddress = json['userAddress'] ?? [];
     userRole = json['userRole'];
-    token = json['token']; 
+    token = json['token'];
+  }
+  static Future<void> saveToken(String token) async {
+    final storage = const FlutterSecureStorage();
+    await storage.write(key: 'token', value: token);
   }
 
+  void handleLoginResponse(Map<String, dynamic> jsonResponse) async {
+    final loginResponse = LoginResponse.fromJson(jsonResponse);
+    await LoginResponse.saveToken(loginResponse.token);
+  }
+  
   // Map<String, dynamic> toJson() {
   //   final _data = <String, dynamic>{};
   //   _data['success'] = success;

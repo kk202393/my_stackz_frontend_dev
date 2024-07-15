@@ -114,9 +114,13 @@ class ApiHandler {
   }
 
   callLogoutApi(body) async {
+    final accessToken = 'Bearer $body';
     try {
       if (dio == null) initDio();
-      final Response response = await dio!.post(AppURLs.logoutURL, data: body);
+      final Response response = await dio!.post(AppURLs.logoutURL,
+          options: Options(headers: <String, String>{
+            'Authorization': accessToken.toString()
+          }));
       return LogoutResponse.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e);

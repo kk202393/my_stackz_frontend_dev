@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/constants/app_constants.dart';
@@ -21,15 +24,15 @@ class HomeProvider with ChangeNotifier {
   // RxBool isTyped = false.obs;
   // RxBool isArrowClicked = false.obs;
   // RxBool isLoading = false.obs;
-    ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
-    ValueNotifier<bool> isIconClicked = ValueNotifier<bool>(false);
-    ValueNotifier<bool> isTyped = ValueNotifier<bool>(false);
-    ValueNotifier<bool> isArrowClicked = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isIconClicked = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isTyped = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isArrowClicked = ValueNotifier<bool>(false);
 
   ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
   ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
   ValueNotifier<int> categoryId = ValueNotifier<int>(1);
- void setIsLoadingDialogOpened(bool isOpened) {
+  void setIsLoadingDialogOpened(bool isOpened) {
     isLoading.value = isOpened;
     isLoading.notifyListeners();
   }
@@ -109,26 +112,31 @@ class HomeProvider with ChangeNotifier {
     }
   }
 
-  callLogoutApi(BuildContext context) async {
-    final body = {"token": token.value};
+  Future<bool> callLogoutApi(BuildContext context) async {
+    final storage = FlutterSecureStorage();
+    final st = await storage.read(key: 'token');
+    final body = {"token": st};
     try {
       isLoading.value = true;
-      LogoutResponse response = await ApiHandler().callLogoutApi(body);
-      isLoading.value = false;
-      if (response.success! && response.message != null) {
-        Snack.show(
-            content: response.message ?? '',
-            snackType: SnackType.info,
-            behavior: SnackBarBehavior.floating);
-        Navigator.pushNamed(context, Routes.LOGIN);
+      LogoutResponse response = await ApiHandler().callLogoutApi(st);
+      if (response.success! && response.message == "Log Out Successfully") {
+        // Snack.show(
+        //     content: response.message ?? '',
+        //     snackType: SnackType.info,
+        //     behavior: SnackBarBehavior.floating);
+        isLoading.value = false;
+        return true;
       } else {
         Snack.show(
             content: response.message ?? '',
             snackType: SnackType.error,
             behavior: SnackBarBehavior.floating);
+        isLoading.value = false;
+        return false;
       }
     } catch (e) {
       isLoading.value = false;
+      return false;
     }
   }
 }
