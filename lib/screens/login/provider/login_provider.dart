@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/widgets/dialoge.dart';
@@ -58,13 +59,12 @@ class LoginProvider with ChangeNotifier {
     rememberMe.value = !rememberMe.value;
   }
 
-  
-
-  Future<bool> validateFields(formKey,homeController,BuildContext context) async {
+  Future<bool> validateFields(
+      formKey, homeController, BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return false;
     } else {
-      bool _isSuccess = await callLoginApi(homeController,context);
+      bool _isSuccess = await callLoginApi(homeController, context);
       if (_isSuccess) {
         return true;
       }
@@ -72,7 +72,7 @@ class LoginProvider with ChangeNotifier {
     return false;
   }
 
-  Future<bool> callLoginApi(homeController,BuildContext context) async {
+  Future<bool> callLoginApi(homeController, BuildContext context) async {
     homeController.isLoading.value = true;
     final body = {
       "email": emailController.text,
@@ -81,6 +81,8 @@ class LoginProvider with ChangeNotifier {
     
     try {
       _response = await ApiHandler().callLoginApi(body);
+      final storage = FlutterSecureStorage();
+      await storage.write(key: 'token', value: _response!.token);
       // debugPrint("Login response ${_response?.userAddress}");
       // _addressList = _response!.userAddress;
       homeController.isLoading.value = false;

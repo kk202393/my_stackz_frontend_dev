@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
@@ -70,7 +71,7 @@ class HomeView extends StatelessWidget {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                              print("onclick");
+                              print("tokens${homeProvider.token}");
                               homeProvider.onIconClicked();
                             },
                             child: Container(
@@ -86,91 +87,107 @@ class HomeView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Visibility(
-                      visible: homeProvider.isIconClicked.value,
-                      child: Container(
-                        width: width,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: AppColors.white),
-                            color: AppColors.white),
-                        child: Column(
-                          children: [
-                            InkWell(
-                              onTap: () => Navigator.pushNamed(
-                                  context, Routes.MY_PROFILE),
-                              child: Container(
-                                width: width,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.princeTonOrange
-                                            .withOpacity(0.3)),
-                                    color: AppColors.white),
-                                child: TextWidget(
-                                  text: StringConstants.myAccount,
-                                  style: context.bodyMedium.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 17),
-                                ),
-                              ),
-                            ),
-                            AppDivider(width: width),
-                            Container(
-                              width: width,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppColors.princeTonOrange
-                                          .withOpacity(0.2)),
-                                  color: AppColors.princeTonOrange
-                                      .withOpacity(0.3)),
-                              child: TextWidget(
-                                text: StringConstants.settings,
-                                style: context.bodyMedium.copyWith(
-                                    fontWeight: FontWeight.w500, fontSize: 17),
-                              ),
-                            ),
-                            AppDivider(width: width),
-                            InkWell(
-                              child: ValueListenableBuilder(
-                                valueListenable: homeProvider.isLoading,
-                                builder: (BuildContext context, value,
-                                    Widget? child) {
-                                  return InkWell(
-                                    onTap: () => Provider.of<HomeProvider>(
-                                            context,
-                                            listen: false)
-                                        .callLogoutApi(context),
-                                    // homeProvider.callLogoutApi(),
-
-                                    child: Container(
-                                      width: width,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 4),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: AppColors.princeTonOrange
-                                                  .withOpacity(0.2)),
-                                          color: AppColors.princeTonOrange
-                                              .withOpacity(0.3)),
-                                      child: TextWidget(
-                                        text: StringConstants.logOut,
-                                        style: context.bodyMedium.copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 17),
-                                      ),
+                    ValueListenableBuilder(
+                      valueListenable: homeProvider.isIconClicked,
+                      builder: (BuildContext context, value, Widget? child) {
+                        return Visibility(
+                          visible: homeProvider.isIconClicked.value,
+                          child: Container(
+                            width: width,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(color: AppColors.white),
+                                color: AppColors.white),
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () => Navigator.pushNamed(
+                                      context, Routes.MY_PROFILE),
+                                  child: Container(
+                                    width: width,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 4),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: AppColors.princeTonOrange
+                                                .withOpacity(0.3)),
+                                        color: AppColors.white),
+                                    child: TextWidget(
+                                      text: StringConstants.myAccount,
+                                      style: context.bodyMedium.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 17),
                                     ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                ),
+                                AppDivider(width: width),
+                                Container(
+                                  width: width,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 4),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppColors.princeTonOrange
+                                              .withOpacity(0.2)),
+                                      color: AppColors.princeTonOrange
+                                          .withOpacity(0.3)),
+                                  child: TextWidget(
+                                    text: StringConstants.settings,
+                                    style: context.bodyMedium.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 17),
+                                  ),
+                                ),
+                                AppDivider(width: width),
+                                ValueListenableBuilder(
+                                  valueListenable: homeProvider.isLoading,
+                                  builder: (BuildContext context, value,
+                                      Widget? child) {
+                                    return InkWell(
+                                      onTap: () {
+                                        // Provider.of<HomeProvider>(context,
+                                        //         listen: false)
+                                        //     .callLogoutApi(
+                                        //   context,
+                                        // );
+                                        homeProvider
+                                            .callLogoutApi(context)
+                                            .then((value) {
+                                          if (value) {
+                                            Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              Routes.LOGIN,
+                                              (route) => false,
+                                            );
+                                          } else {}
+                                        });
+                                      },
+                                      child: Container(
+                                        width: width,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColors.princeTonOrange
+                                                    .withOpacity(0.2)),
+                                            color: AppColors.princeTonOrange
+                                                .withOpacity(0.3)),
+                                        child: TextWidget(
+                                          text: StringConstants.logOut,
+                                          style: context.bodyMedium.copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 17),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(height: 30),
                     Padding(
