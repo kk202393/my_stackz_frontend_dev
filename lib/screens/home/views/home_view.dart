@@ -136,40 +136,36 @@ class HomeView extends StatelessWidget {
                             ),
                             AppDivider(width: width),
                             InkWell(
-                            
-
                               child: ValueListenableBuilder(
-                                                                valueListenable: homeProvider.isLoading,
-
-                                builder: (BuildContext context, value, Widget? child) { 
+                                valueListenable: homeProvider.isLoading,
+                                builder: (BuildContext context, value,
+                                    Widget? child) {
                                   return InkWell(
-                                      onTap: () => 
-                                      Provider.of<HomeProvider>(context,
-                                      listen: false)
-                                  .callLogoutApi(context),
-                                                                // homeProvider.callLogoutApi(),
-
+                                    onTap: () => Provider.of<HomeProvider>(
+                                            context,
+                                            listen: false)
+                                        .callLogoutApi(context),
+                                    // homeProvider.callLogoutApi(),
 
                                     child: Container(
-                                    width: width,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 4),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: AppColors.princeTonOrange
-                                                .withOpacity(0.2)),
-                                        color: AppColors.princeTonOrange
-                                            .withOpacity(0.3)),
-                                    child: TextWidget(
-                                      text: StringConstants.logOut,
-                                      style: context.bodyMedium.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17),
+                                      width: width,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 4),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: AppColors.princeTonOrange
+                                                  .withOpacity(0.2)),
+                                          color: AppColors.princeTonOrange
+                                              .withOpacity(0.3)),
+                                      child: TextWidget(
+                                        text: StringConstants.logOut,
+                                        style: context.bodyMedium.copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17),
+                                      ),
                                     ),
-                                                                    ),
                                   );
-                                 },
-                                
+                                },
                               ),
                             ),
                           ],
@@ -211,20 +207,26 @@ class HomeView extends StatelessWidget {
                                     ),
                                     Align(
                                         alignment: Alignment.center,
-                                        child: Container(
-                                          width: 80,
-                                          padding: const EdgeInsets.fromLTRB(
-                                              12, 5, 0, 5),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: AppColors.white),
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: AppColors.white),
-                                          child: TextWidget(
-                                            text: StringConstants.bookNow,
-                                            style: context.headlineSmall
-                                                .copyWith(fontSize: 10),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.pushNamed(context,
+                                                Routes.BOOKING_DETAILS);
+                                          },
+                                          child: Container(
+                                            width: 80,
+                                            padding: const EdgeInsets.fromLTRB(
+                                                12, 5, 0, 5),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: AppColors.white),
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                color: AppColors.white),
+                                            child: TextWidget(
+                                              text: StringConstants.bookNow,
+                                              style: context.headlineSmall
+                                                  .copyWith(fontSize: 10),
+                                            ),
                                           ),
                                         )),
                                   ],
