@@ -6,6 +6,7 @@ import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
+import 'package:my_stackz/screens/handyman/views/handyman_botttom_sheet.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_dialogue_box.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
@@ -87,12 +88,11 @@ class HandymanView extends StatelessWidget {
                                 mainAxisSpacing: 20),
                         itemCount: 4,
                         itemBuilder: (context, index) {
-                          // Subcategories item = controller.subcategories[index];
                           return InkWell(
                             onTap: () {
-                              openScheduleHandymanService(
-                                  handymanProvider, context,
-
+                              openHandymanOptions(
+                                  handymanProvider,
+                                  context,
                                   index,
                                   subcategories.first.subcategories[index]);
                               // openHandymanOptions(controller, context);
@@ -128,6 +128,18 @@ class HandymanView extends StatelessWidget {
                                   style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
+                                ),
+                                TextWidget(
+                                  text:
+                                  '${subcategories.first.subcategories[index].price}',
+
+                                  // homeProvider
+                                  //     .homeAPIResponse
+                                  //     .allCategories[categoryID]
+                                  //     .subcategories[index]
+                                  //     .subcategoryName,
+                                  style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w500, fontSize: 14),
                                 ),
                                 // Row(
                                 //   mainAxisAlignment: MainAxisAlignment.center,

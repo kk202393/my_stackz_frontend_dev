@@ -69,7 +69,6 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
                             ServiceCategory item =
                                 subcategory.serviceCategory[index];
                             return InkWell(
-                              // onTap: () => Get.toNamed(Routes.ADDITIONAL_DETAILS),
                               onTap: () {
                                 openScheduleCleaningService(
                                     cleaningController, context, index, item);

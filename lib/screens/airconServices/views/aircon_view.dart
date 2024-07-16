@@ -81,7 +81,8 @@ class AirconView extends StatelessWidget {
                         // Subcategories item = controller.subcategories[index];
                         return InkWell(
                           onTap: () {
-                            openScheduleAirconService(airconController,
+                            openAirconOptions(
+                                airconController,
                                 context,
                                 index,
                                 subcategories.first.subcategories[index]);
@@ -112,7 +113,12 @@ class AirconView extends StatelessWidget {
                               TextWidget(
                                 text: subcategories
                                     .first.subcategories[index].subcategoryName,
-
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w500, fontSize: 14),
+                              ),
+                              TextWidget(
+                                text:
+                                '${subcategories.first.subcategories[index].price}',
 
                                 // homeProvider
                                 //     .homeAPIResponse

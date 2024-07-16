@@ -210,8 +210,8 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                             )
                           ],
                         ),
-                        const HorizontalAppDivider(color: AppColors.darkGray),
-                        const Align(
+                        // const HorizontalAppDivider(color: AppColors.darkGray),
+                        /*const Align(
                             alignment: Alignment.centerLeft,
                             child: TextWidget(
                                 text: StringConstants.additionalServices)),
@@ -359,7 +359,7 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                             ),
                           ],
                         ),
-                        const HorizontalAppDivider(color: AppColors.darkGray),
+                        const HorizontalAppDivider(color: AppColors.darkGray),*/
                         const SizedBox(height: 10),
                         ButtonWidget(
                             buttonText: "Check Out >>",

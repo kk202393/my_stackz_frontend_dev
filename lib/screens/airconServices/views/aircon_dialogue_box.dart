@@ -14,19 +14,19 @@ import '../../../routes/app_pages.dart';
 
 
 openScheduleAirconService(AirconProvider controller,BuildContext context,
-   int subcategoriesIndex, Subcategories subcategory) {
+    int subcategoriesIndex, ServiceCategory serviceCategory) {
   showDialog(
       context: context,
       useSafeArea: true,
       builder: (builder) {
         HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
-        AirconProvider airconProvider =
+        AirconProvider airconController =
         Provider.of<AirconProvider>(context, listen: false);
-        List<AllCategories> subcategories =
-        homeProvider.homeAPIResponse.allCategories.where((element) {
-          return element.categoryId == airconProvider.categoryId.value;
-        }).toList();
+        // List<AllCategories> subcategories =
+        // homeProvider.homeAPIResponse.allCategories.where((element) {
+        //   return element.categoryId == airconProvider.categoryId.value;
+        // }).toList();
 
         final size = MediaQuery.sizeOf(context);
         return AlertDialog(
@@ -49,9 +49,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                     Row(
                       children: [
                         TextWidget(
-                          text: subcategories.isNotEmpty
-                            ? subcategories[0].subcategories[subcategoriesIndex].subcategoryName
-                            : 'No Name',),
+                          text: serviceCategory.servicecategoryName),
                         //  TextWidget(text: airconSubcategories[index.].subcategoryName ?? 'No Name'),
                         const Spacer(),
                         InkWell(
@@ -75,7 +73,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                             ),
                             const Spacer(),
                             TextWidget(
-                              text: '${subcategory.price}',
+                              text: '${serviceCategory.price}',
                               style: GoogleFonts.montserrat(
                                   color: AppColors.princeTonOrange,
                                   fontWeight: FontWeight.w500,
