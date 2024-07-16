@@ -20,6 +20,8 @@ class HomeProvider with ChangeNotifier {
   ValueNotifier<String> address = ValueNotifier("");
   ValueNotifier<String> token = ValueNotifier("");
   ValueNotifier<String> name = ValueNotifier("");
+  late ServiceCategory selectedServiceCategory;
+
   // RxBool isIconClicked = false.obs;
   // RxBool isTyped = false.obs;
   // RxBool isArrowClicked = false.obs;
@@ -32,10 +34,12 @@ class HomeProvider with ChangeNotifier {
   ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
   ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
   ValueNotifier<int> categoryId = ValueNotifier<int>(1);
+
   void setIsLoadingDialogOpened(bool isOpened) {
     isLoading.value = isOpened;
     isLoading.notifyListeners();
   }
+
   @override
   void onInit() {}
   ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);

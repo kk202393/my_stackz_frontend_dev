@@ -5,10 +5,12 @@ import 'package:my_stackz/screens/additionalDetails/provider/additional_details_
 import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
 import 'package:my_stackz/screens/cleaning/provider/cleaning_provider.dart';
+import 'package:my_stackz/screens/dateAndTime/provider/date_and_time_provider.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/screens/payments/provider/payment_Provider.dart';
+import 'package:my_stackz/screens/selectAddress/provider/select_address_provider.dart';
 import 'package:my_stackz/screens/signUp/provider/sign_up_Provider.dart';
 
 import 'package:provider/provider.dart';
@@ -50,6 +52,14 @@ void main() {
       ),
        ChangeNotifierProvider(
         create: (context) => AdditionalDetailsProvider(),
+        lazy: true,
+      ),
+       ChangeNotifierProvider(
+        create: (context) => DateAndTimeProvider(),
+        lazy: true,
+      ),
+       ChangeNotifierProvider(
+        create: (context) => SelectAddressProvider(),
         lazy: true,
       ),
 

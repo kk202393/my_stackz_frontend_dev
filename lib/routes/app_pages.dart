@@ -13,6 +13,7 @@ import '../screens/bookingDetails/views/booking_details_view.dart';
 import '../screens/bookingHomeCleaning/views/booking_home_cleaning_view.dart';
 import '../screens/dateAndTime/views/date_and_time_view.dart';
 import '../screens/home/views/home_view.dart';
+import '../screens/selectAddress/views/select_address_view.dart';
 
 part 'app_routes.dart';
 
@@ -91,11 +92,11 @@ class AppPages {
           settings: setting,
           builder: (_) => const CartSummaryView(),
         );
-      // case Routes.FORGOT_PASSWORD:
-      //   return MaterialPageRoute(
-      //     settings: setting,
-      //     builder: (_) => const (),
-      //   );
+      case Routes.SELECT_ADDRESS:
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => const SelectAddressView(),
+        );
       default:
         return MaterialPageRoute(
           settings: setting,

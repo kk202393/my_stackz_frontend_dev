@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/string_constants.dart';
@@ -15,7 +14,7 @@ import '../../../routes/app_pages.dart';
 //   final filteredSubcategoriesPrice = controller.getFilteredSubcategoriesPrice();
 // final filteredSubcategories = controller.getFilteredSubcategories();
 openScheduleCleaningService(CleaningProvider controller, BuildContext context,
-     int subcategoriesIndex, Subcategories subcategory) {
+    int subcategoriesIndex, ServiceCategory serviceCategory) {
   showDialog(
       context: context,
       useSafeArea: true,
@@ -23,12 +22,12 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
         HomeProvider homeProvider =
             Provider.of<HomeProvider>(context, listen: false);
         CleaningProvider cleaningProvider =
-        Provider.of<CleaningProvider>(context, listen: false);
+            Provider.of<CleaningProvider>(context, listen: false);
 
-        List<AllCategories> subcategories =
+        /*List<AllCategories> subcategories =
             homeProvider.homeAPIResponse.allCategories.where((element) {
           return element.categoryId == cleaningProvider.categoryId.value;
-        }).toList();
+        }).toList();*/
         return AlertDialog(
           contentPadding: const EdgeInsets.all(0),
           insetPadding: const EdgeInsets.all(0),
@@ -41,7 +40,8 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
             child: Material(
               color: AppColors.white,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,13 +49,12 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                     Row(
                       children: [
                         TextWidget(
-                          text: subcategories.isNotEmpty
-                              ? subcategories[0].subcategories[subcategoriesIndex].subcategoryName
-                              : 'No Name',
+                          text: serviceCategory.servicecategoryName,
                         ),
                         const Spacer(),
                         InkWell(
-                          onTap: () => Navigator.pushNamed(context, Routes.CLEANING),
+                          onTap: () =>
+                              Navigator.pushNamed(context, Routes.CLEANING),
                           child: const Icon(Icons.close_outlined,
                               size: 30, color: AppColors.darkGray),
                         )
@@ -75,7 +74,7 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                             ),
                             const Spacer(),
                             TextWidget(
-                              text: "${subcategory.price}",
+                              text: "${serviceCategory.price}",
                               style: GoogleFonts.montserrat(
                                   color: AppColors.princeTonOrange,
                                   fontWeight: FontWeight.w500,
@@ -117,15 +116,14 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                             ValueListenableBuilder(
                                 valueListenable: controller.numberOfRooms,
                                 builder: (context, value, child) {
-                                return TextWidget(
-                                  text: "${controller.numberOfRooms.value}",
-                                  style: GoogleFonts.montserrat(
-                                      color: AppColors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
-                                );
-                              }
-                            ),
+                                  return TextWidget(
+                                    text: "${controller.numberOfRooms.value}",
+                                    style: GoogleFonts.montserrat(
+                                        color: AppColors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  );
+                                }),
                             const SizedBox(width: 20),
                             InkWell(
                               onTap: () => controller.onClickAddRooms(),
@@ -189,8 +187,7 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16),
                                   );
-                                }
-                            ),
+                                }),
                             const SizedBox(width: 20),
                             InkWell(
                               onTap: () => controller.onClickAddHours(),
@@ -367,7 +364,8 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                         ButtonWidget(
                             buttonText: "Check Out >>",
                             onTap: () {
-                              Navigator.pushNamed(context,Routes.ADDITIONAL_DETAILS);
+                              Navigator.pushNamed(
+                                  context, Routes.DATE_AND_TIME);
                             }),
                       ],
                     )

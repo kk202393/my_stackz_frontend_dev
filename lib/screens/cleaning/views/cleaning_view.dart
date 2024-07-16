@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,8 +14,9 @@ import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
-class CleaningView extends StatelessWidget {
+import 'cleaning_bottom_sheet.dart';
 
+class CleaningView extends StatelessWidget {
   CleaningView({super.key});
 
   @override
@@ -67,7 +69,7 @@ class CleaningView extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: size.height*0.05),
+            SizedBox(height: size.height * 0.05),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: Column(
@@ -76,7 +78,7 @@ class CleaningView extends StatelessWidget {
                   const TextWidget(
                     text: StringConstants.selectCategory,
                   ),
-                  SizedBox(height: size.height*0.05),
+                  SizedBox(height: size.height * 0.05),
                   GridView.builder(
                       shrinkWrap: true,
                       gridDelegate:
@@ -89,11 +91,16 @@ class CleaningView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            openScheduleCleaningService(
+                            openCleaningOptions(
                                 cleaningController,
                                 context,
                                 index,
                                 subcategories.first.subcategories[index]);
+                            /*openScheduleCleaningService(
+                                cleaningController,
+                                context,
+                                index,
+                                subcategories.first.subcategories[index]);*/
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,6 +128,18 @@ class CleaningView extends StatelessWidget {
                               TextWidget(
                                 text: subcategories
                                     .first.subcategories[index].subcategoryName,
+
+                                // homeProvider
+                                //     .homeAPIResponse
+                                //     .allCategories[categoryID]
+                                //     .subcategories[index]
+                                //     .subcategoryName,
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w500, fontSize: 14),
+                              ),
+                              TextWidget(
+                                text:
+                                    '${subcategories.first.subcategories[index].price}',
 
                                 // homeProvider
                                 //     .homeAPIResponse

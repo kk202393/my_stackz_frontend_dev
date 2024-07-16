@@ -39,8 +39,19 @@ void getFilteredSubcategoriesPrice(List<Subcategories> subcategories) {
     // subcategories.addAll(Get.arguments["subcategories"]);
     // super.onInit();
   // }
+  ValueNotifier<int> numberOfHours = ValueNotifier<int>(1);
 
-  onBoxClicked() {
+    onClickAddHours() {
+      numberOfHours.value = numberOfHours.value + 1;
+    }
+
+    onClickRemoveHours() {
+      if (numberOfHours.value > 1) {
+        numberOfHours.value = numberOfHours.value - 1;
+      }
+    }
+
+    onBoxClicked() {
     isBoxClicked.value = !isBoxClicked.value;
   }
 
