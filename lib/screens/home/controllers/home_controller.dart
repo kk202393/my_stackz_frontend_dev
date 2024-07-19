@@ -10,6 +10,7 @@ import 'package:my_stackz/models/logout_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/utils/shared_preferences.dart';
+import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -99,10 +100,8 @@ class HomeProvider with ChangeNotifier {
   Future<bool> callGetViewHomePageApi(BuildContext context) async {
     isLoading.value = true;
     try {
-      LoginProvider loginProvider =
-          Provider.of<LoginProvider>(context, listen: false);
-      _response = await ApiHandler()
-          .callGetViewHomePageApi(loginProvider.logInAPIResponse.token);
+      String? token = await Utils().ReadToken();
+      _response = await ApiHandler().callGetViewHomePageApi(token!);
       isLoading.value = false;
       if (_response!.success && _response!.allCategories != null) {
         categoryList.value = _response!.allCategories;
@@ -117,18 +116,19 @@ class HomeProvider with ChangeNotifier {
   }
 
   Future<bool> callLogoutApi(BuildContext context) async {
-    final storage = FlutterSecureStorage();
-    final st = await storage.read(key: 'token');
-    final body = {"token": st};
+    String? token = await Utils().ReadToken();
+    // WidgetsFlutterBinding
+    //     .ensureInitialized(); // Ensure Flutter binding is initialized
     try {
       isLoading.value = true;
-      LogoutResponse response = await ApiHandler().callLogoutApi(st);
+      LogoutResponse response = await ApiHandler().callLogoutApi(token);
       if (response.success! && response.message == "Log Out Successfully") {
         // Snack.show(
         //     content: response.message ?? '',
         //     snackType: SnackType.info,
         //     behavior: SnackBarBehavior.floating);
         isLoading.value = false;
+        Utils().deleteToken();
         return true;
       } else {
         Snack.show(

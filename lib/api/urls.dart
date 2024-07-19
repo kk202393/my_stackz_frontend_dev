@@ -9,4 +9,6 @@ class AppURLs {
   static const String resetPasswordURL = '$appBaseURL/api/v1/resetpassword';
   static const String logoutURL = '$appBaseURL/api/v1/logout';
   static const String settingChangePasswordURL = '$appBaseURL/api/v1/changepassword';
+  static const String consumerorderbooking='$appBaseURL/api/v1/consumerorderbooking';
+
 }

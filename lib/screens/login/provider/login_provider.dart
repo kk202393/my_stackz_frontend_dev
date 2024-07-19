@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/models/login_response.dart';
+import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:provider/provider.dart';
@@ -81,10 +82,7 @@ class LoginProvider with ChangeNotifier {
     
     try {
       _response = await ApiHandler().callLoginApi(body);
-      final storage = FlutterSecureStorage();
-      await storage.write(key: 'token', value: _response!.token);
-      // debugPrint("Login response ${_response?.userAddress}");
-      // _addressList = _response!.userAddress;
+      await Utils().storeToken(_response!.token);
       homeController.isLoading.value = false;
       notifyListeners();
       return true;

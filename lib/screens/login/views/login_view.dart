@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
@@ -112,11 +113,11 @@ class LoginView extends StatelessWidget {
                                 ButtonWidget(
                                   buttonText: StringConstants.login,
                                   onTap: () async {
-                                    homeController.isLoading.value = true;  
+                                    homeController.isLoading.value = true;
 
                                     bool _isSuccess =
                                         await controller.validateFields(
-                                            formKey, homeController,context);
+                                            formKey, homeController, context);
                                     if (_isSuccess) {
                                       bool another = await homeController
                                           .callGetViewHomePageApi(context);
@@ -125,7 +126,10 @@ class LoginView extends StatelessWidget {
 
                                       if (another) {
                                         Navigator.pushNamedAndRemoveUntil(
-                                            context, Routes.HOME, (route) => false,);
+                                          context,
+                                          Routes.HOME,
+                                          (route) => false,
+                                        );
                                       } else {
                                         String msg = "Failed to fetch data";
                                         DialogHelper().showSnackBar(
@@ -136,7 +140,6 @@ class LoginView extends StatelessWidget {
                                       }
                                     } else {
                                       homeController.isLoading.value = false;
-
                                     }
                                   },
                                 ),

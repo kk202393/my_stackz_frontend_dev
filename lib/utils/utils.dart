@@ -1,13 +1,36 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../constants/app_colors.dart';
 import '../widgets/snack_bar.dart';
 
 class Utils {
+  FlutterSecureStorage _storage = FlutterSecureStorage();
+
+  Future<bool> storeToken(String token) async {
+    try {
+      await _storage.write(key: 'token', value: token);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<String?> ReadToken() async {
+    return await _storage.read(key: 'token');
+  }
+
+  Future<void> deleteToken() async {
+    return await _storage.delete(key: 'token');
+  }
+
   static setStatus(String code,
       {String? message, SnackType snackType = SnackType.info}) {
     var text = message ?? '';
@@ -52,7 +75,6 @@ class Utils {
 }
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
-
 class ConstValue {
   ConstValue._();
   // padding
@@ -84,10 +106,9 @@ class ConstValue {
   static const double SMALL_ELEVATION = 2.0;
   static const double LARGE_ELEVATION = 12.0;
 
-  // date formatter 
+  // date formatter
   // static DateFormat DATE_FORMAT =DateFormat("yyyy-MM-dd");
   // static DateFormat API_DATE_FORMAT =DateFormat("dd/MM/yyyy");
   // static DateFormat API_DATE_FORMAT_UTS =DateFormat("MM/dd/yyyy");
   // static DateFormat DATE_CAL_FORMAT =DateFormat("yyyy, MM, dd");
 }
-
