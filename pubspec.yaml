@@ -17,6 +17,7 @@ dependencies:
   provider: ^6.1.2
   flutter_secure_storage: ^7.0.0
   shared_preferences: ^2.2.2
+  geolocator:
   dhttpd: ^4.1.0
   flutter:
     sdk: flutter
