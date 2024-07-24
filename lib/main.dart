@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/additionalDetails/provider/additional_details_provider.dart';
 import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
+import 'package:my_stackz/screens/bookingDetails/provider/booking_details_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
 import 'package:my_stackz/screens/cleaning/provider/cleaning_provider.dart';
 import 'package:my_stackz/screens/dateAndTime/provider/date_and_time_provider.dart';
@@ -27,26 +29,27 @@ void main() {
         create: (context) => HomeProvider(),
         lazy: true,
       ),
-       ChangeNotifierProvider(
+      ChangeNotifierProvider(
         create: (context) => SignUpProvider(),
         lazy: true,
       ),
       ChangeNotifierProvider(
         create: (context) => CleaningProvider(),
         lazy: true,
-      ),ChangeNotifierProvider(
+      ),
+      ChangeNotifierProvider(
         create: (context) => AirconProvider(),
         lazy: true,
       ),
-       ChangeNotifierProvider(
+      ChangeNotifierProvider(
         create: (context) => HandymanProvider(),
         lazy: true,
       ),
-       ChangeNotifierProvider(
+      ChangeNotifierProvider(
         create: (context) => PaymentProvider(),
         lazy: true,
       ),
-       ChangeNotifierProvider(
+      ChangeNotifierProvider(
         create: (context) => CartSummaryProvider(),
         lazy: true,
       ),
@@ -62,7 +65,10 @@ void main() {
         create: (context) => SelectAddressProvider(),
         lazy: true,
       ),
-
+      ChangeNotifierProvider(
+        create: (context) => BookingProvider(),
+        lazy: true,
+      ),
     ], child: const MyStackz()),
   );
 }

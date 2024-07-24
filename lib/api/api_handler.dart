@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/models/forget_password_response.dart';
+import 'package:my_stackz/utils/utils.dart';
 import '../constants/app_constants.dart';
 import '../models/change_password_response.dart';
 import '../models/home_page_response.dart';
@@ -77,6 +79,66 @@ class ApiHandler {
       _handleError(e);
     }
   }
+
+  Future<BookingResponse> callConsumerBookingApi(String token) async {
+      String? token = await Utils().ReadToken();
+    try {
+      if (dio == null) {
+        initDio();
+      }
+
+      final Response response = await dio!.get(
+        AppURLs.consumerorderbookingURL,
+        options: Options(headers: {'Authorization': token}),
+      );
+
+      debugPrint("Dashboard API Response: $response");
+
+      BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
+
+      if (bookingResponse
+              .consumerOrderDetails.consumerBookingStatus.bookingStatus !=
+          null) {
+        String firstCategory = bookingResponse
+            .consumerOrderDetails.consumerBookingStatus.bookingStatus;
+        debugPrint("First Category ID: $firstCategory");
+      } else {
+        debugPrint("No categories found in the response.");
+      }
+
+      return bookingResponse;
+    } on DioException catch (e) {
+      _handleError(e);
+      rethrow; // Rethrow the exception to handle it at a higher level if needed
+    } catch (e) {
+      debugPrint("Unexpected error: $e");
+      rethrow;
+    }
+  }
+
+  
+
+  // callConsumerBookingApi(String token) async {
+  //   final accessToken = 'Bearer $token';
+  //   try {
+  //     if (dio == null) initDio();
+  //     final Response response = await dio!.get(AppURLs.consumerorderbookingURL,
+  //         options:
+  //             Options(headers: <String, String>{'Authorization': accessToken}));
+  //     debugPrint("Dashboard API $response");
+  //     BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
+  //     if (bookingResponse.consumerOrderDetails.consumerBookingStatus != null) {
+  //       String firstCategory = bookingResponse
+  //           .consumerOrderDetails.consumerBookingStatus.bookingStatus;
+  //       debugPrint("First Category ID: $firstCategory");
+  //     } else {
+  //       debugPrint("No categories found in the response.");
+  //     }
+  //     return HomePageResponse.fromJson(response.data);
+  //   } on DioException catch (e) {
+  //     _handleError(e);
+  //   }
+  // }
 
   callCreateAccountApi(body) async {
     try {

@@ -6,12 +6,14 @@ import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/home/views/similar_part.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
+import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +24,8 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
 
     final width = MediaQuery.of(context).size.width;
     return Consumer<HomeProvider>(builder:
@@ -222,9 +226,27 @@ class HomeView extends StatelessWidget {
                                     Align(
                                         alignment: Alignment.center,
                                         child: InkWell(
-                                          onTap: () {
-                                            Navigator.pushNamed(context,
-                                                Routes.BOOKING_DETAILS);
+                                          onTap: () async {
+                                            bool success = await bookingProvider
+                                                .callBookingPageApi(context);
+
+                                            if (success) {
+                                              print(
+                                                  "bookingResponce is $success");
+                                              Navigator.pushNamed(context,
+                                                  Routes.BOOKING_DETAILS);
+                                            } else {
+                                              print("anu");
+
+                                              String msg =
+                                                  "Booking failed. Please try again.";
+                                              DialogHelper().showSnackBar(
+                                                context: context,
+                                                msg: msg,
+                                                backgroundColor:
+                                                    Colors.red.shade600,
+                                              );
+                                            }
                                           },
                                           child: Container(
                                             width: 80,
