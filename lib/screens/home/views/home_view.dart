@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
@@ -26,6 +27,8 @@ class HomeView extends StatelessWidget {
         Provider.of<LoginProvider>(context, listen: false);
     BookingProvider bookingProvider =
         Provider.of<BookingProvider>(context, listen: false);
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
 
     final width = MediaQuery.of(context).size.width;
     return Consumer<HomeProvider>(builder:
@@ -227,25 +230,41 @@ class HomeView extends StatelessWidget {
                                         alignment: Alignment.center,
                                         child: InkWell(
                                           onTap: () async {
-                                            bool success = await bookingProvider
+                                            homeProvider.isLoading.value = true;
+
+                                            var _isSuccess = bookingProvider
                                                 .callBookingPageApi(context);
 
-                                            if (success) {
-                                              print(
-                                                  "bookingResponce is $success");
-                                              Navigator.pushNamed(context,
-                                                  Routes.BOOKING_DETAILS);
-                                            } else {
-                                              print("anu");
+                                            if (await _isSuccess) {
+                                              Future<bool> another =
+                                                  bookingProvider
+                                                      .callBookingPageApi(
+                                                          context);
+                                              ;
 
-                                              String msg =
-                                                  "Booking failed. Please try again.";
-                                              DialogHelper().showSnackBar(
-                                                context: context,
-                                                msg: msg,
-                                                backgroundColor:
-                                                    Colors.red.shade600,
-                                              );
+                                              homeProvider.isLoading.value =
+                                                  false;
+
+                                              if (await another) {
+                                                Navigator
+                                                    .pushNamedAndRemoveUntil(
+                                                  context,
+                                                  Routes.HOME,
+                                                  (route) => false,
+                                                );
+                                              } else {
+                                                String msg =
+                                                    "Failed to fetch data";
+                                                DialogHelper().showSnackBar(
+                                                  context: context,
+                                                  msg: msg,
+                                                  backgroundColor:
+                                                      Colors.red.shade600,
+                                                );
+                                              }
+                                            } else {
+                                              homeProvider.isLoading.value =
+                                                  false;
                                             }
                                           },
                                           child: Container(

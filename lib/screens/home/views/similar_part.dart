@@ -1,7 +1,12 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:ffi';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:my_stackz/models/login_response.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
@@ -19,11 +24,18 @@ class SimilarPart extends StatelessWidget {
   SimilarPart({super.key});
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  ValueNotifier<int> serviceCategoryId = ValueNotifier<int>(-1);
+  ValueNotifier<int> subCategoryId = ValueNotifier<int>(-1);
+  ValueNotifier<int> categoryId = ValueNotifier<int>(-1);
+  ValueNotifier<String> bookingDate = ValueNotifier<String>("");
+  ValueNotifier<String> timeSlotId = ValueNotifier<String>("");
 
   @override
   Widget build(BuildContext context) {
     HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
     final width = MediaQuery.of(context).size.width;
@@ -88,6 +100,20 @@ class SimilarPart extends StatelessWidget {
                       if (element.categoryId == 1) {
                         homeProvider.categoryId.value = element.categoryId;
                         Navigator.pushNamed(context, Routes.CLEANING);
+                        // bookingProvider.categoryId.value =
+                        //     bookingProvider.storeBookingData(
+                        //         serviceCategoryIdValue: serviceCategoryId.value,
+                        //         subCategoryIdValue: subCategoryId.value,
+                        //         categoryIdValue: categoryId.value,
+                        //         bookingDateValue: bookingProvider
+                        //             .bookingResponse
+                        //             .consumerOrderDetails
+                        //             .bookingDate,
+                        //         timeSlotIdValue: bookingProvider.bookingResponse
+                        //             .consumerOrderDetails.timeSlotId.timeValue);
+                        // bookingProvider.categoryId.value = bookingProvider
+                        //     .bookingResponse.consumerOrderDetails.categoryId;
+                        // print("category idobject=$categoryId");
                       } else if (element.categoryId == 2) {
                         homeProvider.categoryId.value = element.categoryId;
                         Navigator.pushNamed(context, Routes.AIRCON_SERVICES);

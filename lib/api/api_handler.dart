@@ -58,15 +58,15 @@ class ApiHandler {
   }
 
   callGetViewHomePageApi(String token) async {
-    final accessToken =
-        'Bearer $token';
+    final accessToken = 'Bearer $token';
     try {
       if (dio == null) initDio();
       final Response response = await dio!.get(AppURLs.homePageURL,
           options:
               Options(headers: <String, String>{'Authorization': accessToken}));
       debugPrint("Dashboard API $response");
-      HomePageResponse homePageResponse = await HomePageResponse.fromJson(response.data);
+      HomePageResponse homePageResponse =
+          await HomePageResponse.fromJson(response.data);
       if (homePageResponse.allCategories != null &&
           homePageResponse.allCategories.isNotEmpty) {
         AllCategories firstCategory = homePageResponse.allCategories.first;
@@ -80,43 +80,40 @@ class ApiHandler {
     }
   }
 
-  Future<BookingResponse> callConsumerBookingApi(String token) async {
-      String? token = await Utils().ReadToken();
+  Future<BookingResponse> callConsumerBookingApi(
+       token,
+      serviceCategoryId,
+      subCategoryId,
+      categoryId,
+      bookingDate,
+      timeSlotId) async {
+    String? token = await Utils().ReadToken();
     try {
       if (dio == null) {
         initDio();
       }
-
-      final Response response = await dio!.get(
+      final Response response = await dio!.post(
         AppURLs.consumerorderbookingURL,
-        options: Options(headers: {'Authorization': token}),
       );
-
-      debugPrint("Dashboard API Response: $response");
-
       BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
-
       if (bookingResponse
               .consumerOrderDetails.consumerBookingStatus.bookingStatus !=
           null) {
-        String firstCategory = bookingResponse
+        String first = bookingResponse
             .consumerOrderDetails.consumerBookingStatus.bookingStatus;
-        debugPrint("First Category ID: $firstCategory");
+        debugPrint("First Categoryvjhjhjhjh ID: $first");
       } else {
         debugPrint("No categories found in the response.");
       }
-
       return bookingResponse;
     } on DioException catch (e) {
       _handleError(e);
-      rethrow; // Rethrow the exception to handle it at a higher level if needed
+      rethrow; 
     } catch (e) {
       debugPrint("Unexpected error: $e");
       rethrow;
     }
   }
-
-  
 
   // callConsumerBookingApi(String token) async {
   //   final accessToken = 'Bearer $token';
