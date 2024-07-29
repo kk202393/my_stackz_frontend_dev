@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
+import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
+import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +23,10 @@ class SelectAddressView extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(

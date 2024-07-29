@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/models/consumer_booking_response.dart';
+import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class BookingProvider with ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -38,6 +41,11 @@ class BookingProvider with ChangeNotifier {
     isLoading.value = true;
     try {
       String? token = await Utils().ReadToken();
+      HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
+     
+      final responses = homeProvider.selectedServiceCategory;
+
       final response = await ApiHandler().callConsumerBookingApi(
           token!,
           categoryId,

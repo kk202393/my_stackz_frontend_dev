@@ -99,25 +99,18 @@ class SimilarPart extends StatelessWidget {
                     onTap: () {
                       if (element.categoryId == 1) {
                         homeProvider.categoryId.value = element.categoryId;
+                        bookingProvider.categoryId.value = element.categoryId;
+                        print(
+                            "object${bookingProvider.categoryId.value.toString()}");
                         Navigator.pushNamed(context, Routes.CLEANING);
-                        // bookingProvider.categoryId.value =
-                        //     bookingProvider.storeBookingData(
-                        //         serviceCategoryIdValue: serviceCategoryId.value,
-                        //         subCategoryIdValue: subCategoryId.value,
-                        //         categoryIdValue: categoryId.value,
-                        //         bookingDateValue: bookingProvider
-                        //             .bookingResponse
-                        //             .consumerOrderDetails
-                        //             .bookingDate,
-                        //         timeSlotIdValue: bookingProvider.bookingResponse
-                        //             .consumerOrderDetails.timeSlotId.timeValue);
-                        // bookingProvider.categoryId.value = bookingProvider
-                        //     .bookingResponse.consumerOrderDetails.categoryId;
-                        // print("category idobject=$categoryId");
                       } else if (element.categoryId == 2) {
+                        bookingProvider.categoryId.value = element.categoryId;
+
                         homeProvider.categoryId.value = element.categoryId;
                         Navigator.pushNamed(context, Routes.AIRCON_SERVICES);
                       } else if (element.categoryId == 3) {
+                        bookingProvider.categoryId.value = element.categoryId;
+
                         homeProvider.categoryId.value = element.categoryId;
                         Navigator.pushNamed(context, Routes.HANDYMAN);
                       }
