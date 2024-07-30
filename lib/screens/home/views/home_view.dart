@@ -232,37 +232,24 @@ class HomeView extends StatelessWidget {
                                           onTap: () async {
                                             homeProvider.isLoading.value = true;
 
-                                            var _isSuccess = bookingProvider
+                                            bool success = await bookingProvider
                                                 .callBookingPageApi(context);
-
-                                            if (await _isSuccess) {
-                                              Future<bool> another =
-                                                  bookingProvider
-                                                      .callBookingPageApi(
-                                                          context);
-                                              ;
-
+                                            if (success) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Booking Successful!')),
+                                              );
                                               homeProvider.isLoading.value =
                                                   false;
-
-                                              if (await another) {
-                                                Navigator
-                                                    .pushNamedAndRemoveUntil(
-                                                  context,
-                                                  Routes.HOME,
-                                                  (route) => false,
-                                                );
-                                              } else {
-                                                String msg =
-                                                    "Failed to fetch data";
-                                                DialogHelper().showSnackBar(
-                                                  context: context,
-                                                  msg: msg,
-                                                  backgroundColor:
-                                                      Colors.red.shade600,
-                                                );
-                                              }
                                             } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'Booking Failed!')),
+                                              );
                                               homeProvider.isLoading.value =
                                                   false;
                                             }

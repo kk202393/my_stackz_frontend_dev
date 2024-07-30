@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_stackz/constants/app_colors.dart';
@@ -51,10 +53,7 @@ class SelectAddressView extends StatelessWidget {
             Row(
               children: [
                 InkWell(
-                    onTap: () {
-                      print(
-                          "Addressssss=${loginProvider.logInAPIResponse.userAddress.first["addresses"]}");
-                    },
+                    onTap: () {},
                     child: const Icon(Icons.add,
                         color: AppColors.black, size: 15)),
                 const SizedBox(width: 20),
@@ -212,9 +211,28 @@ class SelectAddressView extends StatelessWidget {
               ],
             ),*/
             const SizedBox(height: 50),
-            ButtonWidget(
-              buttonText: 'Continue',
-              onTap: () => Navigator.pushNamed(context, Routes.CART_SUMMARY),
+            InkWell(
+              onTap: () async {
+                homeProvider.isLoading.value = true;
+
+                bool success =
+                    await bookingProvider.callBookingPageApi(context);
+                if (success) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Booking Successful!')),
+                  );
+                  homeProvider.isLoading.value = false;
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Booking Failed!')),
+                  );
+                  homeProvider.isLoading.value = false;
+                }
+              },
+              child: ButtonWidget(
+                buttonText: 'Continue',
+                onTap: () => Navigator.pushNamed(context, Routes.CART_SUMMARY),
+              ),
             )
           ],
         ),

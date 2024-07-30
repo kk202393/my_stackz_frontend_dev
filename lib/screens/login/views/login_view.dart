@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
@@ -45,6 +46,26 @@ class LoginView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 15),
                         child: Column(children: [
+                          InkWell(
+                            onTap: () {
+                              homeController
+                                  .callLogoutApi(context)
+                                  .then((value) {
+                                if (value) {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    Routes.LOGIN,
+                                    (route) => false,
+                                  );
+                                } else {}
+                              });
+                            },
+                            child: const Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(Icons.logout,
+                                  color: AppColors.brandeisblue, size: 30),
+                            ),
+                          ),
                           Align(
                             alignment: Alignment.center,
                             child: Image.asset(

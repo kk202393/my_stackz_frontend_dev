@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
+import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
@@ -14,8 +16,11 @@ class CartSummaryView extends StatelessWidget {
   const CartSummaryView({super.key});
 
   @override
- Widget build(BuildContext context) {
-           CartSummaryProvider controller = Provider.of<CartSummaryProvider>(context, listen: false);
+  Widget build(BuildContext context) {
+    LoginProvider loginProvider =
+        Provider.of<LoginProvider>(context, listen: false);
+    CartSummaryProvider controller =
+        Provider.of<CartSummaryProvider>(context, listen: false);
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -38,34 +43,72 @@ class CartSummaryView extends StatelessWidget {
                 SizedBox(width: size.width * 0.3),
                 TextWidget(
                     text: StringConstants.cartSummary,
-                    style: context.headlineSmall.copyWith(fontWeight: FontWeight.w700))
+                    style: context.headlineSmall
+                        .copyWith(fontWeight: FontWeight.w700))
               ],
             ),
-            SizedBox(height: size.height*0.03),
+            SizedBox(height: size.height * 0.03),
+            // bookingProvider.bookingId.value = bookingProvider
+            //         .bookingResponse
+            //         .consumerOrderDetails
+            //         .bookingId
+            //         .isNotEmpty
+            //     ? bookingProvider
+            //         .bookingResponse.consumerOrderDetails.bookingId
+            //         .toString()
+            //     : 'No id found';
+            // print("BokingIdddd=${bookingProvider.bookingId.value}");
+
+            // bookingProvider.useraddressId.value =
+            //     loginProvider.logInAPIResponse.userAddress.isNotEmpty
+            //         ? loginProvider.logInAPIResponse.userAddress
+            //             .first["addresses"][0]["_id"]
+            //         : 'No address found';
+            // print(
+            //     "Addressssss=${bookingProvider.useraddressId.value}");
             TextWidget(
                 text: StringConstants.address, style: context.headlineSmall),
             const SizedBox(height: 10),
             TextWidget(
-                text:
-                    "528 ANG MO KIO AVENUE 10\nFLOOR 01 UNIT 2385 CHENG SAN CENTRE",
-                style:
-                    context.headlineSmall.copyWith(color: AppColors.spanishGray)),
+                text: loginProvider.logInAPIResponse.userAddress.isNotEmpty
+                    ? loginProvider.logInAPIResponse.userAddress
+                        .first["addresses"][0]["address"]
+                    : 'No address found',
+                style: context.headlineSmall
+                    .copyWith(color: AppColors.spanishGray)),
             const SizedBox(height: 10),
             TextWidget(
+                text: loginProvider
+                    .logInAPIResponse.userAddress.first["addresses"][0]["city"],
+                style: context.headlineSmall
+                    .copyWith(color: AppColors.spanishGray)),
+            const SizedBox(height: 10),
+            TextWidget(
+                text: loginProvider.logInAPIResponse.userAddress
+                    .first["addresses"][0]["pincode"],
+                style: context.headlineSmall
+                    .copyWith(color: AppColors.spanishGray)),
+            const SizedBox(height: 10),
+
+            TextWidget(
                 text: "Singapore 560528",
-                style:
-                    context.headlineSmall.copyWith(color: AppColors.spanishGray)),
+                style: context.headlineSmall
+                    .copyWith(color: AppColors.spanishGray)),
             const SizedBox(height: 25),
             TextWidget(
-                text: StringConstants.dateAndTime, style: context.headlineSmall.copyWith(fontWeight: FontWeight.w700)),
+                text: StringConstants.dateAndTime,
+                style: context.headlineSmall
+                    .copyWith(fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
             TextWidget(
                 text: "May 18 2021 at 12:30 PM",
-                style:
-                    context.headlineSmall.copyWith(color: AppColors.spanishGray)),
+                style: context.headlineSmall
+                    .copyWith(color: AppColors.spanishGray)),
             const SizedBox(height: 25),
             TextWidget(
-                text: StringConstants.details, style: context.headlineSmall.copyWith(fontWeight: FontWeight.w700)),
+                text: StringConstants.details,
+                style: context.headlineSmall
+                    .copyWith(fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
             Row(
               children: [
@@ -75,7 +118,8 @@ class CartSummaryView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextWidget(text: "AC Service", style: context.headlineSmall),
+                    TextWidget(
+                        text: "AC Service", style: context.headlineSmall),
                     const SizedBox(height: 10),
                     RichText(
                         text: TextSpan(
@@ -83,7 +127,8 @@ class CartSummaryView extends StatelessWidget {
                             style: context.headlineSmall
                                 .copyWith(color: AppColors.spanishGray),
                             children: <TextSpan>[
-                          TextSpan(text: "S\$. 149", style: context.headlineSmall)
+                          TextSpan(
+                              text: "S\$. 149", style: context.headlineSmall)
                         ])),
                   ],
                 ),
@@ -92,10 +137,9 @@ class CartSummaryView extends StatelessWidget {
                   onTap: () => controller.onClickRemoveServices(),
                   child: Container(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     decoration: BoxDecoration(
-                        border: Border.all(
-                            color: AppColors.primaryButtonColor),
+                        border: Border.all(color: AppColors.primaryButtonColor),
                         borderRadius: BorderRadius.circular(3),
                         color: AppColors.primaryButtonColor),
                     child: TextWidget(
@@ -119,11 +163,10 @@ class CartSummaryView extends StatelessWidget {
                 InkWell(
                   onTap: () => controller.onClickAddServices(),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     decoration: BoxDecoration(
-                        border: Border.all(
-                            color: AppColors.primaryButtonColor),
+                        border: Border.all(color: AppColors.primaryButtonColor),
                         borderRadius: BorderRadius.circular(3),
                         color: AppColors.primaryButtonColor),
                     child: TextWidget(
@@ -139,12 +182,14 @@ class CartSummaryView extends StatelessWidget {
             ),
             const SizedBox(height: 25),
             TextWidget(
-                text: StringConstants.discounts, style: context.headlineSmall.copyWith(fontWeight: FontWeight.w700)),
+                text: StringConstants.discounts,
+                style: context.headlineSmall
+                    .copyWith(fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
             TextWidget(
                 text: StringConstants.enterCouponCode,
-                style:
-                    context.headlineSmall.copyWith(color: AppColors.spanishGray)),
+                style: context.headlineSmall
+                    .copyWith(color: AppColors.spanishGray)),
             const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerRight,
@@ -158,7 +203,8 @@ class CartSummaryView extends StatelessWidget {
             const SizedBox(height: 20),
             TextWidget(
                 text: StringConstants.frequentlyAddedTogether,
-                style: context.headlineSmall.copyWith(fontWeight: FontWeight.w700)),
+                style: context.headlineSmall
+                    .copyWith(fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
             SizedBox(
               height: size.height * 0.4,
@@ -173,25 +219,21 @@ class CartSummaryView extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: AppColors.gray),
-                            color: AppColors.white
-                        ),
+                            color: AppColors.white),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Stack(
                               children: [
                                 ClipRRect(
-                                  borderRadius:
-                                  const BorderRadius.only(
-                                    topRight:
-                                    Radius.circular(5),
-                                    topLeft:
-                                    Radius.circular(5),
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(5),
+                                    topLeft: Radius.circular(5),
                                   ),
                                   child: Image.asset(
                                     AppImages.homeDesign,
-                                    width: size.width*0.6,
-                                    height: size.height*0.3,
+                                    width: size.width * 0.6,
+                                    height: size.height * 0.3,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -212,19 +254,20 @@ class CartSummaryView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                                height: size.height * 0.01),
+                            SizedBox(height: size.height * 0.01),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextWidget(
                                       text: StringConstants.splitAcCheckup,
-                                      style: context.headlineSmall
-                                          .copyWith(color: AppColors.spanishGray)),
+                                      style: context.headlineSmall.copyWith(
+                                          color: AppColors.spanishGray)),
                                   TextWidget(
-                                      text: "S\$. 149", style: context.headlineSmall)
+                                      text: "S\$. 149",
+                                      style: context.headlineSmall)
                                 ],
                               ),
                             )
@@ -242,7 +285,7 @@ class CartSummaryView extends StatelessWidget {
             ),
             const SizedBox(height: 50),
             ButtonWidget(
-              buttonText: 'Confirm Order', onTap: () {  },
+              buttonText: 'Confirm Order', onTap: () {},
               // onTap: () => Get.toNamed(Routes.PAYMENT),
             )
           ],

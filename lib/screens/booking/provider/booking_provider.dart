@@ -21,42 +21,27 @@ class BookingProvider with ChangeNotifier {
   ValueNotifier<int> categoryId = ValueNotifier<int>(-1);
   ValueNotifier<String> bookingDate = ValueNotifier<String>("");
   ValueNotifier<String> timeSlotId = ValueNotifier<String>("");
-
-  storeBookingData({
-    required int serviceCategoryIdValue,
-    required int subCategoryIdValue,
-    required int categoryIdValue,
-    required String bookingDateValue,
-    required String timeSlotIdValue,
-  }) {
-    serviceCategoryId.value = serviceCategoryIdValue;
-    subCategoryId.value = subCategoryIdValue;
-    categoryId.value = categoryIdValue;
-    bookingDate.value = bookingDateValue;
-    timeSlotId.value = timeSlotIdValue;
-    notifyListeners();
-  }
+  ValueNotifier<String> bookingId = ValueNotifier<String>("");
+  ValueNotifier<String> useraddressId = ValueNotifier<String>("");
 
   Future<bool> callBookingPageApi(BuildContext context) async {
     isLoading.value = true;
     try {
       String? token = await Utils().ReadToken();
-      HomeProvider homeProvider =
-        Provider.of<HomeProvider>(context, listen: false);
-     
-      final responses = homeProvider.selectedServiceCategory;
-
       final response = await ApiHandler().callConsumerBookingApi(
-          token!,
-          categoryId,
-          subCategoryId,
-          serviceCategoryId,
-          bookingDate,
-          timeSlotId);
+        token!,
+        categoryId.value,
+        subCategoryId.value,
+        serviceCategoryId.value,
+        bookingId.value,
+        bookingDate.value,
+        timeSlotId.value,
+        useraddressId.value,
+      );
       isLoading.value = false;
       notifyListeners();
-
-      if (response.success) {
+      print("response=$response");
+      if (!response.success) {
         if (response.consumerOrderDetails.consumerBookingStatus.bookingStatus !=
             null) {
           notifyListeners();
