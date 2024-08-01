@@ -213,7 +213,7 @@ class SelectAddressView extends StatelessWidget {
             const SizedBox(height: 50),
             InkWell(
               onTap: () async {
-                homeProvider.isLoading.value = true;
+                /*homeProvider.isLoading.value = true;
 
                 bool success =
                     await bookingProvider.callBookingPageApi(context);
@@ -227,7 +227,7 @@ class SelectAddressView extends StatelessWidget {
                     SnackBar(content: Text('Booking Failed!')),
                   );
                   homeProvider.isLoading.value = false;
-                }
+                }*/
               },
               child: ButtonWidget(
                 buttonText: 'Continue',

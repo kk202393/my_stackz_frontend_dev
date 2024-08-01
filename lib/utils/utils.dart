@@ -23,12 +23,42 @@ class Utils {
     }
   }
 
+  Future<bool> storeEmail(String token) async {
+    try {
+      await _storage.write(key: 'email', value: token);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> storeFirstName(String token) async {
+    try {
+      await _storage.write(key: 'firstName', value: token);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<String?> ReadToken() async {
     return await _storage.read(key: 'token');
   }
 
+  Future<String?> ReadEmail() async {
+    return await _storage.read(key: 'email');
+  }
+
+  Future<String?> ReadFirstName() async {
+    return await _storage.read(key: 'firstName');
+  }
+
   Future<void> deleteToken() async {
     return await _storage.delete(key: 'token');
+  }
+
+  Future<void> deleteEmail() async {
+    return await _storage.delete(key: 'email');
   }
 
   static setStatus(String code,
@@ -77,6 +107,7 @@ class Utils {
 
 class ConstValue {
   ConstValue._();
+
   // padding
   static const double LEFT_PADDING = 12.0;
   static const double RIGHT_PADING = 12.0;
@@ -106,9 +137,9 @@ class ConstValue {
   static const double SMALL_ELEVATION = 2.0;
   static const double LARGE_ELEVATION = 12.0;
 
-  // date formatter
-  // static DateFormat DATE_FORMAT =DateFormat("yyyy-MM-dd");
-  // static DateFormat API_DATE_FORMAT =DateFormat("dd/MM/yyyy");
-  // static DateFormat API_DATE_FORMAT_UTS =DateFormat("MM/dd/yyyy");
-  // static DateFormat DATE_CAL_FORMAT =DateFormat("yyyy, MM, dd");
+// date formatter
+// static DateFormat DATE_FORMAT =DateFormat("yyyy-MM-dd");
+// static DateFormat API_DATE_FORMAT =DateFormat("dd/MM/yyyy");
+// static DateFormat API_DATE_FORMAT_UTS =DateFormat("MM/dd/yyyy");
+// static DateFormat DATE_CAL_FORMAT =DateFormat("yyyy, MM, dd");
 }

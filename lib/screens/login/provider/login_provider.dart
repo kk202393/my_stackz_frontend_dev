@@ -22,7 +22,9 @@ class LoginProvider with ChangeNotifier {
   LoginResponse? _response;
 
   List<dynamic> get addressList => _addressList;
+
   LoginResponse get logInAPIResponse => _response!;
+
   String get defaultAddress => _defaultAddress;
 
   void setAddressList(List<dynamic> addresses) {
@@ -79,7 +81,7 @@ class LoginProvider with ChangeNotifier {
       "email": emailController.text,
       "password": passwordController.text
     };
-    
+
     try {
       _response = await ApiHandler().callLoginApi(body);
       await Utils().storeToken(_response!.token);
@@ -87,31 +89,28 @@ class LoginProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-    //   String errorMessage = "An unexpected error occurred.";
-    // if (e is SocketException) {
-    //   errorMessage = "Network error, please check your internet connection.";
-    // } else if (e is HttpException) {
-    //   errorMessage = "Server error, please try again later.";
-    // } else if (e is FormatException) {
-    //   errorMessage = "Data format error, please contact support.";
-    // }
-    //  DialogHelper().showSnackBar(
-      
-
-    //                                       context: context,
-    //                                       msg: _response!.massage ?? errorMessage,
-    //                                       backgroundColor: Colors.red.shade600,
-    //                                     );
+      String errorMessage = "An unexpected error occurred.";
+      if (e is SocketException) {
+        errorMessage = "Network error, please check your internet connection.";
+      } else if (e is HttpException) {
+        errorMessage = "Server error, please try again later.";
+      } else if (e is FormatException) {
+        errorMessage = "Data format error, please contact support.";
+      }
+      DialogHelper().showSnackBar(
+        context: context,
+        msg: _response!.massage ?? errorMessage,
+        backgroundColor: Colors.red.shade600,
+      );
 
       homeController.isLoading.value = true;
       notifyListeners();
 
-    
-    // Snack.show(
-    //   content: _response!.massage ?? errorMessage,
-    //   snackType: SnackType.error,
-    //   behavior: SnackBarBehavior.floating
-    // );
+      // Snack.show(
+      //   content: _response!.massage ?? errorMessage,
+      //   snackType: SnackType.error,
+      //   behavior: SnackBarBehavior.floating
+      // );
       Snack.show(
           content: _response!.massage ?? 'Something went wrong',
           snackType: SnackType.error,
@@ -120,8 +119,6 @@ class LoginProvider with ChangeNotifier {
     }
   }
 }
-
-
 
 // import 'package:flutter/material.dart';
 // import 'package:my_stackz/api/api_handler.dart';

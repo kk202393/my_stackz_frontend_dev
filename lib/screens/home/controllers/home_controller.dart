@@ -156,6 +156,7 @@ class HomeProvider with ChangeNotifier {
     try {
       String? token = await Utils().ReadToken();
       _response = await ApiHandler().callGetViewHomePageApi(token!);
+      debugPrint('callGetViewHomePageApi $_response');
       isLoading.value = false;
       if (_response!.success && _response!.allCategories != null) {
         categoryList.value = _response!.allCategories;
@@ -164,11 +165,10 @@ class HomeProvider with ChangeNotifier {
       }
       return true;
     } catch (e) {
+      debugPrint('callGetViewHomePageApi $e');
       isLoading.value = false;
       return false;
     }
-
-    
   }
 
   Future<bool> callLogoutApi(BuildContext context) async {
