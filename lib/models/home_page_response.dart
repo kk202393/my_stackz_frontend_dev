@@ -82,7 +82,7 @@ class Subcategories {
   late final int subcategory;
   late final int subcategoryId;
   late final int categoryId;
-  late final dynamic price;
+  late final double price;
   late final String createdAt;
   late final String updatedAt;
   late final int V;
@@ -139,7 +139,7 @@ class ServiceCategory {
   late final int servicecategoryId;
   late final int subcategoryId;
   late final int categoryId;
-  late final dynamic price;
+  late final double price;
   late final String createdAt;
   late final String updatedAt;
   late final int V;
