@@ -9,8 +9,9 @@ class AppImages {
   static const String tokenIcon = "$baseImage/token.png";
   static const String deliveryIcon = "$baseImage/delivery_icon.png";
   static const String invertedCommaOne = "$baseImage/inverted_comma_one.png";
-  static const String invertedCommaTwo = "$baseImage/inverted_comma_two.png";
+  static const String invertedCommaTwo = "$baseImage/inverted_comma_two.png"; //bike.png
   static const String reviewerProfile = "$baseImage/reviewer_profile.png";
+  static const String bikeIcon = "$baseImage/bike.png";
   static const String pageWithMenu = "$baseImage/page_with_menu.png";
   static const String cleaningBanner = "$baseImage/cleaning_banner.jpg";
   static const String homeCleaning = "$baseImage/home_cleaning.jpg";

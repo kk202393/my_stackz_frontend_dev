@@ -3,6 +3,7 @@ import 'package:my_stackz/screens/additionalDetails/views/additional_details_vie
 import 'package:my_stackz/screens/airconServices/views/aircon_view.dart';
 import 'package:my_stackz/screens/cartSummary/views/chart_summary_view.dart';
 import 'package:my_stackz/screens/cleaning/views/cleaning_view.dart';
+import 'package:my_stackz/screens/googleMap/view/google_map.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_view.dart';
 import 'package:my_stackz/screens/login/views/login_view.dart';
 import 'package:my_stackz/screens/payments/views/payment_view.dart';
@@ -30,7 +31,7 @@ class AppPages {
       case Routes.LOGIN:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) =>  LoginView(),
+          builder: (_) => LoginView(),
         );
       case Routes.SIGN_UP:
         return MaterialPageRoute(
@@ -97,10 +98,19 @@ class AppPages {
           settings: setting,
           builder: (_) => const SelectAddressView(),
         );
+      case Routes.GOOGLE_MAP:
+      final arguments = setting.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => GoogleMapView(
+            streamController: arguments["streamController"],
+            position: arguments["position"],
+          ),
+        );
       default:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) =>  LoginView(),
+          builder: (_) => LoginView(),
         );
     }
   }

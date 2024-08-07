@@ -29,6 +29,7 @@ class SimilarPart extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
+        LocationWidget(),
         Row(
           children: [
             TextWidget(
@@ -43,7 +44,7 @@ class SimilarPart extends StatelessWidget {
             const SizedBox(width: 30),
           ],
         ),
-        LocationWidget(),
+        
         const SizedBox(height: 20),
         AppTextFieldSearch(
           keyboardType: TextInputType.text,

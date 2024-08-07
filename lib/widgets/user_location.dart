@@ -1,9 +1,11 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, void_checks
 
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/googleMap/view/google_map.dart';
 
 class LocationWidget extends StatefulWidget {
   const LocationWidget({super.key});
@@ -13,8 +15,9 @@ class LocationWidget extends StatefulWidget {
 }
 
 class _LocationWidgetState extends State<LocationWidget> {
-  StreamController<void> _streamController = StreamController<void>();
+  StreamController streamController = StreamController.broadcast();
   late Timer _timer;
+  late Position position;
 
   void _getCurrentLocation() async {
     bool serviceEnabled;
@@ -37,8 +40,9 @@ class _LocationWidgetState extends State<LocationWidget> {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    Position position = await Geolocator.getCurrentPosition(
+    position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
+    streamController.sink.add(position);
     setState(() {
       locationMessage =
           "Latitude: ${position.latitude}, Longitude: ${position.longitude}";
@@ -48,22 +52,22 @@ class _LocationWidgetState extends State<LocationWidget> {
   @override
   void initState() {
     super.initState();
-    _streamController = StreamController<void>();
-    _streamController.stream.listen((_) {
-      _getCurrentLocation();
-    });
+    // streamController.stream.listen((_) {
+    //   _getCurrentLocation();
+    // });
     _timer = Timer.periodic(
-      const Duration(milliseconds: 500),
+      const Duration(seconds: 1),
       (Timer timer) {
-        _streamController.add(null);
+          _getCurrentLocation();
+        // streamController.add(null);
       },
     );
   }
 
   @override
   void dispose() {
-    _timer.cancel();
-    _streamController.close();
+    // _timer.cancel();
+    // streamController.close();
     super.dispose();
   }
 
@@ -71,12 +75,24 @@ class _LocationWidgetState extends State<LocationWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const SizedBox(height: 20),
-        Text(locationMessage),
-      ],
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          Routes.GOOGLE_MAP,
+          arguments: {
+            "streamController": streamController,
+            "position": position
+          },
+        );
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const SizedBox(height: 20),
+          Text(locationMessage),
+        ],
+      ),
     );
   }
 }
