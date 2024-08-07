@@ -1,7 +1,10 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:my_stackz/models/login_response.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
@@ -19,11 +22,18 @@ class SimilarPart extends StatelessWidget {
   SimilarPart({super.key});
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  ValueNotifier<int> serviceCategoryId = ValueNotifier<int>(-1);
+  ValueNotifier<int> subCategoryId = ValueNotifier<int>(-1);
+  ValueNotifier<int> categoryId = ValueNotifier<int>(-1);
+  ValueNotifier<String> bookingDate = ValueNotifier<String>("");
+  ValueNotifier<String> timeSlotId = ValueNotifier<String>("");
 
   @override
   Widget build(BuildContext context) {
     HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
     final width = MediaQuery.of(context).size.width;
@@ -33,10 +43,8 @@ class SimilarPart extends StatelessWidget {
         Row(
           children: [
             TextWidget(
-                text: loginProvider.logInAPIResponse.userAddress.isNotEmpty
-                    ? loginProvider.logInAPIResponse.userAddress
-                        .first["addresses"][0]["address"]
-                    : 'No address found',
+                text:
+                    '${loginProvider.logInAPIResponse.userAddress.isNotEmpty ? loginProvider.logInAPIResponse.userAddress.first!.addresses.where((item) => item.isDefault) : 'No address found'}',
                 style: context.bodyMedium
                     .copyWith(fontWeight: FontWeight.w700, fontSize: 12)),
             const Spacer(),
@@ -88,11 +96,18 @@ class SimilarPart extends StatelessWidget {
                     onTap: () {
                       if (element.categoryId == 1) {
                         homeProvider.categoryId.value = element.categoryId;
+                        bookingProvider.categoryId.value = element.categoryId;
+                        print(
+                            "object${bookingProvider.categoryId.value.toString()}");
                         Navigator.pushNamed(context, Routes.CLEANING);
                       } else if (element.categoryId == 2) {
+                        bookingProvider.categoryId.value = element.categoryId;
+
                         homeProvider.categoryId.value = element.categoryId;
                         Navigator.pushNamed(context, Routes.AIRCON_SERVICES);
                       } else if (element.categoryId == 3) {
+                        bookingProvider.categoryId.value = element.categoryId;
+
                         homeProvider.categoryId.value = element.categoryId;
                         Navigator.pushNamed(context, Routes.HANDYMAN);
                       }

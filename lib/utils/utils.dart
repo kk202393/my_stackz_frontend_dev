@@ -6,9 +6,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:my_stackz/screens/home/views/home_view.dart';
 
+import '../api/api_handler.dart';
 import '../constants/app_colors.dart';
+import '../screens/login/views/login_view.dart';
 import '../widgets/snack_bar.dart';
 
 class Utils {
@@ -23,12 +27,54 @@ class Utils {
     }
   }
 
+  Future<bool> storeEmail(String token) async {
+    try {
+      await _storage.write(key: 'email', value: token);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> storeFirstName(String token) async {
+    try {
+      await _storage.write(key: 'firstName', value: token);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<String?> ReadToken() async {
     return await _storage.read(key: 'token');
   }
 
+  Future<String?> ReadEmail() async {
+    return await _storage.read(key: 'email');
+  }
+
+  Future<String?> ReadFirstName() async {
+    return await _storage.read(key: 'firstName');
+  }
+
   Future<void> deleteToken() async {
     return await _storage.delete(key: 'token');
+  }
+
+  Future<void> deleteEmail() async {
+    return await _storage.delete(key: 'email');
+  }
+
+  Future<bool> userInitialRoute() async {
+    String? token = await Utils().ReadToken();
+    if (token!.isNotEmpty) {
+      print("this is token${token}");
+
+      ApiHandler().callViewProfileApi(token);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   static setStatus(String code,
@@ -77,6 +123,7 @@ class Utils {
 
 class ConstValue {
   ConstValue._();
+
   // padding
   static const double LEFT_PADDING = 12.0;
   static const double RIGHT_PADING = 12.0;
@@ -106,9 +153,9 @@ class ConstValue {
   static const double SMALL_ELEVATION = 2.0;
   static const double LARGE_ELEVATION = 12.0;
 
-  // date formatter
-  // static DateFormat DATE_FORMAT =DateFormat("yyyy-MM-dd");
-  // static DateFormat API_DATE_FORMAT =DateFormat("dd/MM/yyyy");
-  // static DateFormat API_DATE_FORMAT_UTS =DateFormat("MM/dd/yyyy");
-  // static DateFormat DATE_CAL_FORMAT =DateFormat("yyyy, MM, dd");
+// date formatter
+// static DateFormat DATE_FORMAT =DateFormat("yyyy-MM-dd");
+// static DateFormat API_DATE_FORMAT =DateFormat("dd/MM/yyyy");
+// static DateFormat API_DATE_FORMAT_UTS =DateFormat("MM/dd/yyyy");
+// static DateFormat DATE_CAL_FORMAT =DateFormat("yyyy, MM, dd");
 }

@@ -11,6 +11,7 @@ import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/utils/shared_preferences.dart';
 import 'package:my_stackz/utils/utils.dart';
+import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,9 @@ class HomeProvider with ChangeNotifier {
   ValueNotifier<String> token = ValueNotifier("");
   ValueNotifier<String> name = ValueNotifier("");
   late ServiceCategory selectedServiceCategory;
+  ValueNotifier<int> categoryIds = ValueNotifier<int>(-1);
+  ValueNotifier<int> subcategoryId = ValueNotifier<int>(-1);
+  ValueNotifier<int> servicecategoryId = ValueNotifier<int>(-1);
 
   // RxBool isIconClicked = false.obs;
   // RxBool isTyped = false.obs;
@@ -97,11 +101,62 @@ class HomeProvider with ChangeNotifier {
     debugPrint("firstName ${token.value}");
   }
 
+  // Future<bool> callGetViewHomePageApi(BuildContext context) async {
+  //   isLoading.value = true;
+  //   try {
+  //     String? token = await Utils().ReadToken();
+  //     if (token == null || token.isEmpty) {
+  //       throw Exception('Token is null or empty');
+  //     }
+
+  //     final _response = await ApiHandler().callGetViewHomePageApi(token);
+  //     isLoading.value = false;
+
+  //     if (_response != null &&
+  //         _response.success &&
+  //         _response.allCategories != null) {
+  //       categoryList.value = _response.allCategories;
+
+  //       if (_response.allCategories.isNotEmpty) {
+  //         categoryIds.value = _response.allCategories[0].categoryId;
+  //         subcategoryId.value = _response.allCategories[0].subcategoryId;
+  //         servicecategoryId.value =
+  //             _response.allCategories[0].servicecategoryId;
+  //         print("object$categoryIds$address");
+  //       }
+  //       notifyListeners();
+  //       return true;
+  //     } else if (_response.statusCode == 401 && _response.AllCategories) {
+  //       isLoading.value = false;
+
+  //       String msg = "Can't login more than four device";
+  //       DialogHelper().showSnackBar(
+  //         context: context,
+  //         msg: msg,
+  //         backgroundColor: Colors.red.shade600,
+  //       );
+
+  //       return false;
+  //     }
+  //     String msg = "Failed to fetch data";
+  //     DialogHelper().showSnackBar(
+  //       context: context,
+  //       msg: msg,
+  //       backgroundColor: Colors.red.shade600,
+  //     );
+  //     return false;
+  //   } catch (e) {
+  //     isLoading.value = false;
+  //     debugPrint("Error: $e");
+  //     return false;
+  //   }
+  // }
   Future<bool> callGetViewHomePageApi(BuildContext context) async {
     isLoading.value = true;
     try {
       String? token = await Utils().ReadToken();
       _response = await ApiHandler().callGetViewHomePageApi(token!);
+      debugPrint('callGetViewHomePageApi $_response');
       isLoading.value = false;
       if (_response!.success && _response!.allCategories != null) {
         categoryList.value = _response!.allCategories;
@@ -110,6 +165,7 @@ class HomeProvider with ChangeNotifier {
       }
       return true;
     } catch (e) {
+      debugPrint('callGetViewHomePageApi $e');
       isLoading.value = false;
       return false;
     }

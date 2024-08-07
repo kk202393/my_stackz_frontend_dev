@@ -1,14 +1,20 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
+import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
+import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/login_response.dart';
 import '../../login/provider/login_provider.dart';
 
 class SelectAddressView extends StatelessWidget {
@@ -19,6 +25,10 @@ class SelectAddressView extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(
@@ -43,10 +53,7 @@ class SelectAddressView extends StatelessWidget {
             Row(
               children: [
                 InkWell(
-                    onTap: () {
-                      print(
-                          "Addressssss=${loginProvider.logInAPIResponse.userAddress.first["addresses"]}");
-                    },
+                    onTap: () {},
                     child: const Icon(Icons.add,
                         color: AppColors.black, size: 15)),
                 const SizedBox(width: 20),
@@ -58,6 +65,37 @@ class SelectAddressView extends StatelessWidget {
             const SizedBox(height: 10),
             AppDivider(width: width),
             const SizedBox(height: 10),
+            ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  Addresses address = loginProvider
+                      .logInAPIResponse.userAddress!.first!.addresses[index];
+                  return Column(
+                    children: [
+                      TextWidget(
+                          text: address.address,
+                          style: context.headlineSmall
+                              .copyWith(color: AppColors.spanishGray)),
+                      const SizedBox(height: 10),
+                      TextWidget(
+                          text: address.city,
+                          style: context.headlineSmall
+                              .copyWith(color: AppColors.spanishGray)),
+                      const SizedBox(height: 10),
+                      TextWidget(
+                          text: address.pincode,
+                          style: context.headlineSmall
+                              .copyWith(color: AppColors.spanishGray)),
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 10,
+                ),
+                itemCount: loginProvider
+                    .logInAPIResponse.userAddress!.first!.addresses.length),
+
+/*
             ListView.separated(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
@@ -102,6 +140,8 @@ class SelectAddressView extends StatelessWidget {
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 15),
                 itemCount: loginProvider.logInAPIResponse.userAddress.length),
+*/
+/*
             ListView.separated(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
@@ -141,6 +181,7 @@ class SelectAddressView extends StatelessWidget {
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 15),
                 itemCount: loginProvider.addressList.length),
+*/
 
             /*Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -204,9 +245,28 @@ class SelectAddressView extends StatelessWidget {
               ],
             ),*/
             const SizedBox(height: 50),
-            ButtonWidget(
-              buttonText: 'Continue',
-              onTap: () => Navigator.pushNamed(context, Routes.CART_SUMMARY),
+            InkWell(
+              onTap: () async {
+                /*homeProvider.isLoading.value = true;
+
+                bool success =
+                    await bookingProvider.callBookingPageApi(context);
+                if (success) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Booking Successful!')),
+                  );
+                  homeProvider.isLoading.value = false;
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Booking Failed!')),
+                  );
+                  homeProvider.isLoading.value = false;
+                }*/
+              },
+              child: ButtonWidget(
+                buttonText: 'Continue',
+                onTap: () => Navigator.pushNamed(context, Routes.CART_SUMMARY),
+              ),
             )
           ],
         ),

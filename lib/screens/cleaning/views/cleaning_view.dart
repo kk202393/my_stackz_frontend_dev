@@ -8,6 +8,7 @@ import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/cleaning/provider/cleaning_provider.dart';
 import 'package:my_stackz/screens/cleaning/views/cleaning_dialogue_box.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
@@ -25,6 +26,8 @@ class CleaningView extends StatelessWidget {
         Provider.of<HomeProvider>(context, listen: false);
     CleaningProvider cleaningController =
         Provider.of<CleaningProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
 
     List<AllCategories> subcategories =
@@ -91,6 +94,13 @@ class CleaningView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
+                            bookingProvider.subCategoryId.value = homeProvider
+                                .homeAPIResponse
+                                .allCategories[bookingProvider.categoryId.value]
+                                .subcategories[index]
+                                .subcategoryId;
+                            // print(
+                            //     "object1${bookingProvider.subCategoryId.value}");
                             openCleaningOptions(
                                 cleaningController,
                                 context,

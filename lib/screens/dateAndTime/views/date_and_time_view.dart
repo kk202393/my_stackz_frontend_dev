@@ -26,6 +26,8 @@ class DateAndTimeView extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     List<TimeSlot> timeSlot = homeProvider.homeAPIResponse.timeSlot;
+    
+
 
     return Scaffold(
       body: SafeArea(

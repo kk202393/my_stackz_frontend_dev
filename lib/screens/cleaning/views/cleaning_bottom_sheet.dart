@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/app_colors.dart';
@@ -19,7 +20,7 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
   showModalBottomSheet(
       useSafeArea: true,
       context: context,
-      barrierColor: AppColors.black1.withOpacity(0.5),
+      barrierColor: const Color.fromARGB(255, 250, 180, 180).withOpacity(0.5),
       isScrollControlled: true,
       showDragHandle: false,
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -33,8 +34,9 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
         return Builder(builder: (builder) {
           HomeProvider homeProvider =
               Provider.of<HomeProvider>(context, listen: false);
-          CleaningProvider cleaningProvider =
-              Provider.of<CleaningProvider>(context, listen: false);
+          Provider.of<CleaningProvider>(context, listen: false);
+          BookingProvider bookingProvider =
+              Provider.of<BookingProvider>(context, listen: false);
 
           return SizedBox(
             height: size.height * 0.6,
@@ -70,13 +72,21 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
                                 subcategory.serviceCategory[index];
                             return InkWell(
                               onTap: () {
+                                bookingProvider.serviceCategoryId.value =
+                                    homeProvider
+                                        .homeAPIResponse
+                                        .allCategories[
+                                            bookingProvider.categoryId.value]
+                                        .subcategories[
+                                            bookingProvider.subCategoryId.value]
+                                        .serviceCategory[index]
+                                        .subcategoryId;
+                                print(
+                                    "object3${bookingProvider.serviceCategoryId.value}");
+                                homeProvider.selectedServiceCategory = item;
                                 openScheduleCleaningService(
                                     cleaningController, context, index, item);
-                                /*HomeProvider homeProvider =
-                                    Provider.of<HomeProvider>(context,
-                                        listen: false);
-                                homeProvider.selectedServiceCategory = item;
-                                Navigator.pushNamed(context, Routes.ADDITIONAL_DETAILS);*/
+                                //  Navigator.pushNamed(context, Routes.ADDITIONAL_DETAILS);
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
