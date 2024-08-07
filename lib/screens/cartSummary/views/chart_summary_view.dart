@@ -12,6 +12,8 @@ import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/login_response.dart';
+
 class CartSummaryView extends StatelessWidget {
   const CartSummaryView({super.key});
 
@@ -69,25 +71,35 @@ class CartSummaryView extends StatelessWidget {
             TextWidget(
                 text: StringConstants.address, style: context.headlineSmall),
             const SizedBox(height: 10),
-            TextWidget(
-                text: loginProvider.logInAPIResponse.userAddress.isNotEmpty
-                    ? loginProvider.logInAPIResponse.userAddress
-                        .first["addresses"][0]["address"]
-                    : 'No address found',
-                style: context.headlineSmall
-                    .copyWith(color: AppColors.spanishGray)),
-            const SizedBox(height: 10),
-            TextWidget(
-                text: loginProvider
-                    .logInAPIResponse.userAddress.first["addresses"][0]["city"],
-                style: context.headlineSmall
-                    .copyWith(color: AppColors.spanishGray)),
-            const SizedBox(height: 10),
-            TextWidget(
-                text: loginProvider.logInAPIResponse.userAddress
-                    .first["addresses"][0]["pincode"],
-                style: context.headlineSmall
-                    .copyWith(color: AppColors.spanishGray)),
+            ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  Addresses address = loginProvider
+                      .logInAPIResponse.userAddress!.first!.addresses[index];
+                  return Column(
+                    children: [
+                      TextWidget(
+                          text: address.address,
+                          style: context.headlineSmall
+                              .copyWith(color: AppColors.spanishGray)),
+                      const SizedBox(height: 10),
+                      TextWidget(
+                          text: address.city,
+                          style: context.headlineSmall
+                              .copyWith(color: AppColors.spanishGray)),
+                      const SizedBox(height: 10),
+                      TextWidget(
+                          text: address.pincode,
+                          style: context.headlineSmall
+                              .copyWith(color: AppColors.spanishGray)),
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(
+                      height: 10,
+                    ),
+                itemCount: loginProvider
+                    .logInAPIResponse.userAddress!.first!.addresses.length),
             const SizedBox(height: 10),
 
             TextWidget(

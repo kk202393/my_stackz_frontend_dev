@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:ffi';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -44,10 +42,8 @@ class SimilarPart extends StatelessWidget {
         Row(
           children: [
             TextWidget(
-                text: loginProvider.logInAPIResponse.userAddress.isNotEmpty
-                    ? loginProvider.logInAPIResponse.userAddress
-                        .first["addresses"][0]["address"]
-                    : 'No address found',
+                text:
+                    '${loginProvider.logInAPIResponse.userAddress.isNotEmpty ? loginProvider.logInAPIResponse.userAddress.first!.addresses.where((item) => item.isDefault) : 'No address found'}',
                 style: context.bodyMedium
                     .copyWith(fontWeight: FontWeight.w700, fontSize: 12)),
             const Spacer(),

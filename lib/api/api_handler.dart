@@ -121,15 +121,15 @@ class ApiHandler {
     }
   }
 
-  callViewProfileApi(body) async {
+  callViewProfileApi(String token) async {
     final accessToken =
-        'Bearer ${await AppPreferences().getSharedPreferences(AppConstants.token)}';
+        'Bearer ${token}';
     try {
       if (dio == null) initDio();
-      final Response response = await dio!.post(AppURLs.profileURL,
+      final Response response = await dio!.get(AppURLs.profileURL,
           options:
               Options(headers: <String, String>{'Authorization': accessToken}));
-      return MyProfileResponse.fromJson(response.data);
+      return LoginResponse.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e);
     }

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +14,7 @@ import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/login_response.dart';
 import '../../login/provider/login_provider.dart';
 
 class SelectAddressView extends StatelessWidget {
@@ -67,6 +67,37 @@ class SelectAddressView extends StatelessWidget {
             const SizedBox(height: 10),
             ListView.separated(
                 shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  Addresses address = loginProvider
+                      .logInAPIResponse.userAddress!.first!.addresses[index];
+                  return Column(
+                    children: [
+                      TextWidget(
+                          text: address.address,
+                          style: context.headlineSmall
+                              .copyWith(color: AppColors.spanishGray)),
+                      const SizedBox(height: 10),
+                      TextWidget(
+                          text: address.city,
+                          style: context.headlineSmall
+                              .copyWith(color: AppColors.spanishGray)),
+                      const SizedBox(height: 10),
+                      TextWidget(
+                          text: address.pincode,
+                          style: context.headlineSmall
+                              .copyWith(color: AppColors.spanishGray)),
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 10,
+                ),
+                itemCount: loginProvider
+                    .logInAPIResponse.userAddress!.first!.addresses.length),
+
+/*
+            ListView.separated(
+                shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   final address =
@@ -109,6 +140,8 @@ class SelectAddressView extends StatelessWidget {
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 15),
                 itemCount: loginProvider.logInAPIResponse.userAddress.length),
+*/
+/*
             ListView.separated(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
@@ -148,6 +181,7 @@ class SelectAddressView extends StatelessWidget {
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 15),
                 itemCount: loginProvider.addressList.length),
+*/
 
             /*Row(
               mainAxisAlignment: MainAxisAlignment.start,

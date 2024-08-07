@@ -6,9 +6,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:my_stackz/screens/home/views/home_view.dart';
 
+import '../api/api_handler.dart';
 import '../constants/app_colors.dart';
+import '../screens/login/views/login_view.dart';
 import '../widgets/snack_bar.dart';
 
 class Utils {
@@ -59,6 +63,18 @@ class Utils {
 
   Future<void> deleteEmail() async {
     return await _storage.delete(key: 'email');
+  }
+
+  Future<bool> userInitialRoute() async {
+    String? token = await Utils().ReadToken();
+    if (token!.isNotEmpty) {
+      print("this is token${token}");
+
+      ApiHandler().callViewProfileApi(token);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   static setStatus(String code,
