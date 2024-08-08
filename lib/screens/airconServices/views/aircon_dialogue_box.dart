@@ -49,7 +49,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                     Row(
                       children: [
                         TextWidget(
-                          text: serviceCategory.servicecategoryName),
+                          text: serviceCategory.servicecategoryName!),
                         //  TextWidget(text: airconSubcategories[index.].subcategoryName ?? 'No Name'),
                         const Spacer(),
                         InkWell(

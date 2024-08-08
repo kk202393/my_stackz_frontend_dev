@@ -198,6 +198,7 @@ class Addresses {
 */
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class LoginResponse {
   late String massage;
   late bool success;
@@ -217,14 +218,10 @@ class LoginResponse {
   LoginResponse.fromJson(Map<String, dynamic> json) {
     // List<UserAddress> data = json['userAddress'].map((e) => userAddress.add(e));
     success = json['success'];
-    massage = json['massage'];
+    massage = json['massage'] ?? "";
     user = User.fromJson(json['user']);
-    if (json['userAddress'] != null) {
-      userAddress = <UserAddress>[];
-      json['userAddress'].forEach((v) {
-        userAddress!.add(UserAddress.fromJson(v));
-      });
-    }
+    userAddress =
+        (json['userAddress']).map((e) => UserAddress.fromJson(e)).toList();
     userRole = json['userRole'];
     token = json['token'];
   }
@@ -259,7 +256,6 @@ class User {
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
-    required this.password,
     required this.dob,
     required this.createdAt,
     required this.updatedAt,
@@ -272,7 +268,6 @@ class User {
   late String firstName;
   late String lastName;
   late int phoneNumber;
-  late String password;
   late String dob;
   late String createdAt;
   late String updatedAt;
@@ -286,7 +281,6 @@ class User {
     firstName = json['first_name'];
     lastName = json['last_name'];
     phoneNumber = json['phone_number'];
-    password = json['password'];
     dob = json['dob'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -302,7 +296,6 @@ class User {
     _data['first_name'] = firstName;
     _data['last_name'] = lastName;
     _data['phone_number'] = phoneNumber;
-    _data['password'] = password;
     _data['dob'] = dob;
     _data['createdAt'] = createdAt;
     _data['updatedAt'] = updatedAt;

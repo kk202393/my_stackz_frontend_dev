@@ -5,7 +5,7 @@ class CleaningProvider with ChangeNotifier{
   // final TextEditingController stationController = TextEditingController();
   ValueNotifier<bool> isBoxClicked = ValueNotifier<bool>(false);
   // RxBool isBoxClicked = false.obs;
-    ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
+    ValueNotifier<List<Subcategory>> subcategories = ValueNotifier([]);
     ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
     ValueNotifier<int> numberOfRooms = ValueNotifier<int>(1);
     ValueNotifier<int> numberOfHours = ValueNotifier<int>(1);

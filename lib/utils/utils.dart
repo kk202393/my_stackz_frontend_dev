@@ -68,8 +68,6 @@ class Utils {
   Future<bool> userInitialRoute() async {
     String? token = await Utils().ReadToken();
     if (token!.isNotEmpty) {
-      print("this is token${token}");
-
       ApiHandler().callViewProfileApi(token);
       return true;
     } else {

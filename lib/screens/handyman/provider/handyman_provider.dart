@@ -4,7 +4,7 @@ import 'package:my_stackz/models/home_page_response.dart';
 class HandymanProvider with ChangeNotifier{
 
 
- ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
+ ValueNotifier<List<Subcategory>> subcategories = ValueNotifier([]);
     ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
     ValueNotifier<int> numberOfRooms = ValueNotifier<int>(1);
  ValueNotifier<int> categoryId = ValueNotifier<int>(3);
@@ -15,11 +15,11 @@ class HandymanProvider with ChangeNotifier{
 
 
 
-    void getFilteredSubcategories(List<Subcategories> subcategories) {
+    void getFilteredSubcategories(List<Subcategory> subcategories) {
     subcategories = subcategories;
     notifyListeners();
   }
-void getFilteredSubcategoriesPrice(List<Subcategories> subcategories) {
+void getFilteredSubcategoriesPrice(List<Subcategory> subcategories) {
     subcategories = subcategories;
     notifyListeners();
   }

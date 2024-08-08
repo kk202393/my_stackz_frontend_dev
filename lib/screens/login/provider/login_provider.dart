@@ -75,6 +75,16 @@ class LoginProvider with ChangeNotifier {
     return false;
   }
 
+  Future<bool> getMyProfile() async {
+    String? token = await Utils().ReadToken();
+    LoginResponse _response = await ApiHandler().callViewProfileApi(token!);
+    if (_response.success) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> callLoginApi(homeController, BuildContext context) async {
     homeController.isLoading.value = true;
     final body = {
@@ -83,8 +93,8 @@ class LoginProvider with ChangeNotifier {
     };
 
     try {
-      _response = await ApiHandler().callLoginApi(body);
-      await Utils().storeToken(_response!.token);
+      LoginResponse _response = await ApiHandler().callLoginApi(body);
+      await Utils().storeToken(_response.token);
       homeController.isLoading.value = false;
       notifyListeners();
       return true;

@@ -13,7 +13,7 @@ import '../../../models/home_page_response.dart';
 import 'aircon_dialogue_box.dart';
 
 openAirconOptions(AirconProvider airconProvider, context,
-    int subcategoriesIndex, Subcategories subcategory) {
+    int subcategoriesIndex, Subcategory subcategory) {
   final size = MediaQuery.of(context).size;
 
   showModalBottomSheet(
@@ -56,9 +56,9 @@ openAirconOptions(AirconProvider airconProvider, context,
                     text: StringConstants.airConRepair,
                   ),
                   const SizedBox(height: 20),
-                  subcategory.serviceCategory.isNotEmpty
+                  subcategory.serviceCategories.isNotEmpty
                       ? GridView.builder(
-                          itemCount: subcategory.serviceCategory.length,
+                          itemCount: subcategory.serviceCategories.length,
                           shrinkWrap: true,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -67,7 +67,7 @@ openAirconOptions(AirconProvider airconProvider, context,
                                   mainAxisSpacing: 20),
                           itemBuilder: (BuildContext context, int index) {
                             ServiceCategory item =
-                                subcategory.serviceCategory[index];
+                                subcategory.serviceCategories[index];
                             return InkWell(
                               onTap: () => openScheduleAirconService(
                                   airconController, context, index, item),
@@ -89,7 +89,7 @@ openAirconOptions(AirconProvider airconProvider, context,
                                   ),
                                   const SizedBox(width: 10),
                                   TextWidget(
-                                    text: item.servicecategoryName,
+                                    text: item.servicecategoryName!,
                                     style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 14,

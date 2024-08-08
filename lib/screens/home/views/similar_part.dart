@@ -94,20 +94,20 @@ class SimilarPart extends StatelessWidget {
                   (element) => InkWell(
                     onTap: () {
                       if (element.categoryId == 1) {
-                        homeProvider.categoryId.value = element.categoryId;
-                        bookingProvider.categoryId.value = element.categoryId;
+                        homeProvider.categoryId.value = element.categoryId!;
+                        bookingProvider.categoryId.value = element.categoryId!;
                         print(
                             "object${bookingProvider.categoryId.value.toString()}");
                         Navigator.pushNamed(context, Routes.CLEANING);
                       } else if (element.categoryId == 2) {
-                        bookingProvider.categoryId.value = element.categoryId;
+                        bookingProvider.categoryId.value = element.categoryId!;
 
-                        homeProvider.categoryId.value = element.categoryId;
+                        homeProvider.categoryId.value = element.categoryId!;
                         Navigator.pushNamed(context, Routes.AIRCON_SERVICES);
                       } else if (element.categoryId == 3) {
-                        bookingProvider.categoryId.value = element.categoryId;
+                        bookingProvider.categoryId.value = element.categoryId!;
 
-                        homeProvider.categoryId.value = element.categoryId;
+                        homeProvider.categoryId.value = element.categoryId!;
                         Navigator.pushNamed(context, Routes.HANDYMAN);
                       }
                       // element.categoryId == 1
@@ -137,7 +137,7 @@ class SimilarPart extends StatelessWidget {
                         ),
                         const SizedBox(height: 6),
                         TextWidget(
-                            text: element.categoryName,
+                            text: element.categoryName!,
                             style: context.bodyMedium.copyWith(
                                 fontWeight: FontWeight.w700, fontSize: 12))
                       ],
