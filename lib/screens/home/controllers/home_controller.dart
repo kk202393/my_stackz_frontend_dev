@@ -1,20 +1,12 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/constants/app_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/models/logout_response.dart';
-import 'package:my_stackz/routes/app_pages.dart';
-import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/utils/shared_preferences.dart';
 import 'package:my_stackz/utils/utils.dart';
-import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
-import 'package:provider/provider.dart';
 
 class HomeProvider with ChangeNotifier {
   final TextEditingController searchController = TextEditingController();
@@ -77,7 +69,7 @@ class HomeProvider with ChangeNotifier {
   HomePageResponse? _response;
 
   HomePageResponse get homeAPIResponse => _response!;
-  
+
 
   // List<dynamic> _services = [];
 
@@ -165,18 +157,15 @@ class HomeProvider with ChangeNotifier {
       _response = await ApiHandler().callGetViewHomePageApi(token);
       debugPrint('callGetViewHomePageApi $_response');
       isLoading.value = false;
-      if (_response != null &&
-          _response?.success != false &&
-          _response!.allCategories != null) {
+      if (_response != null && _response!.allCategories != null) {
         categoryList.value = _response!.allCategories;
+        print("object=$_response");
         notifyListeners();
         return true;
       } else {
-        debugPrint('API call unsuccessful or categories are null');
         return false;
       }
     } catch (e) {
-      debugPrint('callGetViewHomePageApi $e');
       isLoading.value = false;
       return false;
     }

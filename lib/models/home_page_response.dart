@@ -15,12 +15,14 @@ class HomePageResponse {
     return HomePageResponse(
       success: json["success"],
       message: json["message"],
-      allCategories: List<AllCategory>.from(
-          json["allCategories"]!.map((x) => AllCategory.fromJson(x))),
-      timeSlot: json["timeSlot"] == null
-          ? []
-          : List<TimeSlot>.from(
-              json["timeSlot"]!.map((x) => TimeSlot.fromJson(x))),
+      allCategories: json["allCategories"] != null
+          ? List<AllCategory>.from(
+              json["allCategories"]!.map((x) => AllCategory.fromJson(x)))
+          : [],
+      timeSlot: json["timeSlot"] != null
+          ? List<TimeSlot>.from(
+              json["timeSlot"]!.map((x) => TimeSlot.fromJson(x)))
+          : [],
     );
   }
 }
@@ -43,10 +45,10 @@ class AllCategory {
       id: json["_id"],
       categoryId: json["category_id"],
       categoryName: json["category_name"],
-      subcategories: json["subcategories"] == null
-          ? []
-          : List<Subcategory>.from(
-              json["subcategories"]!.map((x) => Subcategory.fromJson(x))),
+      subcategories: json["subcategories"] != null
+          ? List<Subcategory>.from(
+              json["subcategories"]!.map((x) => Subcategory.fromJson(x)))
+          : [],
     );
   }
 }
@@ -83,14 +85,15 @@ class Subcategory {
       subcategory: json["subcategory"],
       subcategoryId: json["subcategory_id"],
       categoryId: json["category_id"],
-      price: double.parse(json["price"].toString()),
+      price:
+          json["price"] != null ? double.parse(json["price"].toString()) : 0.0,
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
       v: json["__v"],
-      serviceCategories: json["serviceCategories"] == null
-          ? []
-          : List<ServiceCategory>.from(json["serviceCategories"]!
-              .map((x) => ServiceCategory.fromJson(x))),
+      serviceCategories: json["serviceCategories"] != null
+          ? List<ServiceCategory>.from(json["serviceCategories"]!
+              .map((x) => ServiceCategory.fromJson(x)))
+          : [],
     );
   }
 }
@@ -128,7 +131,8 @@ class ServiceCategory {
       servicecategoryId: json["servicecategory_id"],
       subcategoryId: json["subcategory_id"],
       categoryId: json["category_id"],
-      price: double.parse(json["price"].toString()),
+      price:
+          json["price"] != null ? double.parse(json["price"].toString()) : 0.0,
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
       v: json["__v"],

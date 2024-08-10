@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
+import 'package:my_stackz/models/my_profile_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
@@ -65,35 +66,35 @@ class SelectAddressView extends StatelessWidget {
             const SizedBox(height: 10),
             AppDivider(width: width),
             const SizedBox(height: 10),
-            ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  Addresses address = loginProvider
-                      .logInAPIResponse.userAddress!.first!.addresses[index];
-                  return Column(
-                    children: [
-                      TextWidget(
-                          text: address.address,
-                          style: context.headlineSmall
-                              .copyWith(color: AppColors.spanishGray)),
-                      const SizedBox(height: 10),
-                      TextWidget(
-                          text: address.city,
-                          style: context.headlineSmall
-                              .copyWith(color: AppColors.spanishGray)),
-                      const SizedBox(height: 10),
-                      TextWidget(
-                          text: address.pincode,
-                          style: context.headlineSmall
-                              .copyWith(color: AppColors.spanishGray)),
-                    ],
-                  );
-                },
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 10,
-                ),
-                itemCount: loginProvider
-                    .logInAPIResponse.userAddress!.first!.addresses.length),
+            // ListView.separated(
+            //     shrinkWrap: true,
+            //     itemBuilder: (context, index) {
+            //       Addresses address = loginProvider
+            //           .logInAPIResponse.userAddress!.first!.addresses[index];
+            //       return Column(
+            //         children: [
+            //           TextWidget(
+            //               text: address.address,
+            //               style: context.headlineSmall
+            //                   .copyWith(color: AppColors.spanishGray)),
+            //           const SizedBox(height: 10),
+            //           TextWidget(
+            //               text: address.city,
+            //               style: context.headlineSmall
+            //                   .copyWith(color: AppColors.spanishGray)),
+            //           const SizedBox(height: 10),
+            //           TextWidget(
+            //               text: address.pincode,
+            //               style: context.headlineSmall
+            //                   .copyWith(color: AppColors.spanishGray)),
+            //         ],
+            //       );
+            //     },
+            //     separatorBuilder: (context, index) => const SizedBox(
+            //       height: 10,
+            //     ),
+            //     itemCount: loginProvider
+            //         .logInAPIResponse.userAddress!.first!.addresses.length),
 
 /*
             ListView.separated(

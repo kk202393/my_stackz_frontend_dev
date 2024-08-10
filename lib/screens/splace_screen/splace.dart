@@ -8,7 +8,6 @@ import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/utils/utils.dart';
-import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:provider/provider.dart';
 
 class SplaceScreen extends StatelessWidget {
@@ -27,7 +26,7 @@ class SplaceScreen extends StatelessWidget {
               child: TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 350.0, end: 160.0),
                 duration: const Duration(milliseconds: 3000),
-                curve: Easing.standardAccelerate,
+                curve: Curves.easeInOut,
                 builder: (BuildContext context, double value, Widget? child) {
                   return Image.asset(
                     AppImages.newLogo,
@@ -44,11 +43,11 @@ class SplaceScreen extends StatelessWidget {
               future: _handleLoading(context),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 }
               },
             ),
@@ -59,40 +58,30 @@ class SplaceScreen extends StatelessWidget {
   }
 
   Future<void> _handleLoading(BuildContext context) async {
-    // await Future.delayed(const Duration(milliseconds: 1500));
-    await ReadToken(context);
+    await Future.delayed(const Duration(milliseconds: 1500)); // Adding a slight delay for smooth transition
+    await _readTokenAndNavigate(context);
   }
 
-  Future ReadToken(BuildContext context) async {
+  Future<void> _readTokenAndNavigate(BuildContext context) async {
     try {
       String? token = await Utils().ReadToken();
-      HomeProvider homeController =
-          Provider.of<HomeProvider>(context, listen: false);
-      LoginProvider loginProvider =
-          Provider.of<LoginProvider>(context, listen: false);
+      HomeProvider homeController = Provider.of<HomeProvider>(context, listen: false);
+      LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
+
       if (token != null && token.isNotEmpty) {
-        await loginProvider.getMyProfile().then(
-          (value) async {
-            if (value) {
-              await homeController.callGetViewHomePageApi(context).then(
-                (value) async {
-                  if (value) {
-                    homeController.isLoading.value = false;
-                    Navigator.pushNamed(
-                      context,
-                      Routes.HOME,
-                    );
-                  }
-                },
-              );
-            }
-          },
-        );
+        bool profileLoaded = await loginProvider.getMyProfile();
+        if (profileLoaded) {
+          bool homePageLoaded = await homeController.callGetViewHomePageApi(context);
+          if (homePageLoaded) {
+            homeController.isLoading.value = false;
+            Navigator.pushReplacementNamed(context, Routes.HOME);
+          }
+        }
       } else {
-        Navigator.pushNamed(context, Routes.LOGIN);
+        Navigator.pushReplacementNamed(context, Routes.LOGIN);
       }
     } catch (e) {
-      print("Error during loading: $e");
+      debugPrint("Error during loading: $e");
     }
   }
 }
