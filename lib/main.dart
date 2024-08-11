@@ -114,17 +114,17 @@ class _MyStackzState extends State<MyStackz> {
   @override
   void initState() {
     super.initState();
-    token = false;
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        token = await Utils().userInitialRoute();
-        if (token != null && token!) {
-          Navigator.pushNamed(context, Routes.HOME);
-        } else {
-          Navigator.pushNamed(context, Routes.LOGIN);
-        }
-      },
-    );
+    // token = false;
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //   (_) async {
+    //     token = await Utils().userInitialRoute();
+    //     // if (token != null && token!) {
+    //     //   Navigator.pushNamed(context, Routes.HOME);
+    //     // } else {
+    //     //   Navigator.pushNamed(context, Routes.LOGIN);
+    //     // }
+    //   },
+    // );
   }
 
   @override
@@ -144,7 +144,8 @@ class _MyStackzState extends State<MyStackz> {
         return MaterialApp(
           // showPerformanceOverlay: true,
           title: "Application",
-          initialRoute: token! ? Routes.HOME : Routes.LOGIN,
+          initialRoute: Routes.SPLACE,
+          // initialRoute: token! ? Routes.HOME : Routes.LOGIN,
           theme: Themes().lightTheme,
           darkTheme: Themes().darkTheme,
           onGenerateRoute: AppPages.generateRoutes,

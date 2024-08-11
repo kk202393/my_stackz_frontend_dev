@@ -22,7 +22,7 @@ class HandymanView extends StatelessWidget {
         Provider.of<HomeProvider>(context, listen: false);
     HandymanProvider handymanProvider =
         Provider.of<HandymanProvider>(context, listen: false);
-    List<AllCategories> subcategories =
+    List<AllCategory> subcategories =
     homeProvider.homeAPIResponse.allCategories.where((element) {
       return element.categoryId == homeProvider.categoryId.value;
     }).toList();
@@ -121,7 +121,7 @@ class HandymanView extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 TextWidget(
-                                  text: subcategories.first.subcategories[index].subcategoryName,
+                                  text: subcategories.first.subcategories[index].subcategoryName!,
 
                                   // "subcategoryName",
                                   // text: item.subcategoryName!,

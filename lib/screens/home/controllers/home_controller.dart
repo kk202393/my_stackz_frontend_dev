@@ -1,24 +1,17 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/constants/app_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/models/logout_response.dart';
-import 'package:my_stackz/routes/app_pages.dart';
-import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/utils/shared_preferences.dart';
 import 'package:my_stackz/utils/utils.dart';
-import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
-import 'package:provider/provider.dart';
 
 class HomeProvider with ChangeNotifier {
   final TextEditingController searchController = TextEditingController();
   ValueNotifier<int> scrollIndex = ValueNotifier<int>(0);
-  ValueNotifier<List<AllCategories>> categoryList = ValueNotifier([]);
+  ValueNotifier<List<AllCategory>> categoryList = ValueNotifier([]);
   ValueNotifier<String> address = ValueNotifier("");
   ValueNotifier<String> token = ValueNotifier("");
   ValueNotifier<String> name = ValueNotifier("");
@@ -36,7 +29,7 @@ class HomeProvider with ChangeNotifier {
   ValueNotifier<bool> isTyped = ValueNotifier<bool>(false);
   ValueNotifier<bool> isArrowClicked = ValueNotifier<bool>(false);
 
-  ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
+  ValueNotifier<List<Subcategory>> subcategories = ValueNotifier([]);
   ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
   ValueNotifier<int> categoryId = ValueNotifier<int>(1);
 
@@ -76,6 +69,7 @@ class HomeProvider with ChangeNotifier {
   HomePageResponse? _response;
 
   HomePageResponse get homeAPIResponse => _response!;
+
 
   // List<dynamic> _services = [];
 
@@ -155,17 +149,23 @@ class HomeProvider with ChangeNotifier {
     isLoading.value = true;
     try {
       String? token = await Utils().ReadToken();
-      _response = await ApiHandler().callGetViewHomePageApi(token!);
+      if (token == null) {
+        debugPrint('Token is null');
+        isLoading.value = false;
+        return false;
+      }
+      _response = await ApiHandler().callGetViewHomePageApi(token);
       debugPrint('callGetViewHomePageApi $_response');
       isLoading.value = false;
-      if (_response!.success && _response!.allCategories != null) {
+      if (_response != null && _response!.allCategories != null) {
         categoryList.value = _response!.allCategories;
+        print("object=$_response");
         notifyListeners();
         return true;
+      } else {
+        return false;
       }
-      return true;
     } catch (e) {
-      debugPrint('callGetViewHomePageApi $e');
       isLoading.value = false;
       return false;
     }

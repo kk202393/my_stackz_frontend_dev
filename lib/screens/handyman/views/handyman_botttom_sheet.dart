@@ -14,7 +14,7 @@ import '../../cleaning/views/cleaning_dialogue_box.dart';
 import '../../home/controllers/home_controller.dart';
 
 openHandymanOptions(HandymanProvider controller, context,
-    int subcategoriesIndex, Subcategories subcategory) {
+    int subcategoriesIndex, Subcategory subcategory) {
   final size = MediaQuery.of(context).size;
 
   showModalBottomSheet(
@@ -57,9 +57,9 @@ openHandymanOptions(HandymanProvider controller, context,
                     text: StringConstants.handymanRepair,
                   ),
                   const SizedBox(height: 20),
-                  subcategory.serviceCategory.isNotEmpty
+                  subcategory.serviceCategories.isNotEmpty
                       ? GridView.builder(
-                          itemCount: subcategory.serviceCategory.length,
+                          itemCount: subcategory.serviceCategories.length,
                           shrinkWrap: true,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,7 +68,7 @@ openHandymanOptions(HandymanProvider controller, context,
                                   mainAxisSpacing: 20),
                           itemBuilder: (BuildContext context, int index) {
                             ServiceCategory item =
-                            subcategory.serviceCategory[index];
+                            subcategory.serviceCategories[index];
                             return InkWell(
                               onTap: () => openScheduleHandymanService(
                                   handymanProvider, context, index, item),
@@ -90,7 +90,7 @@ openHandymanOptions(HandymanProvider controller, context,
                                   ),
                                   const SizedBox(width: 10),
                                   TextWidget(
-                                    text: item.servicecategoryName,
+                                    text: item.servicecategoryName!,
                                     style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 14,

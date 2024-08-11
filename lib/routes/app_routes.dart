@@ -31,6 +31,7 @@ abstract class Routes {
   static const BOOKING_DETAILS = _Paths.BOOKING_DETAILS;
   static const RESCHEDULE = _Paths.RESCHEDULE;
   static const CANCELLATION = _Paths.CANCELLATION;
+  static const SPLACE= _Paths.SPLACE;
 
 
 
@@ -66,6 +67,7 @@ abstract class _Paths {
   static const BOOKING_DETAILS = '/booking-details';
   static const RESCHEDULE = '/reschedule';
   static const CANCELLATION = '/cancellation';
+  static const SPLACE = '/spalce';
 }
 
 

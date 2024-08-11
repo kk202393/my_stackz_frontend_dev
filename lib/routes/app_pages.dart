@@ -7,6 +7,7 @@ import 'package:my_stackz/screens/handyman/views/handyman_view.dart';
 import 'package:my_stackz/screens/login/views/login_view.dart';
 import 'package:my_stackz/screens/payments/views/payment_view.dart';
 import 'package:my_stackz/screens/signUp/views/sign_up_view.dart';
+import 'package:my_stackz/screens/splace_screen/splace.dart';
 import '../screens/booking/views/booking_view.dart';
 import '../screens/bookingAccepted/views/booking_accepted_view.dart';
 import '../screens/bookingDetails/views/booking_details_view.dart';
@@ -22,6 +23,11 @@ class AppPages {
   static Route<dynamic> generateRoutes(RouteSettings setting) {
     _lastRoute = setting.name;
     switch (setting.name) {
+      case Routes.SPLACE:
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => SplaceScreen(),
+        );
       case Routes.HOME:
         return MaterialPageRoute(
           settings: setting,
@@ -30,7 +36,7 @@ class AppPages {
       case Routes.LOGIN:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) =>  LoginView(),
+          builder: (_) => LoginView(),
         );
       case Routes.SIGN_UP:
         return MaterialPageRoute(
@@ -100,7 +106,7 @@ class AppPages {
       default:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) =>  LoginView(),
+          builder: (_) => LoginView(),
         );
     }
   }

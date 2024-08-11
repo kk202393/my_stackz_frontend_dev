@@ -35,7 +35,7 @@ class AdditionalDetailsView extends StatelessWidget {
             Row(
               children: [
                 TextWidget(
-                  text: serviceCategory.servicecategoryName,
+                  text: serviceCategory.servicecategoryName!,
                 ),
                 const Spacer(),
                 InkWell(

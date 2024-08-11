@@ -70,7 +70,7 @@ class ApiHandler {
           await HomePageResponse.fromJson(response.data);
       if (homePageResponse.allCategories != null &&
           homePageResponse.allCategories.isNotEmpty) {
-        AllCategories firstCategory = homePageResponse.allCategories.first;
+        AllCategory firstCategory = homePageResponse.allCategories.first;
         debugPrint("First Category ID: ${firstCategory.id}");
       } else {
         debugPrint("No categories found in the response.");
@@ -122,8 +122,7 @@ class ApiHandler {
   }
 
   callViewProfileApi(String token) async {
-    final accessToken =
-        'Bearer ${token}';
+    final accessToken = 'Bearer $token';
     try {
       if (dio == null) initDio();
       final Response response = await dio!.get(AppURLs.profileURL,

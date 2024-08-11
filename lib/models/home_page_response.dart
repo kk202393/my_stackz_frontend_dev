@@ -6,65 +6,55 @@ class HomePageResponse {
     required this.timeSlot,
   });
 
-  late final bool success;
-  late final String message;
-  late final List<AllCategories> allCategories;
-  late final List<TimeSlot> timeSlot;
+  final bool? success;
+  final String? message;
+  final List<AllCategory> allCategories;
+  final List<TimeSlot> timeSlot;
 
-  HomePageResponse.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    message = json['message'];
-    allCategories = List.from(json['allCategories'])
-        .map((e) => AllCategories.fromJson(e))
-        .toList();
-    timeSlot =
-        List.from(json['timeSlot']).map((e) => TimeSlot.fromJson(e)).toList();
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['success'] = success;
-    _data['message'] = message;
-    _data['allCategories'] = allCategories.map((e) => e.toJson()).toList();
-    _data['timeSlot'] = timeSlot.map((e) => e.toJson()).toList();
-    return _data;
+  factory HomePageResponse.fromJson(Map<String, dynamic> json) {
+    return HomePageResponse(
+      success: json["success"],
+      message: json["message"],
+      allCategories: json["allCategories"] != null
+          ? List<AllCategory>.from(
+              json["allCategories"]!.map((x) => AllCategory.fromJson(x)))
+          : [],
+      timeSlot: json["timeSlot"] != null
+          ? List<TimeSlot>.from(
+              json["timeSlot"]!.map((x) => TimeSlot.fromJson(x)))
+          : [],
+    );
   }
 }
 
-class AllCategories {
-  AllCategories({
+class AllCategory {
+  AllCategory({
     required this.id,
     required this.categoryId,
     required this.categoryName,
     required this.subcategories,
   });
 
-  late final String id;
-  late final int categoryId;
-  late final String categoryName;
-  late final List<Subcategories> subcategories;
+  final String? id;
+  final int? categoryId;
+  final String? categoryName;
+  final List<Subcategory> subcategories;
 
-  AllCategories.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
-    categoryId = json['category_id'];
-    categoryName = json['category_name'];
-    subcategories = List.from(json['subcategories'])
-        .map((e) => Subcategories.fromJson(e))
-        .toList();
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['_id'] = id;
-    _data['category_id'] = categoryId;
-    _data['category_name'] = categoryName;
-    _data['subcategories'] = subcategories.map((e) => e.toJson()).toList();
-    return _data;
+  factory AllCategory.fromJson(Map<String, dynamic> json) {
+    return AllCategory(
+      id: json["_id"],
+      categoryId: json["category_id"],
+      categoryName: json["category_name"],
+      subcategories: json["subcategories"] != null
+          ? List<Subcategory>.from(
+              json["subcategories"]!.map((x) => Subcategory.fromJson(x)))
+          : [],
+    );
   }
 }
 
-class Subcategories {
-  Subcategories({
+class Subcategory {
+  Subcategory({
     required this.id,
     required this.subcategoryName,
     required this.subcategory,
@@ -73,49 +63,38 @@ class Subcategories {
     required this.price,
     required this.createdAt,
     required this.updatedAt,
-    required this.V,
-    required this.serviceCategory,
+    required this.v,
+    required this.serviceCategories,
   });
 
-  late final String id;
-  late final String subcategoryName;
-  late final int subcategory;
-  late final int subcategoryId;
-  late final int categoryId;
-  late final double price;
-  late final String createdAt;
-  late final String updatedAt;
-  late final int V;
-  late final List<ServiceCategory> serviceCategory;
+  final String? id;
+  final String? subcategoryName;
+  final int? subcategory;
+  final int? subcategoryId;
+  final int? categoryId;
+  final double? price;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? v;
+  final List<ServiceCategory> serviceCategories;
 
-  Subcategories.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
-    subcategoryName = json['subcategory_name'];
-    subcategory = json['subcategory'];
-    subcategoryId = json['subcategory_id'];
-    categoryId = json['category_id'];
-    price = json['price'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    V = json['__v'];
-    serviceCategory = List.from(json['serviceCategory'])
-        .map((e) => ServiceCategory.fromJson(e))
-        .toList();
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['_id'] = id;
-    _data['subcategory_name'] = subcategoryName;
-    _data['subcategory'] = subcategory;
-    _data['subcategory_id'] = subcategoryId;
-    _data['category_id'] = categoryId;
-    _data['price'] = price;
-    _data['createdAt'] = createdAt;
-    _data['updatedAt'] = updatedAt;
-    _data['__v'] = V;
-    _data['serviceCategory'] = serviceCategory.map((e) => e.toJson()).toList();
-    return _data;
+  factory Subcategory.fromJson(Map<String, dynamic> json) {
+    return Subcategory(
+      id: json["_id"],
+      subcategoryName: json["subcategory_name"],
+      subcategory: json["subcategory"],
+      subcategoryId: json["subcategory_id"],
+      categoryId: json["category_id"],
+      price:
+          json["price"] != null ? double.parse(json["price"].toString()) : 0.0,
+      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
+      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
+      v: json["__v"],
+      serviceCategories: json["serviceCategories"] != null
+          ? List<ServiceCategory>.from(json["serviceCategories"]!
+              .map((x) => ServiceCategory.fromJson(x)))
+          : [],
+    );
   }
 }
 
@@ -130,46 +109,34 @@ class ServiceCategory {
     required this.price,
     required this.createdAt,
     required this.updatedAt,
-    required this.V,
+    required this.v,
   });
 
-  late final String id;
-  late final String servicecategoryName;
-  late final int servicecategory;
-  late final int servicecategoryId;
-  late final int subcategoryId;
-  late final int categoryId;
-  late final double price;
-  late final String createdAt;
-  late final String updatedAt;
-  late final int V;
+  final String? id;
+  final String? servicecategoryName;
+  final int? servicecategory;
+  final int? servicecategoryId;
+  final int? subcategoryId;
+  final int? categoryId;
+  final double? price;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? v;
 
-  ServiceCategory.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
-    servicecategoryName = json['servicecategory_name'];
-    servicecategory = json['servicecategory'];
-    servicecategoryId = json['servicecategory_id'];
-    subcategoryId = json['subcategory_id'];
-    categoryId = json['category_id'];
-    price = json['price'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    V = json['__v'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['_id'] = id;
-    _data['servicecategory_name'] = servicecategoryName;
-    _data['servicecategory'] = servicecategory;
-    _data['servicecategory_id'] = servicecategoryId;
-    _data['subcategory_id'] = subcategoryId;
-    _data['category_id'] = categoryId;
-    _data['price'] = price;
-    _data['createdAt'] = createdAt;
-    _data['updatedAt'] = updatedAt;
-    _data['__v'] = V;
-    return _data;
+  factory ServiceCategory.fromJson(Map<String, dynamic> json) {
+    return ServiceCategory(
+      id: json["_id"],
+      servicecategoryName: json["servicecategory_name"],
+      servicecategory: json["servicecategory"],
+      servicecategoryId: json["servicecategory_id"],
+      subcategoryId: json["subcategory_id"],
+      categoryId: json["category_id"],
+      price:
+          json["price"] != null ? double.parse(json["price"].toString()) : 0.0,
+      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
+      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
+      v: json["__v"],
+    );
   }
 }
 
@@ -180,33 +147,24 @@ class TimeSlot {
     required this.timeValue,
     required this.createdAt,
     required this.updatedAt,
-    required this.V,
+    required this.v,
   });
 
-  late final String id;
-  late final int slotId;
-  late final String timeValue;
-  late final String createdAt;
-  late final String updatedAt;
-  late final int V;
+  final String? id;
+  final int? slotId;
+  final String? timeValue;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? v;
 
-  TimeSlot.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
-    slotId = json['slot_id'];
-    timeValue = json['time_value'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    V = json['__v'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['_id'] = id;
-    _data['slot_id'] = slotId;
-    _data['time_value'] = timeValue;
-    _data['createdAt'] = createdAt;
-    _data['updatedAt'] = updatedAt;
-    _data['__v'] = V;
-    return _data;
+  factory TimeSlot.fromJson(Map<String, dynamic> json) {
+    return TimeSlot(
+      id: json["_id"],
+      slotId: json["slot_id"],
+      timeValue: json["time_value"],
+      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
+      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
+      v: json["__v"],
+    );
   }
 }

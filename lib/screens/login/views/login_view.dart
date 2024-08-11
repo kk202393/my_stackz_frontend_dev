@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
-import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
@@ -18,7 +17,6 @@ import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/utils.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
@@ -110,7 +108,7 @@ class LoginView extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 50),
+                                const SizedBox(height: 50),
                                 ButtonWidget(
                                   buttonText: StringConstants.login,
                                   onTap: () async {

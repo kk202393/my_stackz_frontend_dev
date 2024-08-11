@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
-import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
@@ -74,12 +73,12 @@ class CartSummaryView extends StatelessWidget {
             ListView.separated(
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  Addresses address = loginProvider
-                      .logInAPIResponse.userAddress!.first!.addresses[index];
+                  Address? address = loginProvider
+                      .logInAPIResponse?.userAddress!.first!.addresses?[index];
                   return Column(
                     children: [
                       TextWidget(
-                          text: address.address,
+                          text: address!.address,
                           style: context.headlineSmall
                               .copyWith(color: AppColors.spanishGray)),
                       const SizedBox(height: 10),
@@ -98,8 +97,7 @@ class CartSummaryView extends StatelessWidget {
                 separatorBuilder: (context, index) => const SizedBox(
                       height: 10,
                     ),
-                itemCount: loginProvider
-                    .logInAPIResponse.userAddress!.first!.addresses.length),
+                itemCount: 1),
             const SizedBox(height: 10),
 
             TextWidget(
