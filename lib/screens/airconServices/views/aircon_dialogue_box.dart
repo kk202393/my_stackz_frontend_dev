@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:provider/provider.dart';
 import '../../../../widgets/button_widget.dart';
@@ -13,7 +14,7 @@ import '../../../models/home_page_response.dart';
 import '../../../routes/app_pages.dart';
 
 
-openScheduleAirconService(AirconProvider controller,BuildContext context,
+openScheduleAirconService(AirconProvider controller, BuildContext context,
     int subcategoriesIndex, ServiceCategory serviceCategory) {
   showDialog(
       context: context,
@@ -41,19 +42,20 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
             child: Material(
               color: AppColors.white,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Row(
                       children: [
-                        TextWidget(
-                          text: serviceCategory.servicecategoryName!),
+                        TextWidget(text: serviceCategory.servicecategoryName!),
                         //  TextWidget(text: airconSubcategories[index.].subcategoryName ?? 'No Name'),
                         const Spacer(),
                         InkWell(
-                          onTap: () => Navigator.pushNamed(context, Routes.AIRCON_SERVICES),
+                          onTap: () => Navigator.pushNamed(
+                              context, Routes.AIRCON_SERVICES),
                           child: const Icon(Icons.close_outlined,
                               size: 30, color: AppColors.darkGray),
                         )
@@ -98,8 +100,8 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
-                                    border:
-                                    Border.all(color: AppColors.primaryButtonColor),
+                                    border: Border.all(
+                                        color: AppColors.primaryButtonColor),
                                     borderRadius: BorderRadius.circular(3),
                                     color: AppColors.primaryButtonColor),
                                 child: TextWidget(
@@ -122,8 +124,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16),
                                   );
-                                }
-                            ),
+                                }),
                             const SizedBox(width: 20),
                             InkWell(
                               onTap: () => controller.onClickAddRooms(),
@@ -131,8 +132,8 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
-                                    border:
-                                    Border.all(color: AppColors.primaryButtonColor),
+                                    border: Border.all(
+                                        color: AppColors.primaryButtonColor),
                                     borderRadius: BorderRadius.circular(3),
                                     color: AppColors.primaryButtonColor),
                                 child: TextWidget(
@@ -149,8 +150,8 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                         const HorizontalAppDivider(color: AppColors.darkGray),
                         const Align(
                             alignment: Alignment.centerLeft,
-                            child:
-                            TextWidget(text: StringConstants.additionalServices)),
+                            child: TextWidget(
+                                text: StringConstants.additionalServices)),
                         const SizedBox(height: 20),
                         Row(
                           children: [
@@ -169,7 +170,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                                 padding: controller.isBoxClicked.value
                                     ? const EdgeInsets.symmetric(horizontal: 2)
                                     : const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
+                                        horizontal: 10, vertical: 8),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: controller.isBoxClicked.value
@@ -181,7 +182,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                                         : AppColors.white),
                                 child: controller.isBoxClicked.value
                                     ? const Icon(Icons.check,
-                                    color: AppColors.white, size: 16)
+                                        color: AppColors.white, size: 16)
                                     : null,
                               ),
                             ),
@@ -205,7 +206,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                                 padding: controller.isBoxClicked.value
                                     ? const EdgeInsets.symmetric(horizontal: 2)
                                     : const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
+                                        horizontal: 10, vertical: 8),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: controller.isBoxClicked.value
@@ -217,7 +218,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                                         : AppColors.white),
                                 child: controller.isBoxClicked.value
                                     ? const Icon(Icons.check,
-                                    color: AppColors.white, size: 16)
+                                        color: AppColors.white, size: 16)
                                     : null,
                               ),
                             )
@@ -241,7 +242,7 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                                 padding: controller.isBoxClicked.value
                                     ? const EdgeInsets.symmetric(horizontal: 2)
                                     : const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 8),
+                                        horizontal: 10, vertical: 8),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: controller.isBoxClicked.value
@@ -253,10 +254,11 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                                         : AppColors.white),
                                 child: controller.isBoxClicked.value
                                     ? const Icon(Icons.check,
-                                    color: AppColors.white, size: 16)
+                                        color: AppColors.white, size: 16)
                                     : null,
                               ),
-                            )                          ],
+                            )
+                          ],
                         ),
                         const HorizontalAppDivider(color: AppColors.darkGray),
                         const SizedBox(height: 10),
@@ -264,7 +266,8 @@ openScheduleAirconService(AirconProvider controller,BuildContext context,
                             buttonText: "Check Out >>",
                             onTap: () {
                               //  Navigator.pushNamed(context, Routes.HOME);
-                              Navigator.pushNamed(context, Routes.ADDITIONAL_DETAILS);
+                              Navigator.pushNamed(
+                                  context, Routes.DATE_AND_TIME);
                             }),
                       ],
                     )

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/constants/app_constants.dart';
@@ -15,7 +14,24 @@ class HomeProvider with ChangeNotifier {
   ValueNotifier<String> address = ValueNotifier("");
   ValueNotifier<String> token = ValueNotifier("");
   ValueNotifier<String> name = ValueNotifier("");
-  late ServiceCategory selectedServiceCategory;
+  ServiceCategory? selectedServiceCategory;
+
+  HomeProvider() {
+    // Initialize selectedServiceCategory with all required parameters
+    selectedServiceCategory = ServiceCategory(
+      id: "1",
+      servicecategory:1,
+      servicecategoryId: 101,
+      subcategoryId: 201,
+      categoryId: 301, servicecategoryName: '', price: null, createdAt: null, updatedAt: null, v: null,
+      // Add other required arguments here
+    );
+  }
+  void setSelectedServiceCategory(ServiceCategory category) {
+    selectedServiceCategory = category;
+    notifyListeners();
+  }
+
   ValueNotifier<int> categoryIds = ValueNotifier<int>(-1);
   ValueNotifier<int> subcategoryId = ValueNotifier<int>(-1);
   ValueNotifier<int> servicecategoryId = ValueNotifier<int>(-1);
@@ -69,7 +85,6 @@ class HomeProvider with ChangeNotifier {
   HomePageResponse? _response;
 
   HomePageResponse get homeAPIResponse => _response!;
-
 
   // List<dynamic> _services = [];
 

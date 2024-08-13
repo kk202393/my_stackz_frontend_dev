@@ -81,33 +81,30 @@ class ApiHandler {
     }
   }
 
-  Future<BookingResponse> callConsumerBookingApi(
-      String token,
-      int categoryId,
-      int subCategoryId,
-      int serviceCategoryId,
-      String bookingId,
-      String bookingDate,
-      String timeSlotId,
-      String useraddressId) async {
+  callConsumerBookingApi(body) async {
+    String? token = await Utils().ReadToken();
+
     try {
-      if (dio == null) {
-        initDio();
-      }
-      final Response response = await dio!.post(
+      if (dio == null) initDio();
+      Response response = await dio!.post(
         AppURLs.consumerorderbookingURL,
+        data: body,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
       );
-      BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
-      String first = bookingResponse
-          .consumerOrderDetails.consumerBookingStatus.bookingStatus;
-      debugPrint("First Categoryvjhjhjhjh ID: $response");
-      return bookingResponse;
+      debugPrint("consumerorderbooking API ${response.data}");
+
+      return LoginResponse.fromJson(response.data);
     } on DioException catch (e) {
+      debugPrint("consumerorderbooking API exception $e");
+      if (e.response != null) {
+        debugPrint("Response Data: ${e.response!.data}");
+        debugPrint("Response Headers: ${e.response!.headers}");
+      }
       _handleError(e);
-      rethrow;
-    } catch (e) {
-      debugPrint("Unexpected error: $e");
-      rethrow;
     }
   }
 

@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_stackz/constants/app_colors.dart';
+import 'package:my_stackz/constants/app_images.dart';
+import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
-import 'package:my_stackz/screens/airconServices/views/type_service_bottom_sheet.dart';
+import 'package:my_stackz/screens/airconServices/views/aircon_dialogue_box.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
+import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../constants/app_colors.dart';
-import '../../../../constants/app_images.dart';
-import '../../../../constants/string_constants.dart';
-import '../../../../widgets/text_widget.dart';
-import '../../../models/home_page_response.dart';
-import 'aircon_dialogue_box.dart';
-
-openAirconOptions(AirconProvider airconProvider, context,
+openTypeServiceAirconOptions(AirconProvider airconProvider, context,
     int subcategoriesIndex, Subcategory subcategory) {
   final size = MediaQuery.of(context).size;
 
@@ -33,7 +30,8 @@ openAirconOptions(AirconProvider airconProvider, context,
       ),
       builder: (builder) {
         return Builder(builder: (builder) {
-          Provider.of<HomeProvider>(context, listen: false);
+          HomeProvider homeProvider =
+              Provider.of<HomeProvider>(context, listen: false);
           AirconProvider airconController =
               Provider.of<AirconProvider>(context, listen: false);
 
@@ -71,9 +69,6 @@ openAirconOptions(AirconProvider airconProvider, context,
                                 subcategory.serviceCategories[index];
                             return InkWell(
                               onTap: () {
-                                // openTypeServiceAirconOptions(airconController,
-                                //     context, index,);
-
                                 openScheduleAirconService(
                                     airconController, context, index, item);
                               },

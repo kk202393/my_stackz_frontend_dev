@@ -58,20 +58,23 @@ class SplaceScreen extends StatelessWidget {
   }
 
   Future<void> _handleLoading(BuildContext context) async {
-    await Future.delayed(const Duration(milliseconds: 1500)); // Adding a slight delay for smooth transition
+    await Future.delayed(const Duration(milliseconds: 1500));
     await _readTokenAndNavigate(context);
   }
 
   Future<void> _readTokenAndNavigate(BuildContext context) async {
     try {
       String? token = await Utils().ReadToken();
-      HomeProvider homeController = Provider.of<HomeProvider>(context, listen: false);
-      LoginProvider loginProvider = Provider.of<LoginProvider>(context, listen: false);
+      HomeProvider homeController =
+          Provider.of<HomeProvider>(context, listen: false);
+      LoginProvider loginProvider =
+          Provider.of<LoginProvider>(context, listen: false);
 
       if (token != null && token.isNotEmpty) {
         bool profileLoaded = await loginProvider.getMyProfile();
         if (profileLoaded) {
-          bool homePageLoaded = await homeController.callGetViewHomePageApi(context);
+          bool homePageLoaded =
+              await homeController.callGetViewHomePageApi(context);
           if (homePageLoaded) {
             homeController.isLoading.value = false;
             Navigator.pushReplacementNamed(context, Routes.HOME);

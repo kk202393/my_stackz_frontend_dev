@@ -6,6 +6,7 @@ import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/additionalDetails/provider/additional_details_provider.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
@@ -21,9 +22,13 @@ class AdditionalDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     AdditionalDetailsProvider controller =
         Provider.of<AdditionalDetailsProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
+
     HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
-    final ServiceCategory serviceCategory = homeProvider.selectedServiceCategory;
+    final ServiceCategory? serviceCategory =
+        homeProvider.selectedServiceCategory;
 
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -35,7 +40,8 @@ class AdditionalDetailsView extends StatelessWidget {
             Row(
               children: [
                 TextWidget(
-                  text: serviceCategory.servicecategoryName!,
+                  text: serviceCategory?.servicecategoryName.toString() ??
+                      "Service Category",
                 ),
                 const Spacer(),
                 InkWell(
@@ -59,7 +65,7 @@ class AdditionalDetailsView extends StatelessWidget {
                     ),
                     const Spacer(),
                     TextWidget(
-                      text: "${serviceCategory.price}",
+                      text: "${serviceCategory?.price ?? 0.0}",
                       style: GoogleFonts.montserrat(
                           color: AppColors.princeTonOrange,
                           fontWeight: FontWeight.w500,
@@ -349,7 +355,7 @@ class AdditionalDetailsView extends StatelessWidget {
                 ButtonWidget(
                     buttonText: "Check Out >>",
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.ADDITIONAL_DETAILS);
+                      Navigator.pushNamed(context, Routes.DATE_AND_TIME);
                     }),
               ],
             ),
@@ -482,7 +488,24 @@ class AdditionalDetailsView extends StatelessWidget {
             const SizedBox(height: 30),
             ButtonWidget(
                 buttonText: 'Proceed',
-                onTap: () => Navigator.pushNamed(context, Routes.DATE_AND_TIME))
+                onTap: () async {
+                  homeProvider.isLoading.value = true;
+                  bool success =
+                      await bookingProvider.callBookingPageApi(context);
+                  if (success != false) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(success
+                            ? 'Booking Successful!'
+                            : 'Booking Failed!'),
+                      ),
+                    );
+                  } else {
+                    homeProvider.isLoading.value = false;
+
+                    Navigator.pushNamed(context, Routes.DATE_AND_TIME);
+                  }
+                })
           ],
         ),
       )),

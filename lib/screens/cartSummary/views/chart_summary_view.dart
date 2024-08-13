@@ -71,33 +71,55 @@ class CartSummaryView extends StatelessWidget {
                 text: StringConstants.address, style: context.headlineSmall),
             const SizedBox(height: 10),
             ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  Address? address = loginProvider
-                      .logInAPIResponse?.userAddress!.first!.addresses?[index];
-                  return Column(
-                    children: [
-                      TextWidget(
-                          text: address!.address,
-                          style: context.headlineSmall
-                              .copyWith(color: AppColors.spanishGray)),
-                      const SizedBox(height: 10),
-                      TextWidget(
-                          text: address.city,
-                          style: context.headlineSmall
-                              .copyWith(color: AppColors.spanishGray)),
-                      const SizedBox(height: 10),
-                      TextWidget(
-                          text: address.pincode,
-                          style: context.headlineSmall
-                              .copyWith(color: AppColors.spanishGray)),
-                    ],
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                if (loginProvider.logInAPIResponse?.userAddress == null ||
+                    loginProvider.logInAPIResponse!.userAddress!.isEmpty ||
+                    loginProvider
+                            .logInAPIResponse!.userAddress!.first.addresses ==
+                        null ||
+                    loginProvider.logInAPIResponse!.userAddress!.first
+                        .addresses!.isEmpty) {
+                  return TextWidget(
+                    text: "No address found",
+                    style: context.headlineSmall
+                        .copyWith(color: AppColors.spanishGray),
                   );
-                },
-                separatorBuilder: (context, index) => const SizedBox(
-                      height: 10,
+                }
+
+                Address address = loginProvider
+                    .logInAPIResponse!.userAddress!.first.addresses![index]!;
+
+                return Column(
+                  children: [
+                    TextWidget(
+                      text: address.address ?? "No address",
+                      style: context.headlineSmall
+                          .copyWith(color: AppColors.spanishGray),
                     ),
-                itemCount: 1),
+                    const SizedBox(height: 10),
+                    TextWidget(
+                      text: address.city ?? "No city",
+                      style: context.headlineSmall
+                          .copyWith(color: AppColors.spanishGray),
+                    ),
+                    const SizedBox(height: 10),
+                    TextWidget(
+                      text: address.pincode ?? "No pincode",
+                      style: context.headlineSmall
+                          .copyWith(color: AppColors.spanishGray),
+                    ),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 10,
+              ),
+              itemCount: loginProvider
+                      .logInAPIResponse?.userAddress?.first.addresses?.length ??
+                  0,
+            ),
+
             const SizedBox(height: 10),
 
             TextWidget(

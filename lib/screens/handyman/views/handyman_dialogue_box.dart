@@ -118,8 +118,7 @@ openScheduleHandymanService(HandymanProvider controller, BuildContext context,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16),
                                   );
-                                }
-                            ),
+                                }),
                             const SizedBox(width: 20),
                             InkWell(
                               onTap: () => controller.onClickAddRooms(),
@@ -147,7 +146,7 @@ openScheduleHandymanService(HandymanProvider controller, BuildContext context,
                             buttonText: "Check Out >>",
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, Routes.ADDITIONAL_DETAILS);
+                                  context, Routes.DATE_AND_TIME);
                             }),
                       ],
                     )
@@ -159,4 +158,3 @@ openScheduleHandymanService(HandymanProvider controller, BuildContext context,
         );
       });
 }
-

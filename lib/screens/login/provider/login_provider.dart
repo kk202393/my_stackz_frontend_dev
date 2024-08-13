@@ -57,8 +57,8 @@ class LoginProvider with ChangeNotifier {
     if (token == null) {
       return false;
     }
-    LoginResponse response = await ApiHandler().callViewProfileApi(token);
-    return response.success;
+    _response = await ApiHandler().callViewProfileApi(token);
+    return _response!.success;
   }
 
   Future<bool> callLoginApi(homeController, BuildContext context) async {

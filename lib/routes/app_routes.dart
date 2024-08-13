@@ -32,6 +32,7 @@ abstract class Routes {
   static const RESCHEDULE = _Paths.RESCHEDULE;
   static const CANCELLATION = _Paths.CANCELLATION;
   static const SPLACE= _Paths.SPLACE;
+  static const TYPESERVICECATEGORY=_Paths.TYPESERVICECATEGORY;
 
 
 
@@ -68,6 +69,8 @@ abstract class _Paths {
   static const RESCHEDULE = '/reschedule';
   static const CANCELLATION = '/cancellation';
   static const SPLACE = '/spalce';
+    static const TYPESERVICECATEGORY = '/type-service-categoty';
+
 }
 
 
