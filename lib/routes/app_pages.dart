@@ -96,12 +96,12 @@ class AppPages {
       case Routes.CART_SUMMARY:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => const CartSummaryView(),
+          builder: (_) => CartSummaryView(),
         );
       case Routes.SELECT_ADDRESS:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => const SelectAddressView(),
+          builder: (_) =>  SelectAddressView(),
         );
       default:
         return MaterialPageRoute(
