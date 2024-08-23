@@ -1,4 +1,6 @@
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/screens/additionalDetails/views/additional_details_view.dart';
 import 'package:my_stackz/screens/airconServices/views/aircon_view.dart';
@@ -95,11 +97,19 @@ class AppPages {
           builder: (_) => const PaymentView(),
         );
       case Routes.CART_SUMMARY:
-        final Address selectedAddress = setting.arguments as Address;
+        final Map<String, dynamic> args =
+            setting.arguments as Map<String, dynamic>;
+
+        final Address selectedAddress = args["selectedAddress"] as Address;
+        final String selectedTimeSlotId = args["selectedTimeSlotId"] as String;
+        final DateTime selectedDate = args["selectedDate"] as DateTime;
+
         return MaterialPageRoute(
           settings: setting,
           builder: (_) => CartSummaryView(
             selectedAddress: selectedAddress,
+            selectedTimeSlotId: selectedTimeSlotId,
+            selectedDate: selectedDate,
           ),
         );
       case Routes.SELECT_ADDRESS:

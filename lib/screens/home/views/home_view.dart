@@ -246,23 +246,23 @@ class HomeView extends StatelessWidget {
                                           alignment: Alignment.center,
                                           child: InkWell(
                                             onTap: () async {
-                                              homeProvider.isLoading.value =
-                                                  true;
+                                              // homeProvider.isLoading.value =
+                                              //     true;
 
-                                              bool success =
-                                                  await bookingProvider
-                                                      .callBookingPageApi(
-                                                          context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(success
-                                                      ? 'Booking Successful!'
-                                                      : 'Booking Failed!'),
-                                                ),
-                                              );
-                                              homeProvider.isLoading.value =
-                                                  false;
+                                              // bool success =
+                                              //     await bookingProvider
+                                              //         .callBookingPageApi(
+                                              //             context);
+                                              // ScaffoldMessenger.of(context)
+                                              //     .showSnackBar(
+                                              //   SnackBar(
+                                              //     content: Text(success
+                                              //         ? 'Booking Successful!'
+                                              //         : 'Booking Failed!'),
+                                              //   ),
+                                              // );
+                                              // homeProvider.isLoading.value =
+                                              //     false;
                                             },
                                             child: Container(
                                               width: 80,

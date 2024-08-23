@@ -104,11 +104,30 @@ class CartSummaryView extends StatelessWidget {
                 style: context.headlineSmall
                     .copyWith(fontWeight: FontWeight.w700)),
             const SizedBox(height: 10),
-            TextWidget(
-                text: "$formattedDate at $formattedTimeSlot",
-                style: context.headlineSmall
-                    .copyWith(color: AppColors.spanishGray)),
-            const SizedBox(height: 25),
+            ValueListenableBuilder(
+              valueListenable: bookingProvider.bookingDate,
+              builder: (context, String bookingDate, _) {
+                return ValueListenableBuilder(
+                  valueListenable: bookingProvider.timeSlotId,
+                  builder: (context, String timeSlotId, _) {
+                    String formattedDate = bookingDate.isNotEmpty
+                        ? bookingDate
+                        : "No Date Selected";
+                    String formattedTimeSlot = timeSlotId.isNotEmpty
+                        ? timeSlotId
+                        : "No Time Slot Selected";
+
+                    return TextWidget(
+                      text: "$formattedDate \nat $formattedTimeSlot",
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: AppColors.spanishGray,
+                              ),
+                    );
+                  },
+                );
+              },
+            ),
             TextWidget(
                 text: StringConstants.details,
                 style: context.headlineSmall
@@ -291,18 +310,38 @@ class CartSummaryView extends StatelessWidget {
             ButtonWidget(
               buttonText: 'Confirm Order',
               onTap: () async {
-                homeProvider.isLoading.value = true;
-                bool success =
-                    await bookingProvider.callBookingPageApi(context);
+                BookingProvider bookingProvider =
+                    Provider.of<BookingProvider>(context, listen: false);
+
+                int serviceCategory = bookingProvider.serviceCategoryId.value;
+                int subCategory = bookingProvider.subCategoryId.value;
+                int category = bookingProvider.categoryId.value;
+                String selectedDateString = selectedDate != null
+                    ? DateFormat('MMM/dd/yyyy').format(selectedDate!)
+                    : "";
+
+                String? selectedTimeSlotId = bookingProvider.timeSlotId.value;
+                String? selectedAddressId = selectedAddress.id.toString();
+                int? selectedAddressIndexValue = 1;
+
+                bool success = await bookingProvider.callBookingPageApi(
+                  context,
+                  serviceCategory,
+                  subCategory,
+                  category,
+                  selectedDateString,
+                  selectedTimeSlotId,
+                  selectedAddressId,
+                  selectedAddressIndexValue,
+                );
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
                         success ? 'Booking Successful!' : 'Booking Failed!'),
                   ),
                 );
-                homeProvider.isLoading.value = false;
               },
-              // onTap: () => Get.toNamed(Routes.PAYMENT),
             )
           ],
         ),

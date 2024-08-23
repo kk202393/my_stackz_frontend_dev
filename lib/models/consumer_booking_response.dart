@@ -1,6 +1,4 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
+
 
 import 'dart:convert';
 
@@ -33,67 +31,67 @@ class BookingResponse {
 }
 
 class ConsumerOrderDetails {
-    String id;
-    ConsumerUserId consumerUserId;
-    ConsumerBookingStatus consumerBookingStatus;
-    int servicecategoryId;
-    int subcategoryId;
-    int categoryId;
-    String bookingDate;
-    TimeSlotId timeSlotId;
-    UseraddressId useraddressId;
-    DateTime createdAt;
-    DateTime updatedAt;
-    String bookingId;
-    int v;
+  String id;
+  ConsumerUserId consumerUserId;
+  ConsumerBookingStatus consumerBookingStatus;
+  int servicecategoryId;
+  int subcategoryId;
+  int categoryId;
+  String bookingDate;
+  TimeSlotId timeSlotId; 
+  UseraddressId useraddressId; 
+  DateTime createdAt;
+  DateTime updatedAt;
+  String bookingId;
+  int v;
 
-    ConsumerOrderDetails({
-        required this.id,
-        required this.consumerUserId,
-        required this.consumerBookingStatus,
-        required this.servicecategoryId,
-        required this.subcategoryId,
-        required this.categoryId,
-        required this.bookingDate,
-        required this.timeSlotId,
-        required this.useraddressId,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.bookingId,
-        required this.v,
-    });
+  ConsumerOrderDetails({
+    required this.id,
+    required this.consumerUserId,
+    required this.consumerBookingStatus,
+    required this.servicecategoryId,
+    required this.subcategoryId,
+    required this.categoryId,
+    required this.bookingDate,
+    required this.timeSlotId,
+    required this.useraddressId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.bookingId,
+    required this.v,
+  });
 
-    factory ConsumerOrderDetails.fromJson(Map<String, dynamic> json) => ConsumerOrderDetails(
-        id: json["_id"],
-        consumerUserId: ConsumerUserId.fromJson(json["consumer_user_id"]),
-        consumerBookingStatus: ConsumerBookingStatus.fromJson(json["consumer_booking_status"]),
-        servicecategoryId: json["servicecategory_id"],
-        subcategoryId: json["subcategory_id"],
-        categoryId: json["category_id"],
-        bookingDate: json["booking_date"],
-        timeSlotId: TimeSlotId.fromJson(json["time_slot_id"]),
-        useraddressId: UseraddressId.fromJson(json["useraddress_id"]),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        bookingId: json["booking_id"],
-        v: json["__v"],
-    );
+  factory ConsumerOrderDetails.fromJson(Map<String, dynamic> json) => ConsumerOrderDetails(
+    id: json["_id"],
+    consumerUserId: ConsumerUserId.fromJson(json["consumer_user_id"]),
+    consumerBookingStatus: ConsumerBookingStatus.fromJson(json["consumer_booking_status"]),
+    servicecategoryId: json["servicecategory_id"],
+    subcategoryId: json["subcategory_id"],
+    categoryId: json["category_id"],
+    bookingDate: json["booking_date"],
+    timeSlotId: TimeSlotId.fromJson(json["time_slot_id"]),
+    useraddressId: UseraddressId.fromJson(json["useraddress_id"]),
+    createdAt: DateTime.parse(json["createdAt"]),
+    updatedAt: DateTime.parse(json["updatedAt"]),
+    bookingId: json["booking_id"],
+    v: json["__v"],
+  );
 
-    Map<String, dynamic> toJson() => {
-        "_id": id,
-        "consumer_user_id": consumerUserId.toJson(),
-        "consumer_booking_status": consumerBookingStatus.toJson(),
-        "servicecategory_id": servicecategoryId,
-        "subcategory_id": subcategoryId,
-        "category_id": categoryId,
-        "booking_date": bookingDate,
-        "time_slot_id": timeSlotId.toJson(),
-        "useraddress_id": useraddressId.toJson(),
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "booking_id": bookingId,
-        "__v": v,
-    };
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+    "consumer_user_id": consumerUserId.toJson(),
+    "consumer_booking_status": consumerBookingStatus.toJson(),
+    "servicecategory_id": servicecategoryId,
+    "subcategory_id": subcategoryId,
+    "category_id": categoryId,
+    "booking_date": bookingDate,
+    "time_slot_id": timeSlotId.toJson(), 
+    "useraddress_id": useraddressId.toJson(), 
+    "createdAt": createdAt.toIso8601String(),
+    "updatedAt": updatedAt.toIso8601String(),
+    "booking_id": bookingId,
+    "__v": v,
+  };
 }
 
 class ConsumerBookingStatus {

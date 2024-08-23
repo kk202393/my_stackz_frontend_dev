@@ -13,21 +13,44 @@ class BookingProvider with ChangeNotifier {
 
   ValueNotifier<int> count = ValueNotifier<int>(0);
   ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
-  BookingResponse? _response;
 
-  BookingResponse get bookingResponse => _response!;
-
-  ValueNotifier<int> serviceCategoryId = ValueNotifier<int>(1);
-  ValueNotifier<int> subCategoryId = ValueNotifier<int>(1);
-  ValueNotifier<int> categoryId = ValueNotifier<int>(1);
+  ValueNotifier<int> serviceCategoryId = ValueNotifier<int>(0);
+  ValueNotifier<int> subCategoryId = ValueNotifier<int>(0);
+  ValueNotifier<int> categoryId = ValueNotifier<int>(0);
   ValueNotifier<String> bookingDate = ValueNotifier<String>("");
   ValueNotifier<String> timeSlotId = ValueNotifier<String>("");
   ValueNotifier<String> bookingId = ValueNotifier<String>("");
   ValueNotifier<String> useraddressId = ValueNotifier<String>("");
-  ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int>(1);
+  ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int?>(null);
 
-  Future<bool> callBookingPageApi(BuildContext context) async {
+  setBookingDate(String value) {
+    bookingDate.value = value;
+    notifyListeners();
+  }
+
+  settimeSlotId(String value) {
+    timeSlotId.value = value;
+    notifyListeners();
+  }
+
+  Future<bool> callBookingPageApi(
+      BuildContext context,
+      int serviceCategory,
+      int subCategory,
+      int category,
+      String? selectedDateString,
+      String? selectedTimeSlotId,
+      String? selectedAddressId,
+      int? selectedAddressIndexValue) async {
     isLoading.value = true;
+
+    serviceCategoryId.value = serviceCategory;
+    subCategoryId.value = subCategory;
+    categoryId.value = category;
+    bookingDate.value = selectedDateString ?? "";
+    timeSlotId.value = selectedTimeSlotId ?? "";
+    useraddressId.value = selectedAddressId ?? "";
+    selectedAddressIndex.value = selectedAddressIndexValue ?? 1;
 
     Map<String, dynamic> body = {
       "servicecategory_id": serviceCategoryId.value,
@@ -37,13 +60,6 @@ class BookingProvider with ChangeNotifier {
       "time_slot_id": timeSlotId.value,
       "useraddress_id": useraddressId.value,
     };
-
-    print("serviceCategoryId: ${serviceCategoryId.value}");
-    print("subCategoryId: ${subCategoryId.value}");
-    print("categoryId: ${categoryId.value}");
-    print("bookingDate: ${bookingDate.value}");
-    print("timeSlotId: ${timeSlotId.value}");
-    print("useraddressId: ${useraddressId.value}");
 
     print("Request Body: $body");
 
@@ -65,7 +81,7 @@ class BookingProvider with ChangeNotifier {
     } catch (e) {
       isLoading.value = false;
       notifyListeners();
-      print("Error: $e"); // Print error for debugging
+      print("Error: $e");
       return false;
     }
   }

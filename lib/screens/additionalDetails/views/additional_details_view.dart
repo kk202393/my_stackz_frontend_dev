@@ -489,22 +489,22 @@ class AdditionalDetailsView extends StatelessWidget {
             ButtonWidget(
                 buttonText: 'Proceed',
                 onTap: () async {
-                  homeProvider.isLoading.value = true;
-                  bool success =
-                      await bookingProvider.callBookingPageApi(context);
-                  if (success != false) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(success
-                            ? 'Booking Successful!'
-                            : 'Booking Failed!'),
-                      ),
-                    );
-                  } else {
-                    homeProvider.isLoading.value = false;
+                  // homeProvider.isLoading.value = true;
+                  // bool success =
+                  //     await bookingProvider.callBookingPageApi(context);
+                  // if (success != false) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text(success
+                  //           ? 'Booking Successful!'
+                  //           : 'Booking Failed!'),
+                  //     ),
+                  //   );
+                  // } else {
+                  //   homeProvider.isLoading.value = false;
 
-                    Navigator.pushNamed(context, Routes.DATE_AND_TIME);
-                  }
+                  // Navigator.pushNamed(context, Routes.DATE_AND_TIME);
+                  // }
                 })
           ],
         ),

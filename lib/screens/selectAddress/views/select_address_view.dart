@@ -9,9 +9,9 @@ import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 import '../../login/provider/login_provider.dart';
+import 'package:intl/intl.dart';
 
 class SelectAddressView extends StatelessWidget {
-
   SelectAddressView({super.key});
 
   @override
@@ -19,17 +19,17 @@ class SelectAddressView extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
-        BookingProvider bookingProvider =
+    BookingProvider bookingProvider =
         Provider.of<BookingProvider>(context, listen: false);
-
 
     final userAddressList =
         loginProvider.logInAPIResponse?.userAddress?.first.addresses ?? [];
 
     final defaultAddressIndex =
         userAddressList.indexWhere((address) => address.isDefault);
-    if (defaultAddressIndex != -1 && bookingProvider.selectedAddressIndex.value == null) {
-     bookingProvider. selectedAddressIndex.value = defaultAddressIndex;
+    if (defaultAddressIndex != -1 &&
+        bookingProvider.selectedAddressIndex.value == null) {
+      bookingProvider.selectedAddressIndex.value = defaultAddressIndex;
     }
 
     return Scaffold(
@@ -82,10 +82,12 @@ class SelectAddressView extends StatelessWidget {
 
                         return GestureDetector(
                           onTap: () {
-                            if (bookingProvider.selectedAddressIndex.value == index) {
-                             bookingProvider. selectedAddressIndex.value = null;
+                            if (bookingProvider.selectedAddressIndex.value ==
+                                index) {
+                              bookingProvider.selectedAddressIndex.value = null;
                             } else {
-                             bookingProvider. selectedAddressIndex.value = index;
+                              bookingProvider.selectedAddressIndex.value =
+                                  index;
                             }
                           },
                           child: Container(
@@ -155,20 +157,42 @@ class SelectAddressView extends StatelessWidget {
                 buttonText: 'Continue',
                 onTap: () {
                   if (bookingProvider.selectedAddressIndex.value != null) {
-                    final selectedAddress =
-                        userAddressList[bookingProvider.selectedAddressIndex.value!];
+                    final selectedAddress = userAddressList[
+                        bookingProvider.selectedAddressIndex.value!];
 
-                    print('Address  object ID: ${selectedAddress.id}');
+                    String selectedTimeSlotId =
+                        bookingProvider.timeSlotId.value;
+                    DateTime? selectedDate =
+                        bookingProvider.bookingDate.value.isNotEmpty
+                            ? DateFormat('MMM dd yyyy')
+                                .parse(bookingProvider.bookingDate.value)
+                            : null;
 
-                    Navigator.pushNamed(
-                      context,
-                      Routes.CART_SUMMARY,
-                      arguments: selectedAddress,
-                    );
+                    if (selectedTimeSlotId.isNotEmpty && selectedDate != null) {
+                      print('Address object ID: ${selectedAddress.id}');
+                      print('Selected Time Slot ID: $selectedTimeSlotId');
+                      print('Selected Date: $selectedDate');
+
+                      Navigator.pushNamed(
+                        context,
+                        Routes.CART_SUMMARY,
+                        arguments: {
+                          'selectedAddress': selectedAddress,
+                          'selectedTimeSlotId': selectedTimeSlotId,
+                          'selectedDate': selectedDate, // Pass as DateTime
+                        },
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please select a time slot and date.'),
+                        ),
+                      );
+                    }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Please select an address'),
+                        content: Text('Please select an address.'),
                       ),
                     );
                   }

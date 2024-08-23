@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
@@ -137,26 +138,30 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                     String selectedDateString =
                         DateFormat('MMM dd yyyy').format(_selectedDate!);
 
-                    // Assign the selected date and time slot ID to the ValueNotifiers
-                    bookingDate.value = selectedDateString;
-                    timeSlotId.value = _selectedTimeSlotId!;
+                    BookingProvider bookingProvider =
+                        Provider.of<BookingProvider>(context, listen: false);
 
-                    print("Selected Time Slot ID: $_selectedTimeSlotId");
-                    print("Selected Date: $selectedDateString");
+                    bookingProvider.bookingDate.value = selectedDateString;
+                    bookingProvider.timeSlotId.value = _selectedTimeSlotId!;
+
+                    print(
+                        "Selected Time Slot ID: ${bookingProvider.timeSlotId.value}");
+                    print(
+                        "Selected Date: ${bookingProvider.bookingDate.value}");
 
                     Navigator.pushNamed(
                       context,
                       Routes.SELECT_ADDRESS,
                       arguments: {
-                        'selectedTimeSlotId': _selectedTimeSlotId,
-                        'selectedDate': selectedDateString,
+                        'selectedTimeSlotId': bookingProvider.timeSlotId.value,
+                        'selectedDate': bookingProvider.bookingDate.value,
                       },
                     );
                   } else {
                     print("No time slot or date selected.");
                   }
                 },
-              ),
+              )
             ],
           ),
         ),
