@@ -2,6 +2,7 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/routes/app_pages.dart';
@@ -23,6 +24,17 @@ class DateAndTimeView extends StatefulWidget {
 class _DateAndTimeViewState extends State<DateAndTimeView> {
   int _selectedSlotIndex = -1;
   String? _selectedTimeSlotId;
+  DateTime? _selectedDate;
+
+  // Declare your ValueNotifiers here
+  ValueNotifier<int> serviceCategoryId = ValueNotifier<int>(1);
+  ValueNotifier<int> subCategoryId = ValueNotifier<int>(1);
+  ValueNotifier<int> categoryId = ValueNotifier<int>(1);
+  ValueNotifier<String> bookingDate = ValueNotifier<String>("");
+  ValueNotifier<String> timeSlotId = ValueNotifier<String>("");
+  ValueNotifier<String> bookingId = ValueNotifier<String>("");
+  ValueNotifier<String> useraddressId = ValueNotifier<String>("");
+  ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int>(1);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +73,9 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
               EasyDateTimeLine(
                 initialDate: DateTime.now(),
                 onDateChange: (selectedDate) {
-                  // Handle date change
+                  setState(() {
+                    _selectedDate = selectedDate;
+                  });
                 },
                 headerProps: const EasyHeaderProps(
                   monthPickerType: MonthPickerType.switcher,
@@ -93,10 +107,8 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              _selectedSlotIndex =
-                                  index; // Update selected index
-                              _selectedTimeSlotId = timeSlot[index]
-                                  .id; // Store the selected time slot ID
+                              _selectedSlotIndex = index;
+                              _selectedTimeSlotId = timeSlot[index].id;
                             });
                           },
                           child: Container(
@@ -106,8 +118,8 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                               border: Border.all(color: AppColors.white),
                               borderRadius: BorderRadius.circular(23),
                               color: _selectedSlotIndex == index
-                                  ? AppColors.mandarin // Selected color
-                                  : AppColors.white, // Default color
+                                  ? AppColors.mandarin
+                                  : AppColors.white,
                             ),
                             child: TextWidget(
                               text: "${timeSlot[index].timeValue}",
@@ -121,14 +133,28 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
               ButtonWidget(
                 buttonText: 'Next',
                 onTap: () {
-                  if (_selectedTimeSlotId != null) {
-                    print("Selected Time Slot ID: $_selectedTimeSlotId");
-                  } else {
-                    print("No time slot selected.");
-                  }
+                  if (_selectedTimeSlotId != null && _selectedDate != null) {
+                    String selectedDateString =
+                        DateFormat('MMM dd yyyy').format(_selectedDate!);
 
-                  // Proceed to the next screen
-                  Navigator.pushNamed(context, Routes.SELECT_ADDRESS);
+                    // Assign the selected date and time slot ID to the ValueNotifiers
+                    bookingDate.value = selectedDateString;
+                    timeSlotId.value = _selectedTimeSlotId!;
+
+                    print("Selected Time Slot ID: $_selectedTimeSlotId");
+                    print("Selected Date: $selectedDateString");
+
+                    Navigator.pushNamed(
+                      context,
+                      Routes.SELECT_ADDRESS,
+                      arguments: {
+                        'selectedTimeSlotId': _selectedTimeSlotId,
+                        'selectedDate': selectedDateString,
+                      },
+                    );
+                  } else {
+                    print("No time slot or date selected.");
+                  }
                 },
               ),
             ],

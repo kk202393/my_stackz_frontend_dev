@@ -17,30 +17,39 @@ class BookingProvider with ChangeNotifier {
 
   BookingResponse get bookingResponse => _response!;
 
-  ValueNotifier<int> serviceCategoryId = ValueNotifier<int>(-1);
-  ValueNotifier<int> subCategoryId = ValueNotifier<int>(-1);
-  ValueNotifier<int> categoryId = ValueNotifier<int>(-1);
+  ValueNotifier<int> serviceCategoryId = ValueNotifier<int>(1);
+  ValueNotifier<int> subCategoryId = ValueNotifier<int>(1);
+  ValueNotifier<int> categoryId = ValueNotifier<int>(1);
   ValueNotifier<String> bookingDate = ValueNotifier<String>("");
   ValueNotifier<String> timeSlotId = ValueNotifier<String>("");
   ValueNotifier<String> bookingId = ValueNotifier<String>("");
   ValueNotifier<String> useraddressId = ValueNotifier<String>("");
+  ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int>(1);
 
   Future<bool> callBookingPageApi(BuildContext context) async {
     isLoading.value = true;
-    try {
-      Map<String, dynamic> body = {
-        "servicecategory_id": serviceCategoryId.value,
-        "subcategory_id": subCategoryId.value,
-        "category_id": categoryId.value,
-        "booking_date": bookingDate.value,
-        "time_slot_id": timeSlotId.value,
-        "useraddress_id": useraddressId.value,
-      };
 
-      // Make the API call and pass the body
+    Map<String, dynamic> body = {
+      "servicecategory_id": serviceCategoryId.value,
+      "subcategory_id": subCategoryId.value,
+      "category_id": categoryId.value,
+      "booking_date": bookingDate.value,
+      "time_slot_id": timeSlotId.value,
+      "useraddress_id": useraddressId.value,
+    };
+
+    print("serviceCategoryId: ${serviceCategoryId.value}");
+    print("subCategoryId: ${subCategoryId.value}");
+    print("categoryId: ${categoryId.value}");
+    print("bookingDate: ${bookingDate.value}");
+    print("timeSlotId: ${timeSlotId.value}");
+    print("useraddressId: ${useraddressId.value}");
+
+    print("Request Body: $body");
+
+    try {
       LoginResponse? _response =
           await ApiHandler().callConsumerBookingApi(body);
-      print("Request Body: $body");
 
       isLoading.value = false;
       notifyListeners();
@@ -48,7 +57,6 @@ class BookingProvider with ChangeNotifier {
       print("response=$_response");
 
       if (_response != null && _response.success) {
-        // Navigate to the booking details page if the response is successful
         Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
         return true;
       } else {
@@ -57,6 +65,7 @@ class BookingProvider with ChangeNotifier {
     } catch (e) {
       isLoading.value = false;
       notifyListeners();
+      print("Error: $e"); // Print error for debugging
       return false;
     }
   }

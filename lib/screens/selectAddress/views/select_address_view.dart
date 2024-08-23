@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
@@ -10,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../../login/provider/login_provider.dart';
 
 class SelectAddressView extends StatelessWidget {
-  final ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int?>(null);
 
   SelectAddressView({super.key});
 
@@ -19,15 +19,17 @@ class SelectAddressView extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
+        BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
+
 
     final userAddressList =
         loginProvider.logInAPIResponse?.userAddress?.first.addresses ?? [];
 
-    // Find the default address index == true or false
     final defaultAddressIndex =
         userAddressList.indexWhere((address) => address.isDefault);
-    if (defaultAddressIndex != -1 && selectedAddressIndex.value == null) {
-      selectedAddressIndex.value = defaultAddressIndex;
+    if (defaultAddressIndex != -1 && bookingProvider.selectedAddressIndex.value == null) {
+     bookingProvider. selectedAddressIndex.value = defaultAddressIndex;
     }
 
     return Scaffold(
@@ -68,7 +70,7 @@ class SelectAddressView extends StatelessWidget {
               const SizedBox(height: 10),
               if (userAddressList.isNotEmpty)
                 ValueListenableBuilder<int?>(
-                  valueListenable: selectedAddressIndex,
+                  valueListenable: bookingProvider.selectedAddressIndex,
                   builder: (context, selectedIndex, child) {
                     return ListView.builder(
                       shrinkWrap: true,
@@ -80,10 +82,10 @@ class SelectAddressView extends StatelessWidget {
 
                         return GestureDetector(
                           onTap: () {
-                            if (selectedAddressIndex.value == index) {
-                              selectedAddressIndex.value = null;
+                            if (bookingProvider.selectedAddressIndex.value == index) {
+                             bookingProvider. selectedAddressIndex.value = null;
                             } else {
-                              selectedAddressIndex.value = index;
+                             bookingProvider. selectedAddressIndex.value = index;
                             }
                           },
                           child: Container(
@@ -152,8 +154,17 @@ class SelectAddressView extends StatelessWidget {
               ButtonWidget(
                 buttonText: 'Continue',
                 onTap: () {
-                  if (selectedAddressIndex.value != null) {
-                    Navigator.pushNamed(context, Routes.CART_SUMMARY);
+                  if (bookingProvider.selectedAddressIndex.value != null) {
+                    final selectedAddress =
+                        userAddressList[bookingProvider.selectedAddressIndex.value!];
+
+                    print('Address  object ID: ${selectedAddress.id}');
+
+                    Navigator.pushNamed(
+                      context,
+                      Routes.CART_SUMMARY,
+                      arguments: selectedAddress,
+                    );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/screens/additionalDetails/views/additional_details_view.dart';
 import 'package:my_stackz/screens/airconServices/views/aircon_view.dart';
 import 'package:my_stackz/screens/cartSummary/views/chart_summary_view.dart';
@@ -94,14 +95,17 @@ class AppPages {
           builder: (_) => const PaymentView(),
         );
       case Routes.CART_SUMMARY:
+        final Address selectedAddress = setting.arguments as Address;
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => CartSummaryView(),
+          builder: (_) => CartSummaryView(
+            selectedAddress: selectedAddress,
+          ),
         );
       case Routes.SELECT_ADDRESS:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) =>  SelectAddressView(),
+          builder: (_) => SelectAddressView(),
         );
       default:
         return MaterialPageRoute(
