@@ -179,7 +179,7 @@ class SelectAddressView extends StatelessWidget {
                         arguments: {
                           'selectedAddress': selectedAddress,
                           'selectedTimeSlotId': selectedTimeSlotId,
-                          'selectedDate': selectedDate, // Pass as DateTime
+                          'selectedDate': selectedDate,
                         },
                       );
                     } else {
