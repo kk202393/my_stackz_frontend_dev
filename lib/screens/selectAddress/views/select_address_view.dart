@@ -169,10 +169,6 @@ class SelectAddressView extends StatelessWidget {
                             : null;
 
                     if (selectedTimeSlotId.isNotEmpty && selectedDate != null) {
-                      print('Address object ID: ${selectedAddress.id}');
-                      print('Selected Time Slot ID: $selectedTimeSlotId');
-                      print('Selected Date: $selectedDate');
-
                       Navigator.pushNamed(
                         context,
                         Routes.CART_SUMMARY,
