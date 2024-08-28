@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
 import 'package:my_stackz/screens/airconServices/views/type_service_bottom_sheet.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -71,6 +72,26 @@ openAirconOptions(AirconProvider airconProvider, context,
                                 subcategory.serviceCategories[index];
                             return InkWell(
                               onTap: () {
+                                BookingProvider bookingProvider =
+                                    Provider.of<BookingProvider>(context,
+                                        listen: false);
+                                HomeProvider homeProvider =
+                                    Provider.of<HomeProvider>(context,
+                                        listen: false);
+                                bookingProvider.serviceCategoryId.value =
+                                    homeProvider
+                                        .homeAPIResponse
+                                        .allCategories[
+                                            bookingProvider.categoryId.value]
+                                        .subcategories[
+                                            bookingProvider.subCategoryId.value]
+                                        .serviceCategories[index]
+                                        .servicecategoryId!;
+                                print(
+                                    "object${bookingProvider.serviceCategoryId.value}");
+                                print(
+                                    "bookingProvider.servicecategoryid=${bookingProvider.serviceCategoryId.value}");
+
                                 // openTypeServiceAirconOptions(airconController,
                                 //     context, index,);
 

@@ -5,6 +5,7 @@ import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_botttom_sheet.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_dialogue_box.dart';
@@ -18,6 +19,7 @@ class HandymanView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+            BookingProvider bookingProvider =Provider.of<BookingProvider>(context, listen: false);
     HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
     HandymanProvider handymanProvider =
@@ -90,6 +92,16 @@ class HandymanView extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
+
+                               bookingProvider.subCategoryId.value = homeProvider
+                                .homeAPIResponse
+                                .allCategories[bookingProvider.categoryId.value]
+                                .subcategories[index]
+                                .subcategoryId!;
+                            print(
+                                "object1${bookingProvider.subCategoryId.value}");
+                           
+                           
                               openHandymanOptions(
                                   handymanProvider,
                                   context,

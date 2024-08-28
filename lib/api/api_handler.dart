@@ -97,7 +97,7 @@ class ApiHandler {
       );
       debugPrint("consumerorderbooking API ${response.data}");
 
-      return LoginResponse.fromJson(response.data);
+      return BookingResponse.fromJson(response.data);
     } on DioException catch (e) {
       debugPrint("consumerorderbooking API exception $e");
       if (e.response != null) {

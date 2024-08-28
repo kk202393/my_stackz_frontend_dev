@@ -37,21 +37,24 @@ class SimilarPart extends StatelessWidget {
 
     final loginResponse = loginProvider.logInAPIResponse;
 
-final userAddress = loginResponse?.userAddress ?? [];
+    final userAddress = loginResponse?.userAddress ?? [];
     final defaultAddress = userAddress.isNotEmpty
-        ? userAddress[0].addresses?.firstWhere(
-            (address) => address.isDefault,
-            orElse: () => Address(
-              id: '',
-              isVerified: false,
-              isDefault: false,
-              address: 'No address found',
-              city: '',
-              pincode: '',
-              longitude: '',
-              latitude: '',
-            ),
-          ).address
+        ? userAddress[0]
+            .addresses
+            ?.firstWhere(
+              (address) => address.isDefault,
+              orElse: () => Address(
+                id: '',
+                isVerified: false,
+                isDefault: false,
+                address: 'No address found',
+                city: '',
+                pincode: '',
+                longitude: '',
+                latitude: '',
+              ),
+            )
+            .address
         : 'No address found';
 
     return Column(
@@ -123,6 +126,8 @@ final userAddress = loginResponse?.userAddress ?? [];
                         homeProvider.categoryId.value = element.categoryId!;
                         Navigator.pushNamed(context, Routes.HANDYMAN);
                       }
+                      print(
+                          "bookingProvider.categoryIdssss=${bookingProvider.categoryId.value}");
                     },
                     child: Column(
                       children: [

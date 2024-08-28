@@ -80,7 +80,7 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
                                         .subcategories[
                                             bookingProvider.subCategoryId.value]
                                         .serviceCategories[index]
-                                        .subcategoryId!;
+                                        .servicecategoryId!;
                                 print(
                                     "object3${bookingProvider.serviceCategoryId.value}");
                                 homeProvider.selectedServiceCategory = item;

@@ -6,6 +6,7 @@ import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
+import 'package:provider/provider.dart';
 
 class LoginProvider with ChangeNotifier {
   final TextEditingController emailController = TextEditingController();

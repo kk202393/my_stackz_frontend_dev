@@ -7,21 +7,27 @@ import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
 import 'package:my_stackz/screens/airconServices/views/aircon_bottom_sheet.dart';
 import 'package:my_stackz/screens/airconServices/views/aircon_dialogue_box.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 class AirconView extends StatelessWidget {
-   AirconView({super.key});
+  AirconView({super.key});
 
   @override
-   Widget build(BuildContext context) {
-        HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
-        AirconProvider airconController = Provider.of<AirconProvider>(context, listen: false);
-        List<AllCategory>  subcategories = homeProvider.homeAPIResponse.allCategories
-            .where((element){
-          return element.categoryId == homeProvider.categoryId.value;
-        }).toList();
+  Widget build(BuildContext context) {
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
+
+    AirconProvider airconController =
+        Provider.of<AirconProvider>(context, listen: false);
+    List<AllCategory> subcategories =
+        homeProvider.homeAPIResponse.allCategories.where((element) {
+      return element.categoryId == homeProvider.categoryId.value;
+    }).toList();
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -59,7 +65,7 @@ class AirconView extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: size.height*0.05),
+            SizedBox(height: size.height * 0.05),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: Column(
@@ -68,7 +74,7 @@ class AirconView extends StatelessWidget {
                   const TextWidget(
                     text: StringConstants.selectCategory,
                   ),
-                  SizedBox(height: size.height*0.05),
+                  SizedBox(height: size.height * 0.05),
                   GridView.builder(
                       shrinkWrap: true,
                       gridDelegate:
@@ -81,10 +87,14 @@ class AirconView extends StatelessWidget {
                         // Subcategories item = controller.subcategories[index];
                         return InkWell(
                           onTap: () {
-                            openAirconOptions(
-                                airconController,
-                                context,
-                                index,
+                            bookingProvider.subCategoryId.value = homeProvider
+                                .homeAPIResponse
+                                .allCategories[bookingProvider.categoryId.value]
+                                .subcategories[index]
+                                .subcategoryId!;
+                            print(
+                                "bookingProvider.sub=${bookingProvider.subCategoryId.value}");
+                           openAirconOptions(airconController, context, index,
                                 subcategories.first.subcategories[index]);
                             // openAirconOptions(controller, context);
                           },
@@ -94,7 +104,8 @@ class AirconView extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: AppColors.darkGray),
+                                    border:
+                                        Border.all(color: AppColors.darkGray),
                                     borderRadius: BorderRadius.circular(5),
                                     color: AppColors.white),
                                 child: Image.asset(
@@ -111,14 +122,14 @@ class AirconView extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               TextWidget(
-                                text: subcategories
-                                    .first.subcategories[index].subcategoryName!,
+                                text: subcategories.first.subcategories[index]
+                                    .subcategoryName!,
                                 style: GoogleFonts.montserrat(
                                     fontWeight: FontWeight.w500, fontSize: 14),
                               ),
                               TextWidget(
                                 text:
-                                '${subcategories.first.subcategories[index].price}',
+                                    '${subcategories.first.subcategories[index].price}',
 
                                 // homeProvider
                                 //     .homeAPIResponse
@@ -179,5 +190,4 @@ class AirconView extends StatelessWidget {
       ),
     );
   }
-
 }

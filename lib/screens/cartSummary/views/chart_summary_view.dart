@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
@@ -51,7 +52,7 @@ class CartSummaryView extends StatelessWidget {
       backgroundColor: AppColors.cultured,
       body: SafeArea(
           child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,42 +308,69 @@ class CartSummaryView extends StatelessWidget {
                   itemCount: 5),
             ),
             const SizedBox(height: 50),
-            ButtonWidget(
-              buttonText: 'Confirm Order',
-              onTap: () async {
-                BookingProvider bookingProvider =
-                    Provider.of<BookingProvider>(context, listen: false);
+           ButtonWidget(
+  buttonText: 'Confirm Order',
+  onTap: () async {
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
 
-                int serviceCategory = bookingProvider.serviceCategoryId.value;
-                int subCategory = bookingProvider.subCategoryId.value;
-                int category = bookingProvider.categoryId.value;
-                String selectedDateString = selectedDate != null
-                    ? DateFormat('MMM/dd/yyyy').format(selectedDate!)
-                    : "";
+    int serviceCategory = bookingProvider.serviceCategoryId.value;
+    int subCategory = bookingProvider.subCategoryId.value;
+    int category = bookingProvider.categoryId.value;
 
-                String? selectedTimeSlotId = bookingProvider.timeSlotId.value;
-                String? selectedAddressId = selectedAddress.id.toString();
-                int? selectedAddressIndexValue = 1;
+    String selectedDateString = selectedDate != null
+        ? DateFormat('MMM/dd/yyyy').format(selectedDate!)
+        : "";
 
-                bool success = await bookingProvider.callBookingPageApi(
-                  context,
-                  serviceCategory,
-                  subCategory,
-                  category,
-                  selectedDateString,
-                  selectedTimeSlotId,
-                  selectedAddressId,
-                  selectedAddressIndexValue,
-                );
+    String? selectedTimeSlotId =
+        bookingProvider.timeSlotId.value.isNotEmpty
+            ? bookingProvider.timeSlotId.value
+            : null;
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                        success ? 'Booking Successful!' : 'Booking Failed!'),
-                  ),
-                );
-              },
-            )
+    String? selectedAddressId = selectedAddress != null
+        ? selectedAddress.id.toString()
+        : null;
+
+    int? selectedAddressIndexValue =
+        selectedAddress != null ? 1 : null;
+
+    if (selectedTimeSlotId == null ||
+        selectedAddressId == null ||
+        selectedDateString.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              'Please select a valid date, time slot, and address.'),
+        ),
+      );
+      return;
+    }
+
+    bool _success = await bookingProvider.callBookingPageApi(
+      context,
+      serviceCategory,
+      subCategory,
+      category,
+      selectedDateString,
+      selectedTimeSlotId,
+      selectedAddressId,
+      selectedAddressIndexValue,
+    );
+    print("Success: $_success");
+
+    if (_success) {
+      Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              'Your booking is under process. Please try again later.'),
+        ),
+      );
+    }
+  },
+),
+const SizedBox(height: 150),
           ],
         ),
       )),

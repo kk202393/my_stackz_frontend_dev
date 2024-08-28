@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/models/consumer_booking_response.dart';
-import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
-import 'package:my_stackz/screens/home/controllers/home_controller.dart';
-import 'package:my_stackz/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class BookingProvider with ChangeNotifier {
@@ -21,16 +18,22 @@ class BookingProvider with ChangeNotifier {
   ValueNotifier<String> timeSlotId = ValueNotifier<String>("");
   ValueNotifier<String> bookingId = ValueNotifier<String>("");
   ValueNotifier<String> useraddressId = ValueNotifier<String>("");
-  ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int?>(null);
+  ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int?>(0);
 
   setBookingDate(String value) {
     bookingDate.value = value;
-    notifyListeners();
   }
 
-  settimeSlotId(String value) {
+  setTimeSlotId(String value) {
     timeSlotId.value = value;
-    notifyListeners();
+  }
+
+  setUserAddressId(String value) {
+    useraddressId.value = value;
+  }
+
+  setSelectedAddressIndex(int? value) {
+    selectedAddressIndex.value = value;
   }
 
   Future<bool> callBookingPageApi(
@@ -61,10 +64,8 @@ class BookingProvider with ChangeNotifier {
       "useraddress_id": useraddressId.value,
     };
 
-    print("Request Body: $body");
-
     try {
-      LoginResponse? _response =
+      BookingResponse? _response =
           await ApiHandler().callConsumerBookingApi(body);
 
       isLoading.value = false;
@@ -76,6 +77,7 @@ class BookingProvider with ChangeNotifier {
         Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
         return true;
       } else {
+        print("API Response is not successful or not of BookingResponse type");
         return false;
       }
     } catch (e) {

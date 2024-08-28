@@ -99,8 +99,8 @@ class CleaningView extends StatelessWidget {
                                 .allCategories[bookingProvider.categoryId.value]
                                 .subcategories[index]
                                 .subcategoryId!;
-                            // print(
-                            //     "object1${bookingProvider.subCategoryId.value}");
+                            print(
+                                "object1${bookingProvider.subCategoryId.value}");
                             openCleaningOptions(
                                 cleaningController,
                                 context,
@@ -136,8 +136,8 @@ class CleaningView extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               TextWidget(
-                                text: subcategories
-                                    .first.subcategories[index].subcategoryName!,
+                                text: subcategories.first.subcategories[index]
+                                    .subcategoryName!,
 
                                 // homeProvider
                                 //     .homeAPIResponse

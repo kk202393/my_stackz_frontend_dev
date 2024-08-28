@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_dialogue_box.dart';
 import 'package:provider/provider.dart';
@@ -70,9 +71,25 @@ openHandymanOptions(HandymanProvider controller, context,
                             ServiceCategory item =
                             subcategory.serviceCategories[index];
                             return InkWell(
-                              onTap: () => openScheduleHandymanService(
-                                  handymanProvider, context, index, item),
-                              child: Column(
+                              onTap: () {
+                                 BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
+    bookingProvider.serviceCategoryId.value =
+                                    homeProvider
+                                        .homeAPIResponse
+                                        .allCategories[
+                                            bookingProvider.categoryId.value]
+                                        .subcategories[
+                                            bookingProvider.subCategoryId.value]
+                                        .serviceCategories[index]
+                                        .servicecategoryId!;
+                                print(
+                                    "object3${bookingProvider.serviceCategoryId.value}");
+                              openScheduleHandymanService(
+                                  handymanProvider, context, index, item);
+                             
+                              
+                               } , child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
