@@ -19,15 +19,12 @@ class BookingProvider with ChangeNotifier {
   ValueNotifier<String> bookingId = ValueNotifier<String>("");
   ValueNotifier<String> useraddressId = ValueNotifier<String>("");
   ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int?>(0);
-    BookingResponse? _response;
+ BookingResponse? _response;
+
+  BookingResponse? get bookingAPIResponse => _response;
+
 
   
-BookingResponse get bookingAPIResponse {
-  if (_response == null) {
-    throw Exception("Booking API response is not initialized.");
-  }
-  return _response!;
-}
   Future<bool> callBookingPageApi(
       BuildContext context,
       int serviceCategory,

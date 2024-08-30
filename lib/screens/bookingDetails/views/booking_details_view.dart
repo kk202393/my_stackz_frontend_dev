@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
@@ -122,6 +123,7 @@ class BookingDetailsView extends StatelessWidget {
                       color: AppColors.white),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextWidget(
                         text: StringConstants.bookingDetails,
@@ -166,9 +168,49 @@ class BookingDetailsView extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Image.asset(
-                            AppImages.timeIcon,
-                            width: size.width * 0.045,
+                          Icon(
+                            Icons.timelapse_outlined,
+                            size: size.height * 0.03,
+                            color: AppColors.gray,
+                          ),
+                          SizedBox(
+                            width: size.width * 0.01,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextWidget(
+                                text: "Time Slot",
+                                style: context.titleSmall
+                                    .copyWith(fontWeight: FontWeight.w700),
+                              ),
+                              ValueListenableBuilder(
+                                valueListenable: bookingProvider.timeSlotId,
+                                builder: (context, value, child) {
+                                  return TextWidget(
+                                    text: homeProvider.homeAPIResponse.timeSlot
+                                        .first.timeValue
+                                        .toString(),
+                                    style: context.titleSmall.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12,
+                                        color: AppColors.outerspace),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.timelapse_outlined,
+                            size: size.height * 0.03,
+                            color: AppColors.gray,
                           ),
                           SizedBox(
                             width: size.width * 0.01,
@@ -205,7 +247,7 @@ class BookingDetailsView extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.01),
                 SizedBox(
-                  height: size.height * 0.5,
+                  height: size.height * 0.3,
                   child: ListView.separated(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
@@ -230,7 +272,7 @@ class BookingDetailsView extends StatelessWidget {
                                       child: Image.asset(
                                         AppImages.homeDesign,
                                         width: size.width * 0.4,
-                                        height: size.height * 0.4,
+                                        height: size.height * 0.2,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -261,7 +303,13 @@ class BookingDetailsView extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       TextWidget(
-                                        text: "Sofa Cleaning",
+                                        text: homeProvider
+                                            .homeAPIResponse
+                                            .allCategories
+                                            .first
+                                            .subcategories[index]
+                                            .subcategoryName
+                                            .toString(),
                                         style: context.titleMedium.copyWith(
                                             fontWeight: FontWeight.w700,
                                             color: AppColors.black),
@@ -292,7 +340,8 @@ class BookingDetailsView extends StatelessWidget {
                           width: size.width * 0.02,
                         );
                       },
-                      itemCount: 10),
+                      itemCount:
+                          homeProvider.homeAPIResponse.allCategories.length),
                 ),
                 SizedBox(
                   height: size.height * 0.02,
