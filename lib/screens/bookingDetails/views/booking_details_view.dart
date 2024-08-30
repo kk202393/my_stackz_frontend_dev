@@ -219,7 +219,7 @@ class BookingDetailsView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextWidget(
-                                text: StringConstants.timings,
+                                text: "Booking Date",
                                 style: context.titleSmall
                                     .copyWith(fontWeight: FontWeight.w700),
                               ),
