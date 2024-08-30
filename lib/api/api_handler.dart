@@ -86,18 +86,19 @@ class ApiHandler {
 
     try {
       if (dio == null) initDio();
-      Response response = await dio!.post(
+      Response _response = await dio!.post(
         AppURLs.consumerorderbookingURL,
         data: body,
         options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
+            headers: <String, String>{'Authorization': token.toString()}),
       );
-      debugPrint("consumerorderbooking API ${response.data}");
 
-      return BookingResponse.fromJson(response.data);
+      debugPrint("consumerorderbooking API ${_response.data}");
+
+      // Initialize _response
+      _response = BookingResponse.fromJson(_response.data) as Response;
+
+      // Additional logic can be added here if needed
     } on DioException catch (e) {
       debugPrint("consumerorderbooking API exception $e");
       if (e.response != null) {

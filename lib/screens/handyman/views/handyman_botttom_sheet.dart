@@ -69,27 +69,27 @@ openHandymanOptions(HandymanProvider controller, context,
                                   mainAxisSpacing: 20),
                           itemBuilder: (BuildContext context, int index) {
                             ServiceCategory item =
-                            subcategory.serviceCategories[index];
+                                subcategory.serviceCategories[index];
                             return InkWell(
                               onTap: () {
-                                 BookingProvider bookingProvider =
-        Provider.of<BookingProvider>(context, listen: false);
-    bookingProvider.serviceCategoryId.value =
+                                BookingProvider bookingProvider =
+                                    Provider.of<BookingProvider>(context,
+                                        listen: false);
+                                bookingProvider.serviceCategoryId.value =
                                     homeProvider
                                         .homeAPIResponse
-                                        .allCategories[
-                                            bookingProvider.categoryId.value]
+                                        .allCategories[bookingProvider
+                                            .serviceCategoryId.value]
                                         .subcategories[
                                             bookingProvider.subCategoryId.value]
                                         .serviceCategories[index]
                                         .servicecategoryId!;
                                 print(
                                     "object3${bookingProvider.serviceCategoryId.value}");
-                              openScheduleHandymanService(
-                                  handymanProvider, context, index, item);
-                             
-                              
-                               } , child: Column(
+                                openScheduleHandymanService(
+                                    handymanProvider, context, index, item);
+                              },
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(

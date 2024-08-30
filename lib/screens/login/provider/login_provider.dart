@@ -24,6 +24,7 @@ class LoginProvider with ChangeNotifier {
   LoginResponse? get logInAPIResponse => _response;
 
   String get defaultAddress => _defaultAddress;
+  
 
   void setAddressList(List<dynamic> addresses) {
     _addressList = addresses;

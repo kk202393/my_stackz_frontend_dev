@@ -75,8 +75,8 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
                                 bookingProvider.serviceCategoryId.value =
                                     homeProvider
                                         .homeAPIResponse
-                                        .allCategories[
-                                            bookingProvider.categoryId.value]
+                                        .allCategories[bookingProvider
+                                            .serviceCategoryId.value]
                                         .subcategories[
                                             bookingProvider.subCategoryId.value]
                                         .serviceCategories[index]

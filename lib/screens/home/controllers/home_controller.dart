@@ -54,6 +54,8 @@ class HomeProvider with ChangeNotifier {
     isLoading.notifyListeners();
   }
 
+  
+
   @override
   void onInit() {}
   ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);

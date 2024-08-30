@@ -370,7 +370,7 @@ class CartSummaryView extends StatelessWidget {
     }
   },
 ),
-const SizedBox(height: 150),
+const SizedBox(height: 50),
           ],
         ),
       )),

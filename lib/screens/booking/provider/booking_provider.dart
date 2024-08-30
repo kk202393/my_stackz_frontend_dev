@@ -19,23 +19,15 @@ class BookingProvider with ChangeNotifier {
   ValueNotifier<String> bookingId = ValueNotifier<String>("");
   ValueNotifier<String> useraddressId = ValueNotifier<String>("");
   ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int?>(0);
+    BookingResponse? _response;
 
-  setBookingDate(String value) {
-    bookingDate.value = value;
+  
+BookingResponse get bookingAPIResponse {
+  if (_response == null) {
+    throw Exception("Booking API response is not initialized.");
   }
-
-  setTimeSlotId(String value) {
-    timeSlotId.value = value;
-  }
-
-  setUserAddressId(String value) {
-    useraddressId.value = value;
-  }
-
-  setSelectedAddressIndex(int? value) {
-    selectedAddressIndex.value = value;
-  }
-
+  return _response!;
+}
   Future<bool> callBookingPageApi(
       BuildContext context,
       int serviceCategory,
@@ -74,15 +66,15 @@ class BookingProvider with ChangeNotifier {
       print("response=$_response");
 
       if (_response != null && _response.success) {
-        Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
         return true;
       } else {
-        print("API Response is not successful or not of BookingResponse type");
+        print("Booking failed. Response: $_response");
         return false;
       }
     } catch (e) {
       isLoading.value = false;
       notifyListeners();
+      // Log the error
       print("Error: $e");
       return false;
     }
