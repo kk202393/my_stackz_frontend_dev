@@ -119,6 +119,19 @@ class ApiHandler {
     }
   }
 
+  callDeleteUserBookingApi(String token) async {
+    final accessToken = 'Bearer $token';
+    try {
+      if (dio == null) initDio();
+      final Response response = await dio!.get(AppURLs.deleteuserBookingURL,
+          options:
+              Options(headers: <String, String>{'Authorization': accessToken}));
+      return LoginResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      _handleError(e);
+    }
+  }
+
   callViewProfileApi(String token) async {
     final accessToken = 'Bearer $token';
     try {

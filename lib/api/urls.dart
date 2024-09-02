@@ -12,4 +12,6 @@ class AppURLs {
       '$appBaseURL/api/v1/changepassword';
   static const String consumerorderbookingURL =
       '$appBaseURL/api/v1/consumerorderbooking';
+        static const String deleteuserBookingURL =
+      '$appBaseURL/api/v1/deleteuserbooking';
 }
