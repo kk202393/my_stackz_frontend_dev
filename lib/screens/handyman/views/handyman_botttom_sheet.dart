@@ -78,8 +78,8 @@ openHandymanOptions(HandymanProvider controller, context,
                                 bookingProvider.serviceCategoryId.value =
                                     homeProvider
                                         .homeAPIResponse
-                                        .allCategories[bookingProvider
-                                            .serviceCategoryId.value]
+                                        .allCategories[
+                                            bookingProvider.categoryId.value]
                                         .subcategories[
                                             bookingProvider.subCategoryId.value]
                                         .serviceCategories[index]
