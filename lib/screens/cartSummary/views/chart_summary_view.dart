@@ -176,13 +176,17 @@ class CartSummaryView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 20),
-                TextWidget(
-                  text: "${controller.numberOfServices.value}",
-                  style: GoogleFonts.montserrat(
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16),
-                ),
+                ValueListenableBuilder(
+                    valueListenable: controller.numberOfServices,
+                    builder: (context, value, child) {
+                      return TextWidget(
+                        text: "${controller.numberOfServices.value}",
+                        style: GoogleFonts.montserrat(
+                            color: AppColors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16),
+                      );
+                    }),
                 const SizedBox(width: 20),
                 InkWell(
                   onTap: () => controller.onClickAddServices(),
@@ -217,10 +221,32 @@ class CartSummaryView extends StatelessWidget {
             const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerRight,
-              child: TextWidget(
-                  text: StringConstants.applyCode,
-                  style: context.headlineSmall
-                      .copyWith(color: AppColors.primaryButtonColor)),
+              child: InkWell(
+                onTap: () async {
+                  final bookingProvider =
+                      Provider.of<BookingProvider>(context, listen: false);
+
+                  print(
+                      "Booking ID before deletion: ${bookingProvider.bookingAPIResponse?.consumerOrderDetails.categoryId}");
+                  bool success = await bookingProvider.getDeleteUser();
+
+                  if (success) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Booking deleted successfully.')),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Failed to delete booking.')),
+                    );
+                  }
+                },
+                child: TextWidget(
+                    text: StringConstants.applyCode,
+                    style: context.headlineSmall
+                        .copyWith(color: AppColors.primaryButtonColor)),
+              ),
             ),
             const SizedBox(height: 10),
             AppDivider(width: size.width, color: AppColors.black),
@@ -286,7 +312,12 @@ class CartSummaryView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextWidget(
-                                      text: StringConstants.splitAcCheckup,
+                                      text: homeProvider
+                                          .homeAPIResponse
+                                          .allCategories[index]
+                                          .subcategories[index]
+                                          .subcategoryName
+                                          .toString(),
                                       style: context.headlineSmall.copyWith(
                                           color: AppColors.spanishGray)),
                                   TextWidget(
@@ -308,69 +339,88 @@ class CartSummaryView extends StatelessWidget {
                   itemCount: 5),
             ),
             const SizedBox(height: 50),
-           ButtonWidget(
-  buttonText: 'Confirm Order',
-  onTap: () async {
-    BookingProvider bookingProvider =
-        Provider.of<BookingProvider>(context, listen: false);
+            ButtonWidget(
+              buttonText: 'Confirm Order',
+              onTap: () async {
+                BookingProvider bookingProvider =
+                    Provider.of<BookingProvider>(context, listen: false);
 
-    int serviceCategory = bookingProvider.serviceCategoryId.value;
-    int subCategory = bookingProvider.subCategoryId.value;
-    int category = bookingProvider.categoryId.value;
+                int serviceCategory = bookingProvider.serviceCategoryId.value;
+                int subCategory = bookingProvider.subCategoryId.value;
+                int category = bookingProvider.categoryId.value;
 
-    String selectedDateString = selectedDate != null
-        ? DateFormat('MMM/dd/yyyy').format(selectedDate!)
-        : "";
+                String selectedDateString = selectedDate != null
+                    ? DateFormat('MMM/dd/yyyy').format(selectedDate!)
+                    : "";
 
-    String? selectedTimeSlotId =
-        bookingProvider.timeSlotId.value.isNotEmpty
-            ? bookingProvider.timeSlotId.value
-            : null;
+                String? selectedTimeSlotId =
+                    bookingProvider.timeSlotId.value.isNotEmpty
+                        ? bookingProvider.timeSlotId.value
+                        : null;
 
-    String? selectedAddressId = selectedAddress != null
-        ? selectedAddress.id.toString()
-        : null;
+                String? selectedAddressId = selectedAddress != null
+                    ? selectedAddress.id.toString()
+                    : null;
 
-    int? selectedAddressIndexValue =
-        selectedAddress != null ? 1 : null;
+                int? selectedAddressIndexValue =
+                    selectedAddress != null ? 1 : null;
 
-    if (selectedTimeSlotId == null ||
-        selectedAddressId == null ||
-        selectedDateString.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Please select a valid date, time slot, and address.'),
-        ),
-      );
-      return;
-    }
+                if (selectedTimeSlotId == null ||
+                    selectedAddressId == null ||
+                    selectedDateString.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          'Please select a valid date, time slot, and address.'),
+                    ),
+                  );
+                  return;
+                }
 
-    bool _success = await bookingProvider.callBookingPageApi(
-      context,
-      serviceCategory,
-      subCategory,
-      category,
-      selectedDateString,
-      selectedTimeSlotId,
-      selectedAddressId,
-      selectedAddressIndexValue,
-    );
-    print("Success: $_success");
+                bool _success = await bookingProvider.callBookingPageApi(
+                  context,
+                  serviceCategory,
+                  subCategory,
+                  category,
+                  selectedDateString,
+                  selectedTimeSlotId,
+                  selectedAddressId,
+                  selectedAddressIndexValue,
+                );
+                print("Success: $_success");
 
-    if (_success) {
-      Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Your booking is under process. Please try again later.'),
-        ),
-      );
-    }
-  },
-),
-const SizedBox(height: 50),
+                if (_success) {
+                  Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          'Your booking is under process. Please try again later.'),
+                    ),
+                  );
+                }
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonWidget(
+              buttonText: 'Update Booking Status',
+              onTap: () async {
+                bookingProvider.getConsumerBookingStatus(context);
+              },
+            ),
+
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonWidget(
+              buttonText: 'delete consumer user',
+              onTap: () async {
+                bookingProvider.getDeleteUser();
+              },
+            ),
+            const SizedBox(height: 50),
           ],
         ),
       )),

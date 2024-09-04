@@ -119,16 +119,47 @@ class ApiHandler {
     }
   }
 
-  callDeleteUserBookingApi(String token) async {
-    final accessToken = 'Bearer $token';
+ callDeleteUserBookingApi(String token, String bookingId) async {
+  final accessToken = 'Bearer $token';
+  try {
+    if (dio == null) initDio();
+    final Response response = await dio!.post(
+      AppURLs.deleteuserBookingURL, 
+      options: Options(headers: <String, String>{'Authorization': accessToken}),
+      data: {'booking_id': bookingId}, 
+    );
+    return BookingResponse.fromJson(response.data);
+  } on DioException catch (e) {
+    _handleError(e);
+  }
+}
+
+
+  Future<BookingResponse?> callConsumerBookingStatusURL(
+    String token,
+    String bookingStatusId,
+    String bookingStatus,
+  ) async {
     try {
       if (dio == null) initDio();
-      final Response response = await dio!.get(AppURLs.deleteuserBookingURL,
-          options:
-              Options(headers: <String, String>{'Authorization': accessToken}));
-      return LoginResponse.fromJson(response.data);
+
+      final response = await dio!.post(
+        AppURLs.consumerBookingStatusURL,
+        data: {
+          "booking_status_id": bookingStatusId,
+          "booking_status": bookingStatus,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      return BookingResponse.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e);
+      return null;
     }
   }
 

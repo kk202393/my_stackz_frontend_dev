@@ -42,4 +42,4 @@ class Snack {
   }
 }
 
-enum SnackType { info, warning, error }
+enum SnackType { info, warning, error, success }
