@@ -14,7 +14,7 @@ import '../provider/cleaning_provider.dart';
 import 'cleaning_dialogue_box.dart';
 
 openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
-    int subcategoriesIndex, Subcategories subcategory) {
+    int subcategoriesIndex, Subcategory subcategory) {
   final size = MediaQuery.of(context).size;
 
   showModalBottomSheet(
@@ -58,9 +58,9 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
                     text: StringConstants.selectNumberOfRooms,
                   ),
                   SizedBox(height: size.height * 0.03),
-                  subcategory.serviceCategory.isNotEmpty
+                  subcategory.serviceCategories.isNotEmpty
                       ? GridView.builder(
-                          itemCount: subcategory.serviceCategory.length,
+                          itemCount: subcategory.serviceCategories.length,
                           shrinkWrap: true,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -69,7 +69,7 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
                                   mainAxisSpacing: 20),
                           itemBuilder: (BuildContext context, int index) {
                             ServiceCategory item =
-                                subcategory.serviceCategory[index];
+                                subcategory.serviceCategories[index];
                             return InkWell(
                               onTap: () {
                                 bookingProvider.serviceCategoryId.value =
@@ -79,8 +79,8 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
                                             bookingProvider.categoryId.value]
                                         .subcategories[
                                             bookingProvider.subCategoryId.value]
-                                        .serviceCategory[index]
-                                        .subcategoryId;
+                                        .serviceCategories[index]
+                                        .servicecategoryId!;
                                 print(
                                     "object3${bookingProvider.serviceCategoryId.value}");
                                 homeProvider.selectedServiceCategory = item;
@@ -106,7 +106,7 @@ openCleaningOptions(CleaningProvider cleaningController, BuildContext context,
                                   ),
                                   const SizedBox(width: 10),
                                   TextWidget(
-                                    text: item.servicecategoryName,
+                                    text: item.servicecategoryName!,
                                     style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 14,

@@ -1,4 +1,7 @@
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
+import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/screens/additionalDetails/views/additional_details_view.dart';
 import 'package:my_stackz/screens/airconServices/views/aircon_view.dart';
 import 'package:my_stackz/screens/cartSummary/views/chart_summary_view.dart';
@@ -8,6 +11,7 @@ import 'package:my_stackz/screens/handyman/views/handyman_view.dart';
 import 'package:my_stackz/screens/login/views/login_view.dart';
 import 'package:my_stackz/screens/payments/views/payment_view.dart';
 import 'package:my_stackz/screens/signUp/views/sign_up_view.dart';
+import 'package:my_stackz/screens/splace_screen/splace.dart';
 import '../screens/booking/views/booking_view.dart';
 import '../screens/bookingAccepted/views/booking_accepted_view.dart';
 import '../screens/bookingDetails/views/booking_details_view.dart';
@@ -23,6 +27,11 @@ class AppPages {
   static Route<dynamic> generateRoutes(RouteSettings setting) {
     _lastRoute = setting.name;
     switch (setting.name) {
+      case Routes.SPLACE:
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => SplaceScreen(),
+        );
       case Routes.HOME:
         return MaterialPageRoute(
           settings: setting,
@@ -89,14 +98,25 @@ class AppPages {
           builder: (_) => const PaymentView(),
         );
       case Routes.CART_SUMMARY:
+        final Map<String, dynamic> args =
+            setting.arguments as Map<String, dynamic>;
+
+        final Address selectedAddress = args["selectedAddress"] as Address;
+        final String selectedTimeSlotId = args["selectedTimeSlotId"] as String;
+        final DateTime selectedDate = args["selectedDate"] as DateTime;
+
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => const CartSummaryView(),
+          builder: (_) => CartSummaryView(
+            selectedAddress: selectedAddress,
+            selectedTimeSlotId: selectedTimeSlotId,
+            selectedDate: selectedDate,
+          ),
         );
       case Routes.SELECT_ADDRESS:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => const SelectAddressView(),
+          builder: (_) => SelectAddressView(),
         );
       case Routes.GOOGLE_MAP:
       final arguments = setting.arguments as Map<String, dynamic>;

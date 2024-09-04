@@ -16,7 +16,7 @@ openScheduleHandymanService(HandymanProvider controller, BuildContext context,
     int subcategoriesIndex, ServiceCategory serviceCategory) {
   HomeProvider homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
-  List<AllCategories> subcategories =
+  List<AllCategory> subcategories =
       homeProvider.homeAPIResponse.allCategories.where((element) {
     return element.categoryId == homeProvider.categoryId.value;
   }).toList();
@@ -45,7 +45,7 @@ openScheduleHandymanService(HandymanProvider controller, BuildContext context,
                     Row(
                       children: [
                         TextWidget(
-                          text: serviceCategory.servicecategoryName,
+                          text: serviceCategory.servicecategoryName!,
                         ),
                         const Spacer(),
                         InkWell(
@@ -118,8 +118,7 @@ openScheduleHandymanService(HandymanProvider controller, BuildContext context,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16),
                                   );
-                                }
-                            ),
+                                }),
                             const SizedBox(width: 20),
                             InkWell(
                               onTap: () => controller.onClickAddRooms(),
@@ -147,7 +146,7 @@ openScheduleHandymanService(HandymanProvider controller, BuildContext context,
                             buttonText: "Check Out >>",
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, Routes.ADDITIONAL_DETAILS);
+                                  context, Routes.DATE_AND_TIME);
                             }),
                       ],
                     )
@@ -159,4 +158,3 @@ openScheduleHandymanService(HandymanProvider controller, BuildContext context,
         );
       });
 }
-

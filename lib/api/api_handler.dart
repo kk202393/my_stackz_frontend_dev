@@ -70,7 +70,7 @@ class ApiHandler {
           await HomePageResponse.fromJson(response.data);
       if (homePageResponse.allCategories != null &&
           homePageResponse.allCategories.isNotEmpty) {
-        AllCategories firstCategory = homePageResponse.allCategories.first;
+        AllCategory firstCategory = homePageResponse.allCategories.first;
         debugPrint("First Category ID: ${firstCategory.id}");
       } else {
         debugPrint("No categories found in the response.");
@@ -81,33 +81,31 @@ class ApiHandler {
     }
   }
 
-  Future<BookingResponse> callConsumerBookingApi(
-      String token,
-      int categoryId,
-      int subCategoryId,
-      int serviceCategoryId,
-      String bookingId,
-      String bookingDate,
-      String timeSlotId,
-      String useraddressId) async {
+  callConsumerBookingApi(body) async {
+    String? token = await Utils().ReadToken();
+
     try {
-      if (dio == null) {
-        initDio();
-      }
-      final Response response = await dio!.post(
+      if (dio == null) initDio();
+      Response _response = await dio!.post(
         AppURLs.consumerorderbookingURL,
+        data: body,
+        options: Options(
+            headers: <String, String>{'Authorization': token.toString()}),
       );
-      BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
-      String first = bookingResponse
-          .consumerOrderDetails.consumerBookingStatus.bookingStatus;
-      debugPrint("First Categoryvjhjhjhjh ID: $response");
-      return bookingResponse;
+
+      debugPrint("consumerorderbooking API ${_response.data}");
+
+      // Initialize _response
+      _response = BookingResponse.fromJson(_response.data) as Response;
+
+      // Additional logic can be added here if needed
     } on DioException catch (e) {
+      debugPrint("consumerorderbooking API exception $e");
+      if (e.response != null) {
+        debugPrint("Response Data: ${e.response!.data}");
+        debugPrint("Response Headers: ${e.response!.headers}");
+      }
       _handleError(e);
-      rethrow;
-    } catch (e) {
-      debugPrint("Unexpected error: $e");
-      rethrow;
     }
   }
 
@@ -121,9 +119,21 @@ class ApiHandler {
     }
   }
 
+  callDeleteUserBookingApi(String token) async {
+    final accessToken = 'Bearer $token';
+    try {
+      if (dio == null) initDio();
+      final Response response = await dio!.get(AppURLs.deleteuserBookingURL,
+          options:
+              Options(headers: <String, String>{'Authorization': accessToken}));
+      return LoginResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      _handleError(e);
+    }
+  }
+
   callViewProfileApi(String token) async {
-    final accessToken =
-        'Bearer ${token}';
+    final accessToken = 'Bearer $token';
     try {
       if (dio == null) initDio();
       final Response response = await dio!.get(AppURLs.profileURL,

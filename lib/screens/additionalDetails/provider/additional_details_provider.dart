@@ -5,7 +5,7 @@ import '../../../../models/home_page_response.dart';
 class AdditionalDetailsProvider with  ChangeNotifier {
     ValueNotifier<bool> isSwitched = ValueNotifier<bool>(false);
     ValueNotifier<bool> isBoxClicked = ValueNotifier<bool>(false);
-  ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
+  ValueNotifier<List<Subcategory>> subcategories = ValueNotifier([]);
     ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
   // RxBool isSwitched = false.obs;
   // RxBool isBoxClicked = false.obs;
@@ -14,11 +14,11 @@ class AdditionalDetailsProvider with  ChangeNotifier {
   // RxInt numberOfRooms = 1.obs;
   // RxList<Subcategories> subcategories = <Subcategories>[].obs;
   // RxList<ServiceCategory> serviceCategory = <ServiceCategory>[].obs;
-  void getFilteredSubcategories(List<Subcategories> subcategories) {
+  void getFilteredSubcategories(List<Subcategory> subcategories) {
     subcategories = subcategories;
     notifyListeners();
   }
-void getFilteredSubcategoriesPrice(List<Subcategories> subcategories) {
+void getFilteredSubcategoriesPrice(List<Subcategory> subcategories) {
     subcategories = subcategories;
     notifyListeners();
   }

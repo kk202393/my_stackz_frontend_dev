@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="my_stackz"
         android:name="${applicationName}"
@@ -31,7 +32,7 @@
             android:value="2" />
             <meta-data
     android:name="com.google.android.geo.API_KEY"
-    android:value="AIzaSyAvBRRLoYrJ6XUPYI30FRt6gnbS8Tjt5tI"/>
+    android:value="AIzaSyDZ-paolYuS-KMUqv9IfTJ0LPm4Kjk_5kA"/> <!-- google map API Key-->
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility?hl=en and

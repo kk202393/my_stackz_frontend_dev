@@ -49,7 +49,7 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                     Row(
                       children: [
                         TextWidget(
-                          text: serviceCategory.servicecategoryName,
+                          text: serviceCategory.servicecategoryName!,
                         ),
                         const Spacer(),
                         InkWell(

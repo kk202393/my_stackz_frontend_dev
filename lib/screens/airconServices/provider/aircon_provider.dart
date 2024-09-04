@@ -7,7 +7,7 @@ class AirconProvider with ChangeNotifier{
     // final TextEditingController stationController = TextEditingController();
   ValueNotifier<bool> isBoxClicked = ValueNotifier<bool>(false);
   // RxBool isBoxClicked = false.obs;
-   ValueNotifier<List<Subcategories>> subcategories = ValueNotifier([]);
+   ValueNotifier<List<Subcategory>> subcategories = ValueNotifier([]);
     ValueNotifier<List<ServiceCategory>> serviceCategory = ValueNotifier([]);
      
     ValueNotifier<int> numberOfRooms = ValueNotifier<int>(1);
@@ -16,11 +16,11 @@ class AirconProvider with ChangeNotifier{
 
 
 
-   void getFilteredSubcategories(List<Subcategories> subcategories) {
+   void getFilteredSubcategories(List<Subcategory> subcategories) {
     subcategories = subcategories;
     notifyListeners();
   }
-void getFilteredSubcategoriesPrice(List<Subcategories> subcategories) {
+void getFilteredSubcategoriesPrice(List<Subcategory> subcategories) {
     subcategories = subcategories;
     notifyListeners();
   }

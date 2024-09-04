@@ -136,4 +136,6 @@ class StringConstants {
   static const String balance = "Balance";
   static const String transferMoney = "Transfer Money";
   static const String cartSummary = "Cart Summary";
+  static const String typeServiceCategory= "Type Service Category";
+
 }

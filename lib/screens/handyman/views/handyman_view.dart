@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_botttom_sheet.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_dialogue_box.dart';
@@ -13,17 +13,18 @@ import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 class HandymanView extends StatelessWidget {
-
   HandymanView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
     HomeProvider homeProvider =
         Provider.of<HomeProvider>(context, listen: false);
     HandymanProvider handymanProvider =
         Provider.of<HandymanProvider>(context, listen: false);
-    List<AllCategories> subcategories =
-    homeProvider.homeAPIResponse.allCategories.where((element) {
+    List<AllCategory> subcategories =
+        homeProvider.homeAPIResponse.allCategories.where((element) {
       return element.categoryId == homeProvider.categoryId.value;
     }).toList();
     final size = MediaQuery.of(context).size;
@@ -64,7 +65,7 @@ class HandymanView extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: size.height*0.05),
+              SizedBox(height: size.height * 0.05),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -78,7 +79,7 @@ class HandymanView extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                           color: AppColors.black),
                     ),
-                    SizedBox(height: size.height*0.05),
+                    SizedBox(height: size.height * 0.05),
                     GridView.builder(
                         shrinkWrap: true,
                         gridDelegate:
@@ -90,6 +91,15 @@ class HandymanView extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
+                              bookingProvider.subCategoryId.value = homeProvider
+                                  .homeAPIResponse
+                                  .allCategories[
+                                      bookingProvider.subCategoryId.value]
+                                  .subcategories[index]
+                                  .subcategoryId!;
+                              print(
+                                  "object1${bookingProvider.subCategoryId.value}");
+
                               openHandymanOptions(
                                   handymanProvider,
                                   context,
@@ -121,7 +131,8 @@ class HandymanView extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 TextWidget(
-                                  text: subcategories.first.subcategories[index].subcategoryName,
+                                  text: subcategories.first.subcategories[index]
+                                      .subcategoryName!,
 
                                   // "subcategoryName",
                                   // text: item.subcategoryName!,
@@ -131,7 +142,7 @@ class HandymanView extends StatelessWidget {
                                 ),
                                 TextWidget(
                                   text:
-                                  '${subcategories.first.subcategories[index].price}',
+                                      '${subcategories.first.subcategories[index].price}',
 
                                   // homeProvider
                                   //     .homeAPIResponse
@@ -139,7 +150,8 @@ class HandymanView extends StatelessWidget {
                                   //     .subcategories[index]
                                   //     .subcategoryName,
                                   style: GoogleFonts.montserrat(
-                                      fontWeight: FontWeight.w500, fontSize: 14),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
                                 ),
                                 // Row(
                                 //   mainAxisAlignment: MainAxisAlignment.center,

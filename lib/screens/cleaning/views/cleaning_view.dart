@@ -30,7 +30,7 @@ class CleaningView extends StatelessWidget {
         Provider.of<BookingProvider>(context, listen: false);
     final size = MediaQuery.of(context).size;
 
-    List<AllCategories> subcategories =
+    List<AllCategory> subcategories =
         homeProvider.homeAPIResponse.allCategories.where((element) {
       return element.categoryId == cleaningController.categoryId.value;
     }).toList();
@@ -98,9 +98,9 @@ class CleaningView extends StatelessWidget {
                                 .homeAPIResponse
                                 .allCategories[bookingProvider.categoryId.value]
                                 .subcategories[index]
-                                .subcategoryId;
-                            // print(
-                            //     "object1${bookingProvider.subCategoryId.value}");
+                                .subcategoryId!;
+                            print(
+                                "object1${bookingProvider.subCategoryId.value}");
                             openCleaningOptions(
                                 cleaningController,
                                 context,
@@ -136,8 +136,8 @@ class CleaningView extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               TextWidget(
-                                text: subcategories
-                                    .first.subcategories[index].subcategoryName,
+                                text: subcategories.first.subcategories[index]
+                                    .subcategoryName!,
 
                                 // homeProvider
                                 //     .homeAPIResponse

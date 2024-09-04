@@ -1,8 +1,4 @@
-// ignore_for_file: must_be_immutable
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
@@ -36,17 +32,41 @@ class SimilarPart extends StatelessWidget {
         Provider.of<BookingProvider>(context, listen: false);
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
+
     final width = MediaQuery.of(context).size.width;
+
+    final loginResponse = loginProvider.logInAPIResponse;
+
+    final userAddress = loginResponse?.userAddress ?? [];
+    final defaultAddress = userAddress.isNotEmpty
+        ? userAddress[0]
+            .addresses
+            ?.firstWhere(
+              (address) => address.isDefault,
+              orElse: () => Address(
+                id: '',
+                isVerified: false,
+                isDefault: false,
+                address: 'No address found',
+                city: '',
+                pincode: '',
+                longitude: '',
+                latitude: '',
+              ),
+            )
+            .address
+        : 'No address found';
+
     return Column(
       children: [
         LocationWidget(),
         Row(
           children: [
             TextWidget(
-                text:
-                    '${loginProvider.logInAPIResponse.userAddress.isNotEmpty ? loginProvider.logInAPIResponse.userAddress.first!.addresses.where((item) => item.isDefault) : 'No address found'}',
-                style: context.bodyMedium
-                    .copyWith(fontWeight: FontWeight.w700, fontSize: 12)),
+              text: defaultAddress.toString(),
+              style: context.bodyMedium
+                  .copyWith(fontWeight: FontWeight.w700, fontSize: 12),
+            ),
             const Spacer(),
             const Icon(Icons.edit_outlined, size: 20),
             const SizedBox(width: 30),
@@ -57,7 +77,6 @@ class SimilarPart extends StatelessWidget {
         AppTextFieldSearch(
           keyboardType: TextInputType.text,
           validator: (value) => InputValidator.validateFields(value!, "Search"),
-          // formKey: controller.formKey,
           controller: homeProvider.searchController,
           hint: 'Search for a Service, Product, Solution',
           fontWeight: FontWeight.w600,
@@ -79,9 +98,10 @@ class SimilarPart extends StatelessWidget {
               color: AppColors.maize,
             ),
             child: TextWidget(
-                textAlign: TextAlign.center,
-                text: StringConstants.servicesByCategory,
-                style: context.headlineMedium),
+              textAlign: TextAlign.center,
+              text: StringConstants.servicesByCategory,
+              style: context.headlineMedium,
+            ),
           ),
         ),
         const SizedBox(height: 30),
@@ -95,34 +115,20 @@ class SimilarPart extends StatelessWidget {
                   (element) => InkWell(
                     onTap: () {
                       if (element.categoryId == 1) {
-                        homeProvider.categoryId.value = element.categoryId;
-                        bookingProvider.categoryId.value = element.categoryId;
-                        print(
-                            "object${bookingProvider.categoryId.value.toString()}");
+                        homeProvider.categoryId.value = element.categoryId!;
+                        bookingProvider.categoryId.value = element.categoryId!;
                         Navigator.pushNamed(context, Routes.CLEANING);
                       } else if (element.categoryId == 2) {
-                        bookingProvider.categoryId.value = element.categoryId;
-
-                        homeProvider.categoryId.value = element.categoryId;
+                        bookingProvider.categoryId.value = element.categoryId!;
+                        homeProvider.categoryId.value = element.categoryId!;
                         Navigator.pushNamed(context, Routes.AIRCON_SERVICES);
                       } else if (element.categoryId == 3) {
-                        bookingProvider.categoryId.value = element.categoryId;
-
-                        homeProvider.categoryId.value = element.categoryId;
+                        bookingProvider.categoryId.value = element.categoryId!;
+                        homeProvider.categoryId.value = element.categoryId!;
                         Navigator.pushNamed(context, Routes.HANDYMAN);
                       }
-                      // element.categoryId == 1
-                      //     ? Navigator.pushNamed(context, Routes.CLEANING,
-                      //         arguments: {"subcategories": element.categoryId})
-                      //     : element.categoryId == 2
-                      //         ? Navigator.pushNamed(
-                      //             context, Routes.AIRCON_SERVICES, arguments: {
-                      //             "subcategories": element.categoryId
-                      //           })
-                      //         : Navigator.pushNamed(context, Routes.HANDYMAN,
-                      //             arguments: {
-                      //                 "subcategories": element.categoryId
-                      //               });
+                      print(
+                          "bookingProvider.categoryIdssss=${bookingProvider.categoryId.value}");
                     },
                     child: Column(
                       children: [
@@ -130,17 +136,23 @@ class SimilarPart extends StatelessWidget {
                           radius: 40,
                           backgroundColor: context.getTheme.primaryColor,
                           child: ClipOval(
-                              child: Image.asset(element.categoryId == 1
+                            child: Image.asset(
+                              element.categoryId == 1
                                   ? AppImages.cleaningIcon
                                   : element.categoryId == 2
                                       ? AppImages.airconServicing
-                                      : AppImages.handymanIcon)),
+                                      : AppImages.handymanIcon,
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 6),
                         TextWidget(
-                            text: element.categoryName,
-                            style: context.bodyMedium.copyWith(
-                                fontWeight: FontWeight.w700, fontSize: 12))
+                          text: element.categoryName ?? '',
+                          style: context.bodyMedium.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -152,18 +164,21 @@ class SimilarPart extends StatelessWidget {
         Row(
           children: [
             TextWidget(
-                text: StringConstants.weAreHereToHelp,
-                style: context.headlineMedium
-                    .copyWith(color: AppColors.princeTonOrange)),
+              text: StringConstants.weAreHereToHelp,
+              style: context.headlineMedium.copyWith(
+                color: AppColors.princeTonOrange,
+              ),
+            ),
             const Spacer(),
             InkWell(
-                onTap: () => homeProvider.onArrowClicked(),
-                child: Icon(
-                  !homeProvider.isArrowClicked.value
-                      ? Icons.keyboard_arrow_up_outlined
-                      : Icons.keyboard_arrow_down_outlined,
-                  size: 40,
-                )),
+              onTap: () => homeProvider.onArrowClicked(),
+              child: Icon(
+                !homeProvider.isArrowClicked.value
+                    ? Icons.keyboard_arrow_up_outlined
+                    : Icons.keyboard_arrow_down_outlined,
+                size: 40,
+              ),
+            ),
           ],
         ),
       ],
@@ -172,27 +187,25 @@ class SimilarPart extends StatelessWidget {
 }
 
 class AddressText extends StatelessWidget {
-  final Map<String, dynamic> userData;
+  final LoginResponse loginResponse;
 
-  const AddressText({Key? key, required this.userData}) : super(key: key);
+  const AddressText({Key? key, required this.loginResponse}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> addresses = userData['userAddress']?[0]['addresses'] ?? [];
+    final addresses = loginResponse.userAddress?.first.addresses ?? [];
 
     String addressText = "No address available";
 
-    // Find the default address if it exists
     for (var address in addresses) {
-      if (address['isDefault'] == true) {
-        addressText = address['address'];
+      if (address.isDefault) {
+        addressText = address.address;
         break;
       }
     }
 
-    // If no default address, use the first address
     if (addressText == "No address available" && addresses.isNotEmpty) {
-      addressText = addresses[0]['address'];
+      addressText = addresses[0].address;
     }
 
     return Text(
