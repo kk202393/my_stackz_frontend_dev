@@ -96,6 +96,9 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
               GridView.builder(
                   shrinkWrap: true,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
