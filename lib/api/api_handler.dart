@@ -81,32 +81,40 @@ class ApiHandler {
     }
   }
 
-  callConsumerBookingApi(body) async {
+  callConsumerBookingApi(Map<String, dynamic> body) async {
     String? token = await Utils().ReadToken();
+
+    if (token == null || token.isEmpty) {
+      debugPrint('Token is missing');
+      return null;
+    }
 
     try {
       if (dio == null) initDio();
-      Response _response = await dio!.post(
+
+      final response = await dio!.post(
         AppURLs.consumerorderbookingURL,
         data: body,
         options: Options(
-            headers: <String, String>{'Authorization': token.toString()}),
+          headers: <String, String>{
+            'Authorization': 'Bearer $token',
+          },
+        ),
       );
 
-      debugPrint("consumerorderbooking API ${_response.data}");
-
-      // Initialize _response
-      _response = BookingResponse.fromJson(_response.data) as Response;
-
-      // Additional logic can be added here if needed
+      return BookingResponse.fromJson(response.data);
     } on DioException catch (e) {
-      debugPrint("consumerorderbooking API exception $e");
+      debugPrint("consumerorderbooking API exception: ${e.message}");
       if (e.response != null) {
         debugPrint("Response Data: ${e.response!.data}");
         debugPrint("Response Headers: ${e.response!.headers}");
       }
-      _handleError(e);
+      _handleError(e); 
+    } catch (e) {
+      debugPrint("Unexpected error: $e");
     }
+
+    return null;
   }
 
   callCreateAccountApi(body) async {
@@ -119,46 +127,48 @@ class ApiHandler {
     }
   }
 
- callDeleteUserBookingApi(String token, String bookingId) async {
-  final accessToken = 'Bearer $token';
-  try {
-    if (dio == null) initDio();
-    final Response response = await dio!.post(
-      AppURLs.deleteuserBookingURL, 
-      options: Options(headers: <String, String>{'Authorization': accessToken}),
-      data: {'booking_id': bookingId}, 
-    );
-    return BookingResponse.fromJson(response.data);
-  } on DioException catch (e) {
-    _handleError(e);
-  }
-}
 
-
-  Future<BookingResponse?> callConsumerBookingStatusURL(
-    String token,
-    String bookingStatusId,
-    String bookingStatus,
-  ) async {
+  Future<BookingResponse?> updateUserBookingStatus(
+      Map<String, dynamic> body) async {
     try {
-      if (dio == null) initDio();
+      final String? token = await Utils().ReadToken();
+      if (token == null) {
+        debugPrint('Token is missing');
+        return null;
+      }
 
-      final response = await dio!.post(
-        AppURLs.consumerBookingStatusURL,
-        data: {
-          "booking_status_id": bookingStatusId,
-          "booking_status": bookingStatus,
-        },
+      debugPrint('Token: $token');
+      debugPrint('Request Body: $body');
+
+      final response = await dio!.put(
+        AppURLs.userBookingUpdated,
+        data: body,
         options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
+          headers: {'Authorization': 'Bearer $token'},
         ),
       );
 
-      return BookingResponse.fromJson(response.data);
+     
+      debugPrint('Status Code: ${response.statusCode}');
+      debugPrint('API Response: ${response.data}');
+
+      if (response.statusCode == 200) {
+        return BookingResponse.fromJson(response.data);
+      } else {
+        debugPrint('API call failed with status code: ${response.statusCode}');
+        return null;
+      }
     } on DioException catch (e) {
-      _handleError(e);
+      debugPrint('DioException: ${e.message}');
+      if (e.response != null) {
+        debugPrint('Response Data: ${e.response!.data}');
+        debugPrint('Response Headers: ${e.response!.headers}');
+      }
+      _handleError(e); 
+      return null;
+    } catch (e, stacktrace) {
+      debugPrint('Unexpected error: $e');
+      debugPrint('Stacktrace: $stacktrace');
       return null;
     }
   }

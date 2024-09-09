@@ -1,8 +1,13 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
@@ -14,6 +19,7 @@ import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/consumer_booking_response.dart';
 import '../../../models/login_response.dart';
 import 'package:intl/intl.dart'; // Add this import for date formatting
 
@@ -35,10 +41,8 @@ class CartSummaryView extends StatelessWidget {
         Provider.of<HomeProvider>(context, listen: false);
     BookingProvider bookingProvider =
         Provider.of<BookingProvider>(context, listen: false);
-
     CartSummaryProvider controller =
         Provider.of<CartSummaryProvider>(context, listen: false);
-
     final size = MediaQuery.of(context).size;
 
     // Format the selected date and time slot
@@ -223,24 +227,24 @@ class CartSummaryView extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: InkWell(
                 onTap: () async {
-                  final bookingProvider =
-                      Provider.of<BookingProvider>(context, listen: false);
+                  // final bookingProvider =
+                  //     Provider.of<BookingProvider>(context, listen: false);
 
-                  print(
-                      "Booking ID before deletion: ${bookingProvider.bookingAPIResponse?.consumerOrderDetails.categoryId}");
-                  bool success = await bookingProvider.getDeleteUser();
+                  // print(
+                  //     "Booking ID before deletion: ${bookingProvider.bookingResponse?.consumerOrderDetails.categoryId}");
+                  // bool success = await bookingProvider.getDeleteUser();
 
-                  if (success) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Booking deleted successfully.')),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Failed to delete booking.')),
-                    );
-                  }
+                  // if (success) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(
+                  //         content: Text('Booking deleted successfully.')),
+                  //   );
+                  // } else {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(
+                  //         content: Text('Failed to delete booking.')),
+                  //   );
+                  // }
                 },
                 child: TextWidget(
                     text: StringConstants.applyCode,
@@ -407,19 +411,50 @@ class CartSummaryView extends StatelessWidget {
             ButtonWidget(
               buttonText: 'Update Booking Status',
               onTap: () async {
-                bookingProvider.getConsumerBookingStatus(context);
+                BookingProvider bookingProvider =
+                    Provider.of<BookingProvider>(context, listen: false);
+
+                final bookingAPIResponse = bookingProvider.bookingAPIResponse;
+                final consumerOrderDetails =
+                    bookingAPIResponse?.consumerOrderDetails;
+                final bookingStatus =
+                    consumerOrderDetails?.consumerBookingStatus;
+
+                String? bookingId =
+                    consumerOrderDetails?.bookingId.isNotEmpty == true
+                        ? bookingProvider.bookingStatusId.value
+                        : null;
+
+                String? bookingStatusId =
+                    bookingStatus?.bookingStatus.isNotEmpty == true
+                        ? bookingProvider.bookingId.value
+                        : null;
+
+                bool _success = await bookingProvider.updateBookingStatus(
+                  context,
+                  bookingId,
+                  bookingStatusId,
+                );
+                print("Success: $_success");
+
+                if (_success) {
+                  Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Status: ${bookingStatus?.bookingStatus ?? 'Unknown status'}',
+                      ),
+                    ),
+                  );
+                }
               },
             ),
 
             const SizedBox(
               height: 10,
             ),
-            ButtonWidget(
-              buttonText: 'delete consumer user',
-              onTap: () async {
-                bookingProvider.getDeleteUser();
-              },
-            ),
+
             const SizedBox(height: 50),
           ],
         ),
