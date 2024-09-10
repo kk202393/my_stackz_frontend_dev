@@ -413,38 +413,14 @@ class CartSummaryView extends StatelessWidget {
               onTap: () async {
                 BookingProvider bookingProvider =
                     Provider.of<BookingProvider>(context, listen: false);
-
-                final bookingAPIResponse = bookingProvider.bookingAPIResponse;
-                final consumerOrderDetails =
-                    bookingAPIResponse?.consumerOrderDetails;
-                final bookingStatus =
-                    consumerOrderDetails?.consumerBookingStatus;
-
-                String? bookingId =
-                    consumerOrderDetails?.bookingId.isNotEmpty == true
-                        ? bookingProvider.bookingStatusId.value
-                        : null;
-
-                String? bookingStatusId =
-                    bookingStatus?.bookingStatus.isNotEmpty == true
-                        ? bookingProvider.bookingId.value
-                        : null;
-
-                bool _success = await bookingProvider.updateBookingStatus(
-                  context,
-                  bookingId,
-                  bookingStatusId,
-                );
-                print("Success: $_success");
-
-                if (_success) {
+                bool success =
+                    await bookingProvider.updateBookingStatus(context);
+                if (success) {
                   Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                        'Status: ${bookingStatus?.bookingStatus ?? 'Unknown status'}',
-                      ),
+                      content: Text('Failed to update booking status.'),
                     ),
                   );
                 }

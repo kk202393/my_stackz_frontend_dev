@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -67,8 +68,6 @@ class BookingProvider with ChangeNotifier {
     try {
       final response = await ApiHandler().callConsumerBookingApi(body);
 
-      debugPrint('API response: $response');
-
       if (response != null && response["success"] == true) {
         _response = BookingResponse.fromJson(response);
         bookingId.value = _response!.consumerOrderDetails.bookingId;
@@ -97,64 +96,148 @@ class BookingProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateBookingStatus(
-      BuildContext context, String? bookingStatusId, String? bookingId) async {
-    isLoading.value = true;
+ Future<bool> updateBookingStatus(BuildContext context) async {
+  isLoading.value = true;
 
-    final Map<String, dynamic> body = {
-      "booking_status_id": bookingStatusId ?? "",
-      "booking_id": bookingId ?? "",
-    };
+  final Map<String, dynamic> body = {
+    "booking_id": "CMS0003", // Static booking ID
+    "booking_status_id": "4", // Static booking status ID (4 = Complete)
+  };
 
-    if (body['booking_status_id']!.isEmpty || body['booking_id']!.isEmpty) {
-      debugPrint('Booking status ID or booking ID is missing');
-      _showSnackBar(context, 'Booking status ID or booking ID is missing',
-          SnackType.error);
-      isLoading.value = false;
-      notifyListeners();
-      return false;
-    }
+  try {
+    // Call the API to update the booking status
+    final response = await ApiHandler().updateUserBookingStatus(body);
 
-    try {
-      final response = await ApiHandler().updateUserBookingStatus(body);
+    // Debug print for the full API response
+    debugPrint('Full API response: ${response?.toJson()}');
 
-      debugPrint('API response: ${response?.toJson()}');
-      if (response != null && response.success) {
-        final updatedStatus =
-            response.consumerOrderDetails?.consumerBookingStatus;
+    // Check if the response is not null and the success flag is true
+    if (response?.success == true) {
+      // Retrieve the updated status
+      final updatedStatus = response?.consumerOrderDetails.consumerBookingStatus?.bookingStatus;
 
-        if (updatedStatus == null) {
-          debugPrint('Updated status is null');
-          _showSnackBar(context, 'Updated status is null', SnackType.error);
-          return false;
-        }
-
-        debugPrint('Booking updated successfully: $updatedStatus');
-        _showSnackBar(
-            context, 'Booking updated successfully!', SnackType.success);
-
-        return true;
-      } else {
-        debugPrint(
-            'Failed to update booking: ${response?.massage ?? 'Unknown error'}');
-        _showSnackBar(
-            context,
-            'Failed to update booking: ${response?.massage ?? 'Unknown error'}',
-            SnackType.error);
+      if (updatedStatus == null) {
+        debugPrint('Updated status is null');
+        _showSnackBar(context, 'Updated status is null', SnackType.error);
+        return false;
       }
-    } catch (e, stacktrace) {
-      debugPrint('Error while updating booking: $e');
-      debugPrint('Stacktrace: $stacktrace');
-      _showSnackBar(
-          context, 'Error occurred while updating booking', SnackType.error);
-    } finally {
-      isLoading.value = false;
-      notifyListeners();
-    }
 
-    return false;
+      // Convert status to a user-friendly string
+      final bookingStatus = _getStatusString(updatedStatus);
+
+      debugPrint('Booking updated successfully: $bookingStatus');
+      _showSnackBar(context, 'Booking updated to: $bookingStatus', SnackType.success);
+
+      return true;
+    } else {
+      // Handle failure case
+      debugPrint('Failed to update booking: ${response?.massage ?? 'Unknown error'}');
+      _showSnackBar(context, 'Failed to update booking: ${response?.massage ?? 'Unknown error'}', SnackType.error);
+    }
+  } catch (e) {
+    // Handle any exceptions that occur
+    debugPrint('Error while updating booking: $e');
+    _showSnackBar(context, 'Error occurred while updating booking', SnackType.error);
+  } finally {
+    // Ensure that the loading state is turned off and listeners are notified
+    isLoading.value = false;
+    notifyListeners();
   }
 
+  return false;
+}
+
+String _getStatusString(String? bookingStatus) {
+  switch (bookingStatus) {
+    case '1':
+      return 'Pending';
+    case '2':
+      return 'Accepted';
+    case '3':
+      return 'Underprocess';
+    case '4':
+      return 'Complete';
+    default:
+      return 'Unknown Status';
+  }
+}
+
+
+//   Future<bool> updateBookingStatus(BuildContext context) async {
+//     isLoading.value = true;
+
+//     // Static data for the request body
+//     final Map<String, dynamic> body = {
+//       "booking_id": "CMS0003", // Static booking ID
+//       "booking_status_id": "4", // Static booking status ID (4 = Complete)
+//     };
+
+//     try {
+//       final response = await ApiHandler().updateUserBookingStatus(body);
+
+//       // Print the API response for debugging
+//       debugPrint('API response: ${response?.toJson()}');
+
+//       // Check if the response is successful
+//       if (response != null && response.success) {
+//         // Get the booking status from the response
+//         final updatedStatus =
+//             response.consumerOrderDetails?.consumerBookingStatus?.bookingStatus;
+
+//         // Ensure updatedStatus is not null
+//         if (updatedStatus == null) {
+//           debugPrint('Updated status is null');
+//           _showSnackBar(context, 'Updated status is null', SnackType.error);
+//           return false;
+//         }
+
+//         // Convert the booking status ID to a readable string
+//         final bookingStatus = _getStatusString(updatedStatus);
+
+//         // Print and show success message
+//         debugPrint('Booking updated successfully: $bookingStatus');
+//         _showSnackBar(
+//             context, 'Booking updated to: $bookingStatus', SnackType.success);
+
+//         return true;
+//       } else {
+//         debugPrint(
+//             'Failed to update booking: ${response?.massage ?? 'Unknown error'}');
+//         _showSnackBar(
+//             context,
+//             'Failed to update booking: ${response?.massage ?? 'Unknown error'}',
+//             SnackType.error);
+//       }
+//     } catch (e, stacktrace) {
+//       debugPrint('Error while updating booking: $e');
+//       debugPrint('Stacktrace: $stacktrace');
+//       _showSnackBar(
+//           context, 'Error occurred while updating booking', SnackType.error);
+//     } finally {
+//       isLoading.value = false;
+//       notifyListeners();
+//     }
+
+//     return false;
+//   }
+
+// // Helper function to map the booking status to a status string
+//   String _getStatusString(String bookingStatus) {
+//     switch (bookingStatus) {
+//       case '1':
+//         return 'Pending';
+//       case '2':
+//         return 'Accepted';
+//       case '3':
+//         return 'Underprocess';
+//       case '4':
+//         return 'Complete';
+//       default:
+//         return 'Unknown Status';
+//     }
+//   }
+
+// Function to show a SnackBar message
   void _showSnackBar(BuildContext context, String content, SnackType type) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -164,5 +247,3 @@ class BookingProvider with ChangeNotifier {
     );
   }
 }
-
-void _showSnackBar(BuildContext context, String content, SnackType type) {}
