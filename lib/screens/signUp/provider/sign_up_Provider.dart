@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/models/sign_up_response.dart';
@@ -5,6 +7,9 @@ import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:provider/provider.dart';
+
+import '../../../models/user_device_information_response.dart';
+import '../../../utils/utils.dart';
 
 class SignUpProvider with ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -24,6 +29,11 @@ class SignUpProvider with ChangeNotifier {
   ValueNotifier<bool> obscureText = ValueNotifier(true);
   ValueNotifier<bool> rememberMe = ValueNotifier(false);
   ValueNotifier<bool> isLoading = ValueNotifier(false);
+  ValueNotifier<String> sId = ValueNotifier("");
+  ValueNotifier<String> userMobileIMEINo = ValueNotifier("");
+  ValueNotifier<String> userAndroidID = ValueNotifier("");
+  ValueNotifier<String> userSocketID = ValueNotifier("");
+  ValueNotifier<String> firebaseDeviceToken = ValueNotifier("");
 
   // @override
   // void onInit() {
@@ -39,6 +49,9 @@ class SignUpProvider with ChangeNotifier {
   // callCreateAccountApi();
   //   super.onInit();
   // }
+  UserDeviceInformation? _userDeviceInformation;
+  UserDeviceInformation? get userDeviceInformationResponse => _userDeviceInformation;
+
 
   onChangePasswordVisibility() {
     obscureText.value = !obscureText.value;
@@ -46,10 +59,11 @@ class SignUpProvider with ChangeNotifier {
 
   validateFields(BuildContext context) {
 
-    if (formKey.currentState!.validate()) {
+    if (!formKey.currentState!.validate()) {
       return;
     } else {
-      Navigator.pushNamed(context, Routes.DASHBOARD);
+      callCreateAccountApi();
+      /*Navigator.pushNamed(context, Routes.DASHBOARD);*/
     }
   }
 
@@ -71,6 +85,8 @@ class SignUpProvider with ChangeNotifier {
           await ApiHandler().callCreateAccountApi(body);
       isLoading.value = false;
       if (response.success! && response.user != null) {
+        sId.value = response.user!.sId!;
+        callUserDeviceInformation();
         Snack.show(
             content: "User Already Exists",
             snackType: SnackType.info,
@@ -80,4 +96,30 @@ class SignUpProvider with ChangeNotifier {
       isLoading.value = false;
     }
   }
+
+   callUserDeviceInformation() async {
+    isLoading.value = true;
+    final body = {
+      "user_id": sId.value,
+      "user_mobile_IMEI_No": userMobileIMEINo.value,
+      "user_android_ID": userAndroidID.value,
+      "user_socketID": userSocketID.value,
+      "firebase_device_token": await Utils().readFCMToken()
+    };
+    try {
+      UserDeviceInformation response =
+          await ApiHandler().callUserDeviceInformation(body);
+      isLoading.value = false;
+      if (response.success! && response.deviceInformation != null) {
+        Snack.show(
+            content: "Notification Sent",
+            snackType: SnackType.info,
+            behavior: SnackBarBehavior.floating);
+      }
+    } catch (e) {
+      isLoading.value = false;
+    }
+  }
+
+
 }

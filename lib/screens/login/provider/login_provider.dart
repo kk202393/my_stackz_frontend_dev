@@ -69,7 +69,6 @@ class LoginProvider with ChangeNotifier {
       "email": emailController.text,
       "password": passwordController.text
     };
-
     try {
       _response = await ApiHandler().callLoginApi(body);
       await Utils().storeToken(_response!.token);

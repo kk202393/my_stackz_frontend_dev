@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:my_stackz/utils/utils.dart';
 
 import '../routes/app_pages.dart';
 
@@ -12,6 +13,7 @@ class FirebaseApi {
   Future<void> initNotifications() async {
     await _firebaseMessaging.requestPermission();
     final fcmToken = await FirebaseMessaging.instance.getToken();
+    await Utils().storeFcmToken(fcmToken!);
     print("Token: $fcmToken");
     initPushNotifications();
   }

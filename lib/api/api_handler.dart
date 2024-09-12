@@ -12,6 +12,7 @@ import '../models/logout_response.dart';
 import '../models/my_profile_response.dart';
 import '../models/reset_password_response.dart';
 import '../models/sign_up_response.dart';
+import '../models/user_device_information_response.dart';
 import '../utils/shared_preferences.dart';
 import '../widgets/snack_bar.dart';
 import 'urls.dart';
@@ -122,6 +123,16 @@ class ApiHandler {
       if (dio == null) initDio();
       final Response response = await dio!.post(AppURLs.createURL, data: body);
       return CreateAccountResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      _handleError(e);
+    }
+  }
+
+  callUserDeviceInformation(body) async{
+    try {
+      if (dio == null) initDio();
+      final Response response = await dio!.post(AppURLs.userDeviceInformation, data: body);
+      return UserDeviceInformation.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e);
     }

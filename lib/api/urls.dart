@@ -16,4 +16,6 @@ class AppURLs {
       '$appBaseURL/api/v1/deleteuserbooking';
   static const String userBookingUpdated =
       '$appBaseURL/api/v1/userbookingupdated';
+  static const String userDeviceInformation =
+      '$appBaseURL/api/v1/userdeviceinformation';
 }

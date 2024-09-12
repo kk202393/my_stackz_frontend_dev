@@ -27,6 +27,18 @@ class Utils {
     }
   }
 
+  Future<bool> storeFcmToken(String fcmToken) async {
+    try {
+      await _storage.write(key: 'fcmToken', value: fcmToken);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  Future<String?> readFCMToken() async {
+    return await _storage.read(key: 'fcmToken');
+  }
+
   Future<bool> storeEmail(String token) async {
     try {
       await _storage.write(key: 'email', value: token);
