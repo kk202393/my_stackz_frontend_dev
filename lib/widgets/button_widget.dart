@@ -5,6 +5,7 @@ import '../constants/app_colors.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String buttonText;
+  final double width;
   final Color? buttonColor;
   final Color? textColor;
   final GestureTapCallback onTap;
@@ -15,6 +16,7 @@ class ButtonWidget extends StatelessWidget {
       {super.key,
       required this.buttonText,
       this.buttonColor,
+      this.width = double.infinity,
       this.textColor = AppColors.white,
       required this.onTap,
       this.icon,
@@ -22,7 +24,6 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     return Container(
         width: width,
         decoration: BoxDecoration(boxShadow: [

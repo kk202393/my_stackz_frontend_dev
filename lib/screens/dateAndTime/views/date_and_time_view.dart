@@ -154,7 +154,8 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
 
                     Navigator.pushNamed(
                       context,
-                      Routes.SELECT_ADDRESS,
+                      Routes.NOTIFICATIONS,
+                      // Routes.SELECT_ADDRESS,
                       arguments: {
                         'selectedTimeSlotId': bookingProvider.timeSlotId.value,
                         'selectedDate': bookingProvider.bookingDate.value,

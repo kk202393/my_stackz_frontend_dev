@@ -8,6 +8,8 @@ import 'package:my_stackz/screens/cartSummary/views/chart_summary_view.dart';
 import 'package:my_stackz/screens/cleaning/views/cleaning_view.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_view.dart';
 import 'package:my_stackz/screens/login/views/login_view.dart';
+import 'package:my_stackz/screens/notifications/views/notification_two.dart';
+import 'package:my_stackz/screens/notifications/views/notification_view.dart';
 import 'package:my_stackz/screens/payments/views/payment_view.dart';
 import 'package:my_stackz/screens/signUp/views/sign_up_view.dart';
 import 'package:my_stackz/screens/splace_screen/splace.dart';
@@ -116,6 +118,16 @@ class AppPages {
         return MaterialPageRoute(
           settings: setting,
           builder: (_) => SelectAddressView(),
+        );
+      case Routes.NOTIFICATIONS:
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => NotificationsView(),
+        );
+      case Routes.NOTIFICATIONS_TWO:
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => NotificationTwo(),
         );
       default:
         return MaterialPageRoute(

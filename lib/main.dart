@@ -17,11 +17,10 @@ import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/screens/payments/provider/payment_Provider.dart';
 import 'package:my_stackz/screens/selectAddress/provider/select_address_provider.dart';
 import 'package:my_stackz/screens/signUp/provider/sign_up_Provider.dart';
-import 'package:my_stackz/utils/utils.dart';
-
 import 'package:provider/provider.dart';
 import 'themes/themes.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -151,6 +150,7 @@ class _MyStackzState extends State<MyStackz> {
           onGenerateRoute: AppPages.generateRoutes,
           debugShowCheckedModeBanner: false,
           localizationsDelegates: const [],
+          navigatorKey: navigatorKey,
           builder: (context, child) {
             return Stack(children: [
               MediaQuery(

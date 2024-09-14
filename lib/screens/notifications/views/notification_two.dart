@@ -1,32 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:my_stackz/api/notification_api.dart';
-import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
-import 'package:my_stackz/widgets/text_widget.dart';
-import '../../../widgets/button_widget.dart';
 
-class NotificationsView extends StatefulWidget {
-  const NotificationsView({super.key});
+import '../../../constants/app_colors.dart';
+import '../../../widgets/text_widget.dart';
+
+class NotificationTwo extends StatefulWidget {
+  final String? payload;
+
+  const NotificationTwo({super.key, this.payload});
 
   @override
-  State<NotificationsView> createState() => _NotificationsViewState(
-  );
+  State<NotificationTwo> createState() => _NotificationTwoState();
 }
 
-class _NotificationsViewState extends State<NotificationsView> {
-
-  @override
-  void initState() {
-    super.initState();
-    NotificationApi.init();
-    listenNotifications();
-  }
-
-  void listenNotifications() => NotificationApi.onNotifications.stream.listen(onClickedNotification);
-
-  void onClickedNotification(String? payload) {
-  }
-
+class _NotificationTwoState extends State<NotificationTwo> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -51,7 +38,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                     ),
                     SizedBox(width: size.width*0.3,),
                     TextWidget(
-                      text: "Notification",
+                      text: "Accepted",
                       style: context.bodySmall.copyWith(
                           fontWeight: FontWeight.w700,
                           fontSize: 18,
@@ -62,18 +49,22 @@ class _NotificationsViewState extends State<NotificationsView> {
                 ),
               ),
               SizedBox(height: size.height*0.2,),
-              ButtonWidget(
-                buttonText: 'Send Notification',
-                width: size.width*0.5,
-                buttonColor: AppColors.red,
-                onTap: () {
-                  NotificationApi.showNotification(
-                      title: "You have an upcoming service",
-                      body: "Do you want to accept?",
-                      payload: "myStackz"
-                  );
-                },
-              )
+              TextWidget(
+                text: widget.payload ?? "",
+                style: context.bodySmall.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    color: AppColors.black),
+                textAlign: TextAlign.center,
+              ),
+              TextWidget(
+                text: "Booking Accepted",
+                style: context.bodySmall.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    color: AppColors.black),
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
