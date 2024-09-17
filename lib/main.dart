@@ -1,9 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:my_stackz/api/firebase_api.dart';
+import 'package:my_stackz/api/fcm_service.dart';
+import 'package:my_stackz/firebase_options.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/additionalDetails/provider/additional_details_provider.dart';
 import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
@@ -18,19 +17,25 @@ import 'package:my_stackz/screens/payments/provider/payment_Provider.dart';
 import 'package:my_stackz/screens/selectAddress/provider/select_address_provider.dart';
 import 'package:my_stackz/screens/signUp/provider/sign_up_Provider.dart';
 import 'package:provider/provider.dart';
+
 import 'themes/themes.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //     options: const FirebaseOptions(
+  //         apiKey: 'AIzaSyDZ-paolYuS-KMUqv9IfTJ0LPm4Kjk_5kA',
+  //         appId: '1:892441686585:android:0b4d06d1f4dcdde13793e8',
+  //         messagingSenderId: '892441686585',
+  //         projectId: 'mystackz-2a351'));
+  // initializeSettings();
+  // await FirebaseApi().initNotifications();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: 'AIzaSyDZ-paolYuS-KMUqv9IfTJ0LPm4Kjk_5kA',
-          appId: '1:892441686585:android:0b4d06d1f4dcdde13793e8',
-          messagingSenderId: '892441686585',
-          projectId: 'mystackz-2a351'));
-  initializeSettings();
-  await FirebaseApi().initNotifications();
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(
@@ -85,20 +90,20 @@ void main() async {
   );
 }
 
-void initializeSettings() async {
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true, sound: true, badge: true);
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  const AndroidInitializationSettings androidInitializationSettings =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-  const DarwinInitializationSettings darwinInitializationSettings =
-      DarwinInitializationSettings();
-  const InitializationSettings initializationSettings = InitializationSettings(
-      android: androidInitializationSettings,
-      iOS: darwinInitializationSettings);
-  flutterLocalNotificationsPlugin.initialize(initializationSettings);
-}
+// void initializeSettings() async {
+//   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+//       alert: true, sound: true, badge: true);
+//   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//       FlutterLocalNotificationsPlugin();
+//   const AndroidInitializationSettings androidInitializationSettings =
+//       AndroidInitializationSettings('@mipmap/ic_launcher');
+//   const DarwinInitializationSettings darwinInitializationSettings =
+//       DarwinInitializationSettings();
+//   const InitializationSettings initializationSettings = InitializationSettings(
+//       android: androidInitializationSettings,
+//       iOS: darwinInitializationSettings);
+//   flutterLocalNotificationsPlugin.initialize(initializationSettings);
+// }
 
 class MyStackz extends StatefulWidget {
   const MyStackz({super.key});
@@ -109,6 +114,7 @@ class MyStackz extends StatefulWidget {
 
 class _MyStackzState extends State<MyStackz> {
   late bool? token;
+  final FcmService _fcmService = FcmService();
 
   @override
   void initState() {
@@ -124,6 +130,7 @@ class _MyStackzState extends State<MyStackz> {
     //     // }
     //   },
     // );
+    _fcmService.initialize(context);
   }
 
   @override

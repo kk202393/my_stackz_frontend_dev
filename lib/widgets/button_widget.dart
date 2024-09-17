@@ -25,28 +25,29 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: width,
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: AppColors.paleCyan.withOpacity(0.3),
-            blurRadius: 8,
-            spreadRadius: 2,
-            offset: const Offset(1, 8),
-          )
-        ]),
-        child: ElevatedButton(
-            onPressed: onTap,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Visibility(
-                      visible: showIcon,
-                      child: Icon(icon, color: AppColors.white)),
-                  Visibility(
-                      visible: showIcon, child: const SizedBox(width: 10)),
-                  Text(buttonText,
-                      style: context.displayLarge.copyWith(color: textColor))
-                ])));
+      width: width,
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: AppColors.paleCyan.withOpacity(0.3),
+          blurRadius: 8,
+          spreadRadius: 2,
+          offset: const Offset(1, 8),
+        )
+      ]),
+      child: ElevatedButton(
+        onPressed: onTap,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Visibility(
+                visible: showIcon, child: Icon(icon, color: AppColors.white)),
+            Visibility(visible: showIcon, child: const SizedBox(width: 10)),
+            Text(buttonText,
+                style: context.displayLarge.copyWith(color: textColor))
+          ],
+        ),
+      ),
+    );
   }
 }
