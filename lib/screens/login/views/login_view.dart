@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -113,7 +113,6 @@ class LoginView extends StatelessWidget {
                                   buttonText: StringConstants.login,
                                   onTap: () async {
                                     homeController.isLoading.value = true;
-
                                     bool _isSuccess =
                                         await controller.validateFields(
                                             formKey, homeController, context);
@@ -136,6 +135,7 @@ class LoginView extends StatelessWidget {
                                           msg: msg,
                                           backgroundColor: Colors.red.shade600,
                                         );
+                                        homeController.isLoading.value = false;
                                       }
                                     } else {
                                       homeController.isLoading.value = false;

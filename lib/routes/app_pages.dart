@@ -12,6 +12,7 @@ import 'package:my_stackz/screens/login/views/login_view.dart';
 import 'package:my_stackz/screens/payments/views/payment_view.dart';
 import 'package:my_stackz/screens/signUp/views/sign_up_view.dart';
 import 'package:my_stackz/screens/splace_screen/splace.dart';
+import 'package:my_stackz/widgets/subCatWidget.dart';
 import '../screens/booking/views/booking_view.dart';
 import '../screens/bookingAccepted/views/booking_accepted_view.dart';
 import '../screens/bookingDetails/views/booking_details_view.dart';
@@ -48,9 +49,17 @@ class AppPages {
           builder: (_) => const SignUpView(),
         );
       case Routes.CLEANING:
+        final arguments = setting.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => CleaningView(),
+          builder: (_) => SubCatView(
+            list: arguments["itemList"],
+            onTap:() {
+              
+            },
+            imgList: arguments["imgPath"],
+            pageTitle: arguments["titleName"],
+          ),
         );
       case Routes.AIRCON_SERVICES:
         return MaterialPageRoute(
@@ -119,7 +128,7 @@ class AppPages {
           builder: (_) => SelectAddressView(),
         );
       case Routes.GOOGLE_MAP:
-      final arguments = setting.arguments as Map<String, dynamic>;
+        final arguments = setting.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
           settings: setting,
           builder: (_) => GoogleMapView(

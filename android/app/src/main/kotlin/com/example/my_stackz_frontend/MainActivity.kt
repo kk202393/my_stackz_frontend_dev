@@ -1,4 +1,4 @@
-package com.example.my_stackz
+package com.example.my_stackz_frontend
 
 import io.flutter.embedding.android.FlutterActivity
 

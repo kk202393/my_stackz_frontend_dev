@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 
@@ -14,12 +15,13 @@ class Snack {
     required String content,
     SnackType snackType = SnackType.info,
     SnackBarBehavior behavior = SnackBarBehavior.fixed,
+    BuildContext? context,
   }) {
-    ScaffoldMessenger.of(Get.context!).removeCurrentSnackBar();
-    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context!).removeCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: TextWidget(
             text: content,
-            style: Get.context!.displaySmall.copyWith(
+            style: context.displaySmall.copyWith(
                 color: _getSnackBarTextColor(snackType),
                 fontWeight: FontWeight.w500)),
         behavior: behavior,

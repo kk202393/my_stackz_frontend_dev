@@ -71,7 +71,7 @@ class SplaceScreen extends StatelessWidget {
           Provider.of<LoginProvider>(context, listen: false);
 
       if (token != null && token.isNotEmpty) {
-        bool profileLoaded = await loginProvider.getMyProfile();
+        bool profileLoaded = await loginProvider.getMyProfile(context);
         if (profileLoaded) {
           bool homePageLoaded =
               await homeController.callGetViewHomePageApi(context);

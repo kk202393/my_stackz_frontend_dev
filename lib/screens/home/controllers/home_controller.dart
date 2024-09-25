@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/constants/app_constants.dart';
+import 'package:my_stackz/constants/app_images.dart';
+import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/models/logout_response.dart';
 import 'package:my_stackz/utils/shared_preferences.dart';
@@ -20,10 +22,11 @@ class HomeProvider with ChangeNotifier {
     // Initialize selectedServiceCategory with all required parameters
     selectedServiceCategory = ServiceCategory(
       id: "1",
-      servicecategory:1,
+      servicecategory: 1,
       servicecategoryId: 101,
       subcategoryId: 201,
-      categoryId: 301, servicecategoryName: '', price: null, createdAt: null, updatedAt: null, v: null,
+      categoryId: 301, servicecategoryName: '', price: null, createdAt: null,
+      updatedAt: null, v: null,
       // Add other required arguments here
     );
   }
@@ -53,8 +56,6 @@ class HomeProvider with ChangeNotifier {
     isLoading.value = isOpened;
     isLoading.notifyListeners();
   }
-
-  
 
   @override
   void onInit() {}
@@ -110,6 +111,42 @@ class HomeProvider with ChangeNotifier {
     token.value =
         await AppPreferences().getSharedPreferences(AppConstants.token);
     debugPrint("firstName ${token.value}");
+  }
+
+  List<Map<String, dynamic>> allItem() {
+    List<Map<String, dynamic>> allCategoriesList = [
+      {
+        "itemList": homeAPIResponse.allCategories[0].subcategories,
+        "imgPath": [
+          AppImages.homeCleaning,
+          AppImages.officeCleaning,
+          AppImages.springCleaning,
+          AppImages.movingInOutCleaning,
+        ],
+        "titleName": StringConstants.homeAndOfficeCleaning,
+      },
+      {
+        "itemList": homeAPIResponse.allCategories[1].subcategories,
+        "imgPath": [
+          AppImages.acRepair,
+          AppImages.acRepair,
+          AppImages.acRepair,
+          AppImages.acRepair
+        ],
+        "titleName": StringConstants.airconAllServices
+      },
+      {
+        "itemList": homeAPIResponse.allCategories[2].subcategories,
+        "imgPath": [
+          AppImages.acRepair,
+          AppImages.acRepair,
+          AppImages.acRepair,
+          AppImages.acRepair
+        ],
+        "titleName": StringConstants.handyman
+      }
+    ];
+    return allCategoriesList;
   }
 
   // Future<bool> callGetViewHomePageApi(BuildContext context) async {

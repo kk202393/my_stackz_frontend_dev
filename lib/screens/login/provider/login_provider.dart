@@ -24,7 +24,6 @@ class LoginProvider with ChangeNotifier {
   LoginResponse? get logInAPIResponse => _response;
 
   String get defaultAddress => _defaultAddress;
-  
 
   void setAddressList(List<dynamic> addresses) {
     _addressList = addresses;
@@ -44,8 +43,8 @@ class LoginProvider with ChangeNotifier {
     rememberMe.value = !rememberMe.value;
   }
 
-  Future<bool> validateFields(
-      GlobalKey<FormState> formKey, homeController, BuildContext context) async {
+  Future<bool> validateFields(GlobalKey<FormState> formKey, homeController,
+      BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return false;
     } else {
@@ -54,7 +53,7 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> getMyProfile() async {
+  Future<bool> getMyProfile(BuildContext context) async {
     String? token = await Utils().ReadToken();
     if (token == null) {
       return false;

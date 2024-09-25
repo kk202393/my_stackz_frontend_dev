@@ -9,9 +9,9 @@ import '../models/change_password_response.dart';
 import '../models/home_page_response.dart';
 import '../models/login_response.dart';
 import '../models/logout_response.dart';
-import '../models/my_profile_response.dart';
 import '../models/reset_password_response.dart';
 import '../models/sign_up_response.dart';
+import '../models/user_device_information_response.dart';
 import '../utils/shared_preferences.dart';
 import '../widgets/snack_bar.dart';
 import 'urls.dart';
@@ -127,37 +127,14 @@ class ApiHandler {
     }
   }
 
-
-  Future<BookingResponse?> updateUserBookingStatus(
-      Map<String, dynamic> body) async {
+  callDeleteUserBookingApi(String token) async {
+    final accessToken = 'Bearer $token';
     try {
-      final String? token = await Utils().ReadToken();
-      if (token == null) {
-        debugPrint('Token is missing');
-        return null;
-      }
-
-      debugPrint('Token: $token');
-      debugPrint('Request Body: $body');
-
-      final response = await dio!.put(
-        AppURLs.userBookingUpdated,
-        data: body,
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
-      );
-
-     
-      debugPrint('Status Code: ${response.statusCode}');
-      debugPrint('API Response: ${response.data}');
-
-      if (response.statusCode == 200) {
-        return BookingResponse.fromJson(response.data);
-      } else {
-        debugPrint('API call failed with status code: ${response.statusCode}');
-        return null;
-      }
+      if (dio == null) initDio();
+      final Response response = await dio!.get(AppURLs.deleteuserBookingURL,
+          options:
+              Options(headers: <String, String>{'Authorization': accessToken}));
+      return LoginResponse.fromJson(response.data);
     } on DioException catch (e) {
       debugPrint('DioException: ${e.message}');
       if (e.response != null) {
@@ -172,6 +149,104 @@ class ApiHandler {
       return null;
     }
   }
+
+
+  Future<BookingResponse?> updateUserBookingStatus(
+      Map<String, dynamic> body) async {
+    String? token = await Utils().ReadToken();
+
+    if (token == null) {
+      debugPrint('Token is missing');
+      return null;
+    }
+
+    try {
+      if (dio == null) {
+        initDio();
+      }
+
+      final Response response = await dio!.put(
+        AppURLs.userBookingUpdated,
+        data: body,
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+      if (response.statusCode == 200) {
+        return BookingResponse.fromJson(response.data);
+      } else {
+        debugPrint('API call failed with status code: ${response.statusCode}');
+        return null;
+      }
+    } on DioException catch (e) {
+      debugPrint('Dio error: ${e.message}');
+      if (e.response != null) {}
+      _handleError(e);
+     
+    }
+  }
+
+  // updateUserBookingStatus(body) async {
+  //   String? token = await Utils().ReadToken();
+
+  //   try {
+  //     if (dio == null) initDio();
+  //     final Response response = await dio!.put(
+  //       AppURLs.userBookingUpdated,
+  //       data: body,
+  //       options: Options(
+  //         headers: {'Authorization': 'Bearer $token'},
+  //       ),
+  //     );
+  //     return BookingResponse.fromJson(response.data);
+  //   } on DioException catch (e) {
+  //     _handleError(e);
+  //   }
+  // }
+
+  // Future<BookingResponse?> updateUserBookingStatus(
+  //     Map<String, dynamic> body) async {
+  //   try {
+  //     final String? token = await Utils().ReadToken();
+  //     if (token == null) {
+  //       debugPrint('Token is missing');
+  //       return null;
+  //     }
+
+  //     debugPrint('Token: $token');
+  //     debugPrint('Request Body: $body');
+
+  //     final response = await dio!.put(
+  //       AppURLs.userBookingUpdated,
+  //       data: body,
+  //       options: Options(
+  //         headers: {'Authorization': 'Bearer $token'},
+  //       ),
+  //     );
+
+  //     debugPrint('Status Code: ${response.statusCode}');
+  //     debugPrint('API Response: ${response.data}');
+
+  //     if (response.statusCode == 200) {
+  //       return BookingResponse.fromJson(response.data);
+  //     } else {
+  //       debugPrint('API call failed with status code: ${response.statusCode}');
+  //       return null;
+  //     }
+  //   } on DioException catch (e) {
+  //     debugPrint('DioException: ${e.message}');
+  //     if (e.response != null) {
+  //       debugPrint('Response Data: ${e.response!.data}');
+  //       debugPrint('Response Headers: ${e.response!.headers}');
+  //     }
+  //     _handleError(e);
+  //     return null;
+  //   } catch (e, stacktrace) {
+  //     debugPrint('Unexpected error: $e');
+  //     debugPrint('Stacktrace: $stacktrace');
+  //     return null;
+  //   }
+  // }
 
   callViewProfileApi(String token) async {
     final accessToken = 'Bearer $token';

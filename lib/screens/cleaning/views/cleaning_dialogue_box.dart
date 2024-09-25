@@ -16,202 +16,201 @@ import '../../../routes/app_pages.dart';
 openScheduleCleaningService(CleaningProvider controller, BuildContext context,
     int subcategoriesIndex, ServiceCategory serviceCategory) {
   showDialog(
-      context: context,
-      useSafeArea: true,
-      builder: (builder) {
-        HomeProvider homeProvider =
-            Provider.of<HomeProvider>(context, listen: false);
-        CleaningProvider cleaningProvider =
-            Provider.of<CleaningProvider>(context, listen: false);
+    context: context,
+    useSafeArea: true,
+    builder: (builder) {
+      HomeProvider homeProvider =
+          Provider.of<HomeProvider>(context, listen: false);
+      CleaningProvider cleaningProvider =
+          Provider.of<CleaningProvider>(context, listen: false);
 
-        /*List<AllCategories> subcategories =
+      /*List<AllCategories> subcategories =
             homeProvider.homeAPIResponse.allCategories.where((element) {
           return element.categoryId == cleaningProvider.categoryId.value;
         }).toList();*/
-        return AlertDialog(
-          contentPadding: const EdgeInsets.all(0),
-          insetPadding: const EdgeInsets.all(0),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(32))),
-          title: null,
-          content: SizedBox(
-            width: double.infinity,
-            child: Material(
-              color: AppColors.white,
-              child: SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        TextWidget(
-                          text: serviceCategory.servicecategoryName!,
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, Routes.CLEANING),
-                          child: const Icon(Icons.close_outlined,
-                              size: 30, color: AppColors.darkGray),
-                        )
-                      ],
-                    ),
-                    const HorizontalAppDivider(color: AppColors.darkGray),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            TextWidget(
-                              text: StringConstants.price,
-                              style: GoogleFonts.montserrat(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16),
-                            ),
-                            const Spacer(),
-                            TextWidget(
-                              text: "${serviceCategory.price}",
-                              style: GoogleFonts.montserrat(
-                                  color: AppColors.princeTonOrange,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        const HorizontalAppDivider(color: AppColors.darkGray),
-                        Row(
-                          children: [
-                            TextWidget(
-                              text: StringConstants.room,
-                              style: GoogleFonts.montserrat(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16),
-                            ),
-                            const Spacer(),
-                            InkWell(
-                              onTap: () => controller.onClickRemoveRooms(),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.primaryButtonColor),
-                                    borderRadius: BorderRadius.circular(3),
-                                    color: AppColors.primaryButtonColor),
-                                child: TextWidget(
-                                  text: "-",
-                                  style: GoogleFonts.montserrat(
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
-                                ),
+      return AlertDialog(
+        contentPadding: const EdgeInsets.all(0),
+        insetPadding: const EdgeInsets.all(0),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(32))),
+        title: null,
+        content: SizedBox(
+          width: double.infinity,
+          child: Material(
+            color: AppColors.white,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      TextWidget(
+                        text: serviceCategory.servicecategoryName!,
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () =>
+                            Navigator.pushNamed(context, Routes.CLEANING),
+                        child: const Icon(Icons.close_outlined,
+                            size: 30, color: AppColors.darkGray),
+                      )
+                    ],
+                  ),
+                  const HorizontalAppDivider(color: AppColors.darkGray),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          TextWidget(
+                            text: StringConstants.price,
+                            style: GoogleFonts.montserrat(
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
+                          ),
+                          const Spacer(),
+                          TextWidget(
+                            text: "${serviceCategory.price}",
+                            style: GoogleFonts.montserrat(
+                                color: AppColors.princeTonOrange,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                      const HorizontalAppDivider(color: AppColors.darkGray),
+                      Row(
+                        children: [
+                          TextWidget(
+                            text: StringConstants.room,
+                            style: GoogleFonts.montserrat(
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
+                          ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () => controller.onClickRemoveRooms(),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors.primaryButtonColor),
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: AppColors.primaryButtonColor),
+                              child: TextWidget(
+                                text: "-",
+                                style: GoogleFonts.montserrat(
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
                               ),
                             ),
-                            const SizedBox(width: 20),
-                            ValueListenableBuilder(
-                                valueListenable: controller.numberOfRooms,
-                                builder: (context, value, child) {
-                                  return TextWidget(
-                                    text: "${controller.numberOfRooms.value}",
-                                    style: GoogleFonts.montserrat(
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16),
-                                  );
-                                }),
-                            const SizedBox(width: 20),
-                            InkWell(
-                              onTap: () => controller.onClickAddRooms(),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.primaryButtonColor),
-                                    borderRadius: BorderRadius.circular(3),
-                                    color: AppColors.primaryButtonColor),
-                                child: TextWidget(
-                                  text: "+",
+                          ),
+                          const SizedBox(width: 20),
+                          ValueListenableBuilder(
+                              valueListenable: controller.numberOfRooms,
+                              builder: (context, value, child) {
+                                return TextWidget(
+                                  text: "${controller.numberOfRooms.value}",
                                   style: GoogleFonts.montserrat(
-                                      color: AppColors.white,
+                                      color: AppColors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        const HorizontalAppDivider(color: AppColors.darkGray),
-                        Row(
-                          children: [
-                            TextWidget(
-                              text: StringConstants.hours,
-                              style: GoogleFonts.montserrat(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16),
-                            ),
-                            const Spacer(),
-                            InkWell(
-                              onTap: () => controller.onClickRemoveHours(),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.primaryButtonColor),
-                                    borderRadius: BorderRadius.circular(3),
-                                    color: AppColors.primaryButtonColor),
-                                child: TextWidget(
-                                  text: "-",
-                                  style: GoogleFonts.montserrat(
-                                      color: AppColors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
-                                ),
+                                );
+                              }),
+                          const SizedBox(width: 20),
+                          InkWell(
+                            onTap: () => controller.onClickAddRooms(),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors.primaryButtonColor),
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: AppColors.primaryButtonColor),
+                              child: TextWidget(
+                                text: "+",
+                                style: GoogleFonts.montserrat(
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
                               ),
                             ),
-                            const SizedBox(width: 20),
-                            ValueListenableBuilder(
-                                valueListenable: controller.numberOfHours,
-                                builder: (context, value, child) {
-                                  return TextWidget(
-                                    text: "${controller.numberOfHours.value}",
-                                    style: GoogleFonts.montserrat(
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16),
-                                  );
-                                }),
-                            const SizedBox(width: 20),
-                            InkWell(
-                              onTap: () => controller.onClickAddHours(),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.primaryButtonColor),
-                                    borderRadius: BorderRadius.circular(3),
-                                    color: AppColors.primaryButtonColor),
-                                child: TextWidget(
-                                  text: "+",
+                          )
+                        ],
+                      ),
+                      const HorizontalAppDivider(color: AppColors.darkGray),
+                      Row(
+                        children: [
+                          TextWidget(
+                            text: StringConstants.hours,
+                            style: GoogleFonts.montserrat(
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
+                          ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () => controller.onClickRemoveHours(),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors.primaryButtonColor),
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: AppColors.primaryButtonColor),
+                              child: TextWidget(
+                                text: "-",
+                                style: GoogleFonts.montserrat(
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          ValueListenableBuilder(
+                              valueListenable: controller.numberOfHours,
+                              builder: (context, value, child) {
+                                return TextWidget(
+                                  text: "${controller.numberOfHours.value}",
                                   style: GoogleFonts.montserrat(
-                                      color: AppColors.white,
+                                      color: AppColors.black,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16),
-                                ),
+                                );
+                              }),
+                          const SizedBox(width: 20),
+                          InkWell(
+                            onTap: () => controller.onClickAddHours(),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors.primaryButtonColor),
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: AppColors.primaryButtonColor),
+                              child: TextWidget(
+                                text: "+",
+                                style: GoogleFonts.montserrat(
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
                               ),
-                            )
-                          ],
-                        ),
-                        // const HorizontalAppDivider(color: AppColors.darkGray),
-                        /*const Align(
+                            ),
+                          )
+                        ],
+                      ),
+                      // const HorizontalAppDivider(color: AppColors.darkGray),
+                      /*const Align(
                             alignment: Alignment.centerLeft,
                             child: TextWidget(
                                 text: StringConstants.additionalServices)),
@@ -360,22 +359,22 @@ openScheduleCleaningService(CleaningProvider controller, BuildContext context,
                           ],
                         ),
                         const HorizontalAppDivider(color: AppColors.darkGray),*/
-                        const SizedBox(height: 10),
-                        ButtonWidget(
-                            buttonText: "Check Out >>",
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, Routes.DATE_AND_TIME);
-                            }),
-                      ],
-                    )
-                  ],
-                ),
+                      const SizedBox(height: 10),
+                      ButtonWidget(
+                          buttonText: "Check Out >>",
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.DATE_AND_TIME);
+                          }),
+                    ],
+                  )
+                ],
               ),
             ),
           ),
-        );
-      });
+        ),
+      );
+    },
+  );
 }
 
 //   Get.dialog(AlertDialog(

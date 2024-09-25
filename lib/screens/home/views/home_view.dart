@@ -78,7 +78,6 @@ class HomeView extends StatelessWidget {
                                 const Spacer(),
                                 InkWell(
                                   onTap: () {
-                                    print("tokens${homeProvider.token}");
                                     homeProvider.onIconClicked();
                                   },
                                   child: Container(

@@ -1,5 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -22,16 +22,19 @@ import 'package:my_stackz/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'themes/themes.dart';
 
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: 'AIzaSyDZ-paolYuS-KMUqv9IfTJ0LPm4Kjk_5kA',
-          appId: '1:892441686585:android:0b4d06d1f4dcdde13793e8',
-          messagingSenderId: '892441686585',
-          projectId: 'mystackz-2a351'));
+  // await Firebase.initializeApp(
+  //     options: const FirebaseOptions(
+  //         apiKey: 'AIzaSyDZ-paolYuS-KMUqv9IfTJ0LPm4Kjk_5kA',
+  //         appId: '1:892441686585:android:0b4d06d1f4dcdde13793e8',
+  //         messagingSenderId: '892441686585',
+  //         projectId: 'mystackz-2a351'));
   initializeSettings();
-  await FirebaseApi().initNotifications();
+  // await FirebaseApi().initNotifications();
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(
@@ -87,8 +90,8 @@ void main() async {
 }
 
 void initializeSettings() async {
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true, sound: true, badge: true);
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //     alert: true, sound: true, badge: true);
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   const AndroidInitializationSettings androidInitializationSettings =

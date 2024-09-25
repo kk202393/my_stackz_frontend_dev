@@ -1,4 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
@@ -32,6 +35,7 @@ class SimilarPart extends StatelessWidget {
         Provider.of<BookingProvider>(context, listen: false);
     LoginProvider loginProvider =
         Provider.of<LoginProvider>(context, listen: false);
+    List<Map<String, dynamic>> allItem = homeProvider.allItem();
 
     final width = MediaQuery.of(context).size.width;
 
@@ -59,7 +63,7 @@ class SimilarPart extends StatelessWidget {
 
     return Column(
       children: [
-        LocationWidget(),
+        // const LocationWidget(),
         Row(
           children: [
             TextWidget(
@@ -72,7 +76,7 @@ class SimilarPart extends StatelessWidget {
             const SizedBox(width: 30),
           ],
         ),
-        
+
         const SizedBox(height: 20),
         AppTextFieldSearch(
           keyboardType: TextInputType.text,
@@ -117,18 +121,35 @@ class SimilarPart extends StatelessWidget {
                       if (element.categoryId == 1) {
                         homeProvider.categoryId.value = element.categoryId!;
                         bookingProvider.categoryId.value = element.categoryId!;
-                        Navigator.pushNamed(context, Routes.CLEANING);
+                        Navigator.pushNamed(context, Routes.CLEANING,
+                            arguments: {
+                              "itemList": allItem[0]["itemList"],
+                              "imgPath": allItem[0]["imgPath"],
+                              "titleName": allItem[0]["titleName"],
+                           
+                            });
                       } else if (element.categoryId == 2) {
                         bookingProvider.categoryId.value = element.categoryId!;
                         homeProvider.categoryId.value = element.categoryId!;
-                        Navigator.pushNamed(context, Routes.AIRCON_SERVICES);
+                        Navigator.pushNamed(context, Routes.CLEANING,
+                            arguments: {
+                              "itemList": allItem[1]["itemList"],
+                              "imgPath": allItem[1]["imgPath"],
+                              "titleName": allItem[1]["titleName"],
+                           
+                            });
                       } else if (element.categoryId == 3) {
                         bookingProvider.categoryId.value = element.categoryId!;
                         homeProvider.categoryId.value = element.categoryId!;
-                        Navigator.pushNamed(context, Routes.HANDYMAN);
+                        // Navigator.pushNamed(context, Routes.HANDYMAN);
+                        Navigator.pushNamed(context, Routes.CLEANING,
+                            arguments: {
+                              "itemList": allItem[2]["itemList"],
+                              "imgPath": allItem[2]["imgPath"],
+                              "titleName": allItem[2]["titleName"],
+                            
+                            });
                       }
-                      print(
-                          "bookingProvider.categoryIdssss=${bookingProvider.categoryId.value}");
                     },
                     child: Column(
                       children: [

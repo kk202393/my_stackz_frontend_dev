@@ -1,25 +1,17 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
-import 'package:my_stackz/models/consumer_booking_response.dart';
-import 'package:my_stackz/models/consumer_booking_response.dart';
-import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
-import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
-
-import '../../../models/consumer_booking_response.dart';
 import '../../../models/login_response.dart';
 import 'package:intl/intl.dart'; // Add this import for date formatting
 
@@ -263,84 +255,84 @@ class CartSummaryView extends StatelessWidget {
             SizedBox(
               height: size.height * 0.4,
               child: ListView.separated(
-                  shrinkWrap: true,
-                  controller: controller.scrollController,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {},
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: AppColors.gray),
-                            color: AppColors.white),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topRight: Radius.circular(5),
-                                    topLeft: Radius.circular(5),
-                                  ),
-                                  child: Image.asset(
-                                    AppImages.homeDesign,
-                                    width: size.width * 0.6,
-                                    height: size.height * 0.3,
-                                    fit: BoxFit.cover,
-                                  ),
+                shrinkWrap: true,
+                controller: controller.scrollController,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: AppColors.gray),
+                          color: AppColors.white),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(5),
+                                  topLeft: Radius.circular(5),
                                 ),
-                                Positioned.fill(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          AppColors.white.withOpacity(0.2),
-                                          AppColors.black.withOpacity(0.9),
-                                        ],
-                                      ),
+                                child: Image.asset(
+                                  AppImages.homeDesign,
+                                  width: size.width * 0.6,
+                                  height: size.height * 0.3,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        AppColors.white.withOpacity(0.2),
+                                        AppColors.black.withOpacity(0.9),
+                                      ],
                                     ),
                                   ),
                                 ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: size.height * 0.01),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextWidget(
+                                    text: homeProvider
+                                        .homeAPIResponse
+                                        .allCategories[index]
+                                        .subcategories[index]
+                                        .subcategoryName
+                                        .toString(),
+                                    style: context.headlineSmall.copyWith(
+                                        color: AppColors.spanishGray)),
+                                TextWidget(
+                                    text: "S\$. 149",
+                                    style: context.headlineSmall)
                               ],
                             ),
-                            SizedBox(height: size.height * 0.01),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                      text: homeProvider
-                                          .homeAPIResponse
-                                          .allCategories[index]
-                                          .subcategories[index]
-                                          .subcategoryName
-                                          .toString(),
-                                      style: context.headlineSmall.copyWith(
-                                          color: AppColors.spanishGray)),
-                                  TextWidget(
-                                      text: "S\$. 149",
-                                      style: context.headlineSmall)
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                          )
+                        ],
                       ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: size.width * 0.02,
-                    );
-                  },
-                  itemCount: 5),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(
+                    width: size.width * 0.02,
+                  );
+                },
+                itemCount: homeProvider.homeAPIResponse.allCategories.length,
+              ),
             ),
             const SizedBox(height: 50),
             ButtonWidget(
