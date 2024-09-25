@@ -2,22 +2,19 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:my_stackz/screens/home/views/home_view.dart';
 
 import '../api/api_handler.dart';
 import '../constants/app_colors.dart';
-import '../screens/login/views/login_view.dart';
 import '../widgets/snack_bar.dart';
 
 class Utils {
   FlutterSecureStorage _storage = FlutterSecureStorage();
 
+// login token
   Future<bool> storeToken(String token) async {
     try {
       await _storage.write(key: 'token', value: token);
@@ -25,6 +22,19 @@ class Utils {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<bool> storeFcmToken(String fcmToken) async {
+    try {
+      await _storage.write(key: 'fcmToken', value: fcmToken);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<String?> readFCMToken() async {
+    return await _storage.read(key: 'fcmToken');
   }
 
   Future<bool> storeEmail(String token) async {

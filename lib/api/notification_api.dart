@@ -23,7 +23,7 @@ class NotificationApi {
       settings,
       onDidReceiveNotificationResponse: (payload) async {
         /*onNotifications.add(payload.payload);*/
-        // navigatorKey.currentState!.pushNamed(Routes.NOTIFICATIONS_TWO);
+        navigatorKey.currentState!.pushNamed(Routes.NOTIFICATIONS_TWO);
       },
     );
   }

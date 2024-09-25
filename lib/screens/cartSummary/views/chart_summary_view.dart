@@ -1,8 +1,13 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
+import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
@@ -243,6 +248,32 @@ class CartSummaryView extends StatelessWidget {
                     style: context.headlineSmall
                         .copyWith(color: AppColors.primaryButtonColor)),
               ),
+              // child: InkWell(
+              //   onTap: () async {
+              //     // final bookingProvider =
+              //     //     Provider.of<BookingProvider>(context, listen: false);
+
+              //     // print(
+              //     //     "Booking ID before deletion: ${bookingProvider.bookingResponse?.consumerOrderDetails.categoryId}");
+              //     // bool success = await bookingProvider.getDeleteUser();
+
+              //     // if (success) {
+              //     //   ScaffoldMessenger.of(context).showSnackBar(
+              //     //     const SnackBar(
+              //     //         content: Text('Booking deleted successfully.')),
+              //     //   );
+              //     // } else {
+              //     //   ScaffoldMessenger.of(context).showSnackBar(
+              //     //     const SnackBar(
+              //     //         content: Text('Failed to delete booking.')),
+              //     //   );
+              //     // }
+              //   },
+              //   child: TextWidget(
+              //       text: StringConstants.applyCode,
+              //       style: context.headlineSmall
+              //           .copyWith(color: AppColors.primaryButtonColor)),
+              // ),
             ),
             const SizedBox(height: 10),
             AppDivider(width: size.width, color: AppColors.black),

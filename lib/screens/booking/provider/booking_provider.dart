@@ -1,20 +1,8 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/models/consumer_booking_response.dart';
-import 'package:my_stackz/models/login_response.dart';
-import 'package:my_stackz/routes/app_pages.dart';
-import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
-import 'package:provider/provider.dart';
-
-import 'package:flutter/material.dart';
-import 'package:my_stackz/api/api_handler.dart';
-import 'package:my_stackz/models/consumer_booking_response.dart';
-import 'package:my_stackz/utils/utils.dart';
-import 'package:dio/dio.dart';
 
 class BookingProvider with ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -33,7 +21,9 @@ class BookingProvider with ChangeNotifier {
   ValueNotifier<String> bookingStatusId = ValueNotifier<String>("");
 
   BookingResponse? _response;
+
   BookingResponse? get bookingAPIResponse => _response;
+
 
   Future<bool> callBookingPageApi(
     BuildContext context,
@@ -45,6 +35,7 @@ class BookingProvider with ChangeNotifier {
     String? selectedAddressId,
     int? selectedAddressIndexValue,
   ) async {
+   {
     isLoading.value = true;
 
     serviceCategoryId.value = serviceCategory;
@@ -95,7 +86,7 @@ class BookingProvider with ChangeNotifier {
       isLoading.value = false;
       notifyListeners();
     }
-  }
+  }}
 
   Future<bool> updateBookingStatus(
       BuildContext context, String? bookingStatusId, String? bookingId) async {
@@ -163,6 +154,101 @@ class BookingProvider with ChangeNotifier {
       ),
     );
   }
+
+ 
+
+String _getStatusString(String? bookingStatus) {
+  switch (bookingStatus) {
+    case '1':
+      return 'Pending';
+    case '2':
+      return 'Accepted';
+    case '3':
+      return 'Underprocess';
+    case '4':
+      return 'Complete';
+    default:
+      return 'Unknown Status';
+  }
+}
+
+
+//   Future<bool> updateBookingStatus(BuildContext context) async {
+//     isLoading.value = true;
+
+//     // Static data for the request body
+//     final Map<String, dynamic> body = {
+//       "booking_id": "CMS0003", // Static booking ID
+//       "booking_status_id": "4", // Static booking status ID (4 = Complete)
+//     };
+
+//     try {
+//       final response = await ApiHandler().updateUserBookingStatus(body);
+
+//       // Print the API response for debugging
+//       debugPrint('API response: ${response?.toJson()}');
+
+//       // Check if the response is successful
+//       if (response != null && response.success) {
+//         // Get the booking status from the response
+//         final updatedStatus =
+//             response.consumerOrderDetails?.consumerBookingStatus?.bookingStatus;
+
+//         // Ensure updatedStatus is not null
+//         if (updatedStatus == null) {
+//           debugPrint('Updated status is null');
+//           _showSnackBar(context, 'Updated status is null', SnackType.error);
+//           return false;
+//         }
+
+//         // Convert the booking status ID to a readable string
+//         final bookingStatus = _getStatusString(updatedStatus);
+
+//         // Print and show success message
+//         debugPrint('Booking updated successfully: $bookingStatus');
+//         _showSnackBar(
+//             context, 'Booking updated to: $bookingStatus', SnackType.success);
+
+//         return true;
+//       } else {
+//         debugPrint(
+//             'Failed to update booking: ${response?.massage ?? 'Unknown error'}');
+//         _showSnackBar(
+//             context,
+//             'Failed to update booking: ${response?.massage ?? 'Unknown error'}',
+//             SnackType.error);
+//       }
+//     } catch (e, stacktrace) {
+//       debugPrint('Error while updating booking: $e');
+//       debugPrint('Stacktrace: $stacktrace');
+//       _showSnackBar(
+//           context, 'Error occurred while updating booking', SnackType.error);
+//     } finally {
+//       isLoading.value = false;
+//       notifyListeners();
+//     }
+
+//     return false;
+//   }
+
+// // Helper function to map the booking status to a status string
+//   String _getStatusString(String bookingStatus) {
+//     switch (bookingStatus) {
+//       case '1':
+//         return 'Pending';
+//       case '2':
+//         return 'Accepted';
+//       case '3':
+//         return 'Underprocess';
+//       case '4':
+//         return 'Complete';
+//       default:
+//         return 'Unknown Status';
+//     }
+//   }
+
+// Function to show a SnackBar message
+
 }
 
 void _showSnackBar(BuildContext context, String content, SnackType type) {}

@@ -26,6 +26,7 @@ abstract class Routes {
   static const SETTINGS = _Paths.SETTINGS;
   static const THANK_YOU_PAGE = _Paths.THANK_YOU_PAGE;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+  static const NOTIFICATIONS_TWO = _Paths.NOTIFICATIONS_TWO;
   static const BOOKING_HOME_CLEANING = _Paths.BOOKING_HOME_CLEANING;
   static const BOOKING_ACCEPTED = _Paths.BOOKING_ACCEPTED;
   static const BOOKING_DETAILS = _Paths.BOOKING_DETAILS;
@@ -64,6 +65,7 @@ abstract class _Paths {
   static const SETTINGS = '/settings';
   static const THANK_YOU_PAGE = '/thank-you-page';
   static const NOTIFICATIONS = '/notifications';
+  static const NOTIFICATIONS_TWO = '/notifications-two';
   static const BOOKING_HOME_CLEANING = '/booking-home-cleaning';
   static const BOOKING_ACCEPTED = '/booking-accepted';
   static const BOOKING_DETAILS = '/booking-details';

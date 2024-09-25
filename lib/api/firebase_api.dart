@@ -1,20 +1,21 @@
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:my_stackz/utils/utils.dart';
+import '../routes/app_pages.dart';
 
-// import '../routes/app_pages.dart';
+class FirebaseApi {
+  final _firebaseMessaging = FirebaseMessaging.instance;
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
-// class FirebaseApi {
-//   final _firebaseMessaging = FirebaseMessaging.instance;
-//   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//       FlutterLocalNotificationsPlugin();
-
-//   Future<void> initNotifications() async {
-//     await _firebaseMessaging.requestPermission();
-//     final fcmToken = await FirebaseMessaging.instance.getToken();
-//     print("Token: $fcmToken");
-//     initPushNotifications();
-//   }
+  Future<void> initNotifications() async {
+    await _firebaseMessaging.requestPermission();
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    await Utils().storeFcmToken(fcmToken!);
+    print("Token: $fcmToken");
+    // initPushNotifications();
+  }
 
 //   void handleMessage(RemoteMessage? message) {
 //     if (message == null) return;
@@ -38,4 +39,4 @@
 //     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
 //     FirebaseMessaging.onMessage.listen(handleMessage);
 //   }
-// }
+}

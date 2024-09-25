@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
+import 'package:my_stackz/api/fcm_service.dart';
 import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
-import 'package:provider/provider.dart';
 
 class LoginProvider with ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
@@ -14,6 +14,7 @@ class LoginProvider with ChangeNotifier {
   final ValueNotifier<bool> obscureText = ValueNotifier<bool>(true);
   final ValueNotifier<bool> rememberMe = ValueNotifier<bool>(true);
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
+  final FcmService _fcmService = FcmService();
 
   List<dynamic> _addressList = [];
   String _defaultAddress = '';
@@ -68,10 +69,17 @@ class LoginProvider with ChangeNotifier {
       "email": emailController.text,
       "password": passwordController.text
     };
-
     try {
       _response = await ApiHandler().callLoginApi(body);
       await Utils().storeToken(_response!.token);
+
+      //Call FCM methods after successful login
+      final userId = _response!.user!.id;
+      final userRole = _response!.userRole;
+      await _fcmService.getTokenAndStoreInFirestore(userId, userRole);
+      _fcmService.listenForTokenRefresh(userId, userRole);
+      print('FCM token sent to backend successfully $userId $userRole');
+
       isLoading.value = false;
       notifyListeners();
       return true;
