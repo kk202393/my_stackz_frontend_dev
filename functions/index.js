@@ -68,9 +68,10 @@ async function getFcmTokensForProviders(providerIds) {
         .get();
 
       if (providerDoc.exists) {
-        const tokens = providerDoc.data().fcmTokens || [];
-        if (tokens.length > 0) {
-          fcmTokens.push(...tokens); // Add tokens to the FCM token list
+        // Get the FCM token (there's only one token stored now)
+        const token = providerDoc.data().fcmToken;
+        if (token) {
+          fcmTokens.push(token); // Add the token to the list
         }
       }
     } catch (error) {
@@ -83,7 +84,6 @@ async function getFcmTokensForProviders(providerIds) {
   return fcmTokens;
 }
 
-// Function to send the notifications to the tokens
 async function sendNotifications(fcmTokens, title, body, data) {
   const message = {
     notification: {
