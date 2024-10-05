@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "892441686585",
+    "project_id": "mystackz-2a351",
+    "storage_bucket": "mystackz-2a351.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892441686585:android:0b4d06d1f4dcdde13793e8",
+        "android_client_info": {
+          "package_name": "com.example.my_stackz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ-paolYuS-KMUqv9IfTJ0LPm4Kjk_5kA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

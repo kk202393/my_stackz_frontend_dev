@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +11,7 @@ class FcmService {
 
   // Initialize FCM Service and listen to foreground messages
   void initialize(BuildContext context) {
-    _firebaseMessaging
-        .requestPermission(); // Request notification permission for iOS (if needed)
+    _firebaseMessaging.requestPermission();
 
     // Listen for foreground messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -21,7 +23,6 @@ class FcmService {
       }
     });
 
-    // Handle token refreshes
     listenForTokenRefresh("user_id", "user_type");
   }
 
@@ -43,52 +44,68 @@ class FcmService {
     );
   }
 
+  // Get a device unique identifier
+  Future<String?> getDeviceId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      return androidInfo.id;
+    } else if (Platform.isIOS) {
+      //Currently we don't support firebase notification for ios devices.
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      return iosInfo.identifierForVendor;
+    } else {
+      throw Exception('Unsupported platform');
+    }
+  }
+
   // Get FCM token and store it directly in Firestore
   Future<void> getTokenAndStoreInFirestore(
       String userId, String userType) async {
     try {
       // Retrieve the FCM token
       String? token = await _firebaseMessaging.getToken();
-      //fcm token:
-      // fltCugBbSM-bne_ulm9V3T:APA91bFO9g90P6TRW-CtlW3_skaG_9qDb9enRURwSEOX754cW6DOtcFBBc9-wKd_n9apDdizEAxbnZjrsaLFr952Vgd-IyN2ytd8tLPjk_F6Fh-Uo7ZSmfW8icvnrZeSAhtDiTiq6ZkP
+      String? deviceId = await getDeviceId();
 
-      // 2nd token
-      //"fyRFOhoSQ9Criqt0Sgzcip:APA91bEyoWo0RKvzJZdFcVbJr62DhzQXNRkUDVhObqYkaNZsGnzOMX1NDiyhKKRRxf1rxALLX0fLyiy7dEw7IiqvqAzJ0uc2ESl7Cjw0yE_2WolPWkZ5ujLFdoSS3d8m_K09XIr9XAHJ"
-      print('FCM token: $token');
-      if (token != null) {
-        // Store the token in Firestore
-        await storeTokenInFirestore(userId, userType, token);
+      if (token != null && deviceId != null) {
+        await storeTokenInFirestore(userId, userType, token, deviceId);
       }
     } catch (e) {
-      print('Error fetching FCM token: $e');
+      print('Error fetching FCM token or device Id: $e');
     }
   }
 
   // Store FCM token directly in Firestore
   Future<void> storeTokenInFirestore(
-      String userId, String userType, String token) async {
+      String userId, String userType, String token, String? deviceId) async {
     try {
-      // Define the Firestore document based on user type (e.g., users, providers)
       DocumentReference userDocRef =
           _firestore.collection("providers").doc(userId);
-
-      // Store the FCM token in an array to support multiple tokens per user
       await userDocRef.set({
-        'fcmTokens': FieldValue.arrayUnion([token]), // Avoids duplicates
+        'fcmToken': token,
+        'deviceId': deviceId,
         'lastUpdated': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true)); // Merges new data with existing document
-
-      print('FCM token successfully stored in Firestore.');
-    } catch (e) {
-      print('Error storing FCM token in Firestore: $e');
+      }, SetOptions(merge: true));
+    } catch (error) {
+      print('Error storing FCM token in firestore:$error');
     }
   }
+
+  /*
+  this is how data is stored in Firestore
+  {
+  "fcmToken": {
+    "device456": "abc123"
+  },
+  "lastUpdated": "2023-10-05T12:34:56.789Z" // Example timestamp
+} 
+ */
 
   // Listen for token refresh and store the new token in Firestore
   void listenForTokenRefresh(String userId, String userType) {
     _firebaseMessaging.onTokenRefresh.listen((newToken) async {
-      print('New FCM token: $newToken');
-      await storeTokenInFirestore(userId, userType, newToken);
+      String? deviceId = await getDeviceId();
+      await storeTokenInFirestore(userId, userType, newToken, deviceId);
     });
   }
 }

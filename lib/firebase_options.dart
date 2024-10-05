@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'mystackz-2a351',
     storageBucket: 'mystackz-2a351.appspot.com',
   );
+
 }

@@ -20,9 +20,7 @@ import 'package:provider/provider.dart';
 
 import 'themes/themes.dart';
 
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
