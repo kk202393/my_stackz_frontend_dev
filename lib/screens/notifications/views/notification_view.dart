@@ -8,7 +8,9 @@ import 'package:my_stackz/widgets/text_widget.dart';
 import '../../../widgets/button_widget.dart';
 
 class NotificationsView extends StatefulWidget {
-  const NotificationsView({super.key});
+  const NotificationsView({
+    super.key,
+  });
 
   @override
   State<NotificationsView> createState() => _NotificationsViewState();

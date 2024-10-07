@@ -56,9 +56,7 @@ class AppPages {
           settings: setting,
           builder: (_) => SubCatView(
             list: arguments["itemList"],
-            onTap:() {
-              
-            },
+            onTap: () {},
             imgList: arguments["imgPath"],
             pageTitle: arguments["titleName"],
           ),
