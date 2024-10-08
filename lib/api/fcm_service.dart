@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:my_stackz/screens/notifications/views/notification_view.dart';
 
 class FcmService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -23,8 +24,26 @@ class FcmService {
       }
     });
 
+    // Handle backround and terminated state when notificatio is clicked
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('notification clicked with data: ${message.data}');
+
+      // Navigate to the screen based on notification data
+      if (message.data.containsKey('screen')) {
+        String screen = message.data['screen'];
+        _navigateToScreen(context, screen, message.data);
+      }
+    });
+
     listenForTokenRefresh("user_id", "user_type");
   }
+
+  void _navigateToScreen(
+      BuildContext context, String screen, Map<String, dynamic> data) {
+        if(screen == 'providerScreen'){
+          Navigator.of(context)
+        }
+      }
 
   // Show a simple dialog for foreground messages
   void _showNotificationDialog(

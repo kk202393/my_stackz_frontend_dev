@@ -1,8 +1,7 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
@@ -14,7 +13,6 @@ import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
-import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -221,7 +219,7 @@ class HomeView extends StatelessWidget {
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
-                              child: CarouselSlider(
+                              child: carousel_slider.CarouselSlider(
                                 items: [
                                   SizedBox(
                                     height: 220,
@@ -287,7 +285,7 @@ class HomeView extends StatelessWidget {
                                     ),
                                   ),
                                 ],
-                                options: CarouselOptions(
+                                options: carousel_slider.CarouselOptions(
                                   autoPlay: true,
                                   enlargeCenterPage: false,
                                   aspectRatio: 2.5,

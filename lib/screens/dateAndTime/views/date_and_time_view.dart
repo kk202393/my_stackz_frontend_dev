@@ -1,12 +1,10 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
-import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
+import 'package:my_stackz/screens/notifications/views/notification_view.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
@@ -152,15 +150,22 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                     print(
                         "Selected Date: ${bookingProvider.bookingDate.value}");
 
-                    Navigator.pushNamed(
-                      context,
-                      Routes.NOTIFICATIONS,
-                      // Routes.SELECT_ADDRESS,
-                      arguments: {
-                        'selectedTimeSlotId': bookingProvider.timeSlotId.value,
-                        'selectedDate': bookingProvider.bookingDate.value,
-                      },
-                    );
+                    // ERROR CODE
+                    // Navigator.pushNamed(
+                    //   context,
+                    //   Routes.NOTIFICATIONS,
+                    //   // Routes.SELECT_ADDRESS,
+                    //   arguments: {
+                    //     'selectedTimeSlotId': bookingProvider.timeSlotId.value,
+                    //     'selectedDate': bookingProvider.bookingDate.value,
+                    //   },
+                    // );
+
+                    //TEMPORARY CODE
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NotificationsView()));
                   } else {
                     print("No time slot or date selected.");
                   }
