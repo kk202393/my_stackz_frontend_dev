@@ -35,6 +35,7 @@ class _NotificationsViewState extends State<NotificationsView> {
     try {
       List<String> providerIds = [
         '66e8094431665eb645d9b28b',
+        '66503b214f59f3788a612c3d',
       ]; // Replace with actual provider IDs
       String title = 'You have an upcoming service';
       String body = 'Do you want to accept?';
