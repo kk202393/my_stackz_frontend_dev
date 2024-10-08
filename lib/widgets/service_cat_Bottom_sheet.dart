@@ -30,10 +30,15 @@ openServiceCatOptions(BuildContext context,
       ),
     ),
     builder: (builder) {
+      BookingProvider bookingProvider =
+          Provider.of<BookingProvider>(context, listen: false);
+      HomeProvider homeProvider =
+          Provider.of<HomeProvider>(context, listen: false);
       return SizedBox(
-         height: size.height * 0.6,
+        height: size.height * 0.6,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(left: 12,right: 12, top: 15,bottom: 0),
+          padding:
+              const EdgeInsets.only(left: 12, right: 12, top: 15, bottom: 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -67,12 +72,7 @@ openServiceCatOptions(BuildContext context,
                           ServiceCategory item = subcategory[index];
                           return InkWell(
                             onTap: () {
-                              BookingProvider bookingProvider =
-                                  Provider.of<BookingProvider>(context,
-                                      listen: false);
-                              HomeProvider homeProvider =
-                                  Provider.of<HomeProvider>(context,
-                                      listen: false);
+                              bookingProvider.serviceCategoryId.value = item.servicecategoryId!;
                               // bookingProvider.serviceCategoryId.value =
                               //     homeProvider
                               //         .homeAPIResponse
@@ -85,7 +85,7 @@ openServiceCatOptions(BuildContext context,
                               openScheduleService(context, subcategory[index]);
                               // openTypeServiceAirconOptions(airconController,
                               //     context, index,);
-        
+
                               // openScheduleAirconService(
                               //     airconController, context, index, item);
                             },

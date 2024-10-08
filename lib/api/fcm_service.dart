@@ -41,7 +41,7 @@ class FcmService {
   void _navigateToScreen(
       BuildContext context, String screen, Map<String, dynamic> data) {
         if(screen == 'providerScreen'){
-          Navigator.of(context)
+          Navigator.of(context);
         }
       }
 
