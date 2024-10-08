@@ -8,15 +8,25 @@ class CloudFunctionService {
       'https://us-central1-mystackz-2a351.cloudfunctions.net/sendNotificationToProviders';
 
   // Method to call the Firebase Cloud Function
-  Future<void> sendNotificationToProviders(List<String> providerIds,
-      String title, String body, Map<String, dynamic> data) async {
+  Future<void> sendNotificationToProviders(
+      List<String> providerIds,
+      String title,
+      String body,
+      String screen,
+      Map<String, dynamic> data) async {
     try {
+      // Add screen information to the data payload
+      final requestData = {
+        'screen': screen,
+        ...data,
+      };
+
       // Create the request body
       final requestBody = jsonEncode({
         'providerIds': providerIds,
         'title': title,
         'body': body,
-        'data': data,
+        'data': requestData,
       });
 
       // Send HTTP POST request to the Firebase Cloud Function

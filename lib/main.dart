@@ -16,6 +16,7 @@ import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/screens/payments/provider/payment_Provider.dart';
 import 'package:my_stackz/screens/selectAddress/provider/select_address_provider.dart';
 import 'package:my_stackz/screens/signUp/provider/sign_up_Provider.dart';
+import 'package:my_stackz/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'themes/themes.dart';
@@ -114,7 +115,7 @@ class MyStackz extends StatefulWidget {
 }
 
 class _MyStackzState extends State<MyStackz> {
-  late bool? token;
+  late String? token;
   final FcmService _fcmService = FcmService();
 
   @override
@@ -132,6 +133,19 @@ class _MyStackzState extends State<MyStackz> {
     //   },
     // );
     _fcmService.initialize(context);
+    _checkAuth();
+  }
+
+  void _checkAuth() async {
+    token = await Utils().ReadToken();
+
+    if (token == null) {
+      // Redirect to login if no token
+      navigatorKey.currentState?.pushNamed(Routes.LOGIN);
+    } else {
+      // Redirect to home if authenticated
+      navigatorKey.currentState?.pushNamed(Routes.HOME);
+    }
   }
 
   @override
