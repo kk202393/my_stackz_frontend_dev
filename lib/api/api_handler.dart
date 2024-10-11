@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:my_stackz/api/dio_client.dart';
+import 'package:my_stackz/api/error_handler.dart';
 import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/models/forget_password_response.dart';
 import 'package:my_stackz/utils/utils.dart';
@@ -81,40 +83,27 @@ class ApiHandler {
     }
   }
 
-  callConsumerBookingApi(Map<String, dynamic> body) async {
+ callConsumerBookingApi(Map<String, dynamic> body) async {
     String? token = await Utils().ReadToken();
 
     if (token == null || token.isEmpty) {
       debugPrint('Token is missing');
       return null;
     }
-
-    try {
+    {
       if (dio == null) initDio();
-
-      final response = await dio!.post(
-        AppURLs.consumerorderbookingURL,
-        data: body,
-        options: Options(
-          headers: <String, String>{
-            'Authorization': 'Bearer $token',
-          },
-        ),
+      Response response = await DioClient().postData(
+        url: AppURLs.consumerorderbookingURL,
+        header: <String, String>{
+          'Authorization': 'Bearer $token',
+        },
       );
-
-      return BookingResponse.fromJson(response.data);
-    } on DioException catch (e) {
-      debugPrint("consumerorderbooking API exception: ${e.message}");
-      if (e.response != null) {
-        debugPrint("Response Data: ${e.response!.data}");
-        debugPrint("Response Headers: ${e.response!.headers}");
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return BookingResponse.fromJson(response.data);
+      } else {
+        return ResponseErrorHandler.fromJson(response.data);
       }
-      _handleError(e); 
-    } catch (e) {
-      debugPrint("Unexpected error: $e");
     }
-
-    return null;
   }
 
   callCreateAccountApi(body) async {
@@ -141,7 +130,7 @@ class ApiHandler {
         debugPrint('Response Data: ${e.response!.data}');
         debugPrint('Response Headers: ${e.response!.headers}');
       }
-      _handleError(e); 
+      _handleError(e);
       return null;
     } catch (e, stacktrace) {
       debugPrint('Unexpected error: $e');
@@ -149,7 +138,6 @@ class ApiHandler {
       return null;
     }
   }
-
 
   // Future<BookingResponse?> updateUserBookingStatus(
   //     Map<String, dynamic> body) async {
@@ -182,7 +170,7 @@ class ApiHandler {
   //     debugPrint('Dio error: ${e.message}');
   //     if (e.response != null) {}
   //     _handleError(e);
-     
+
   //   }
   // }
 

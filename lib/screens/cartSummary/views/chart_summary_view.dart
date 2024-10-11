@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers, use_build_context_synchronously
+
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -23,13 +25,13 @@ import 'package:intl/intl.dart'; // Add this import for date formatting
 class CartSummaryView extends StatelessWidget {
   final Address selectedAddress;
   final String? selectedTimeSlotId;
-  final DateTime? selectedDate;
+  // final DateTime? selectedDate;
 
   const CartSummaryView({
     super.key,
     required this.selectedAddress,
     this.selectedTimeSlotId,
-    this.selectedDate,
+    // this.selectedDate,
   });
 
   @override
@@ -43,9 +45,9 @@ class CartSummaryView extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     // Format the selected date and time slot
-    String formattedDate = selectedDate != null
-        ? DateFormat('MMM dd yyyy').format(selectedDate!)
-        : "No date selected";
+    // String formattedDate = selectedDate != null
+    //     ? DateFormat('MMM dd yyyy').format(selectedDate!)
+    //     : "No date selected";
     String formattedTimeSlot = selectedTimeSlotId ?? "No time slot selected";
 
     return Scaffold(
@@ -376,9 +378,9 @@ class CartSummaryView extends StatelessWidget {
                 int subCategory = bookingProvider.subCategoryId.value;
                 int category = bookingProvider.categoryId.value;
 
-                String selectedDateString = selectedDate != null
-                    ? DateFormat('MMM/dd/yyyy').format(selectedDate!)
-                    : "";
+                // String selectedDateString = selectedDate != null
+                //     ? DateFormat('MMM/dd/yyyy').format(selectedDate!)
+                //     : "";
 
                 String? selectedTimeSlotId =
                     bookingProvider.timeSlotId.value.isNotEmpty
@@ -392,9 +394,7 @@ class CartSummaryView extends StatelessWidget {
                 int? selectedAddressIndexValue =
                     selectedAddress != null ? 1 : null;
 
-                if (selectedTimeSlotId == null ||
-                    selectedAddressId == null ||
-                    selectedDateString.isEmpty) {
+                if (selectedTimeSlotId == null || selectedAddressId == null) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text(
@@ -409,12 +409,10 @@ class CartSummaryView extends StatelessWidget {
                   serviceCategory,
                   subCategory,
                   category,
-                  selectedDateString,
                   selectedTimeSlotId,
                   selectedAddressId,
                   selectedAddressIndexValue,
                 );
-                print("Success: $_success");
 
                 if (_success) {
                   Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
