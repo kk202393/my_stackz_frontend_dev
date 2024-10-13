@@ -13,6 +13,7 @@ import 'package:my_stackz/screens/dateAndTime/provider/date_and_time_provider.da
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
+import 'package:my_stackz/screens/notifications/provider/polling_provider.dart';
 import 'package:my_stackz/screens/payments/provider/payment_Provider.dart';
 import 'package:my_stackz/screens/selectAddress/provider/select_address_provider.dart';
 import 'package:my_stackz/screens/signUp/provider/sign_up_Provider.dart';
@@ -88,6 +89,8 @@ void main() async {
         create: (context) => BookingProvider(),
         lazy: true,
       ),
+      ChangeNotifierProvider(
+          create: (context) => PollingProvider(), lazy: true),
     ], child: const MyStackz()),
   );
 }

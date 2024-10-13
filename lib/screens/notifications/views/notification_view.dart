@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_stackz/api/cloud_function_service.dart';
 import 'package:my_stackz/api/notification_api.dart';
 import 'package:my_stackz/constants/app_colors.dart';
+import 'package:my_stackz/screens/notifications/provider/polling_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../../widgets/button_widget.dart';
 
@@ -59,6 +61,9 @@ class _NotificationsViewState extends State<NotificationsView> {
       // Send the notification with screen info and data payload
       await _cloudFunctionService.sendNotificationToProviders(
           providerIds, title, body, screen, data);
+
+      Provider.of<PollingProvider>(context, listen: false)
+          .startPolling('CMS0003'); // Start polling for booking status
     } catch (e) {
       print('Error sending notification: $e');
     }
@@ -67,6 +72,8 @@ class _NotificationsViewState extends State<NotificationsView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final pollingProvider = Provider.of<PollingProvider>(context);
+
     return Scaffold(
       backgroundColor: AppColors.cultured1,
       body: SafeArea(
@@ -89,9 +96,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                         size: 20,
                       ),
                     ),
-                    SizedBox(
-                      width: size.width * 0.3,
-                    ),
+                    SizedBox(width: size.width * 0.3),
                     TextWidget(
                       text: "Notification",
                       style: context.bodySmall.copyWith(
@@ -103,26 +108,35 @@ class _NotificationsViewState extends State<NotificationsView> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: size.height * 0.2,
-              ),
-              // ButtonWidget(
-              //   buttonText: 'Send Notification',
-              //   width: size.width * 0.5,
-              //   buttonColor: AppColors.red,
-              //   onTap: () {
-              //     NotificationApi.showNotification(
-              //         title: "You have an upcoming service",
-              //         body: "Do you want to accept?",
-              //         payload: "myStackz");
-              //   },
-              // )
+              SizedBox(height: size.height * 0.2),
               ButtonWidget(
                 buttonText: 'Send Notification',
                 width: size.width * 0.5,
                 buttonColor: AppColors.red,
                 onTap: _sendNotification,
-              )
+              ),
+              const SizedBox(height: 20),
+              // Show loader or booking status
+              if (pollingProvider.isLoading)
+                const CircularProgressIndicator()
+              else if (pollingProvider.bookingStatus == 'true')
+                const Text(
+                  'Booking Accepted',
+                  style: TextStyle(color: Colors.green, fontSize: 20),
+                )
+              else if (pollingProvider.bookingStatus == 'false')
+                const Text(
+                  'Booking Rejected',
+                  style: TextStyle(color: Colors.red, fontSize: 20),
+                )
+              else if (pollingProvider.bookingStatus == 'pending')
+                const Text(
+                  'Waiting for provider...',
+                  style: TextStyle(fontSize: 18),
+                )
+              else if (pollingProvider.bookingStatus == 'error')
+                const Text('Error fetching status',
+                    style: TextStyle(color: Colors.red, fontSize: 18)),
             ],
           ),
         ),
