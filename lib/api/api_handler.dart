@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -83,26 +85,25 @@ class ApiHandler {
     }
   }
 
- callConsumerBookingApi(Map<String, dynamic> body) async {
+  callConsumerBookingApi(Map<String, dynamic> body,BuildContext context) async {
     String? token = await Utils().ReadToken();
 
     if (token == null || token.isEmpty) {
       debugPrint('Token is missing');
       return null;
     }
-    {
+    try {
       if (dio == null) initDio();
       Response response = await DioClient().postData(
         url: AppURLs.consumerorderbookingURL,
         header: <String, String>{
           'Authorization': 'Bearer $token',
         },
+        data: body
       );
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return BookingResponse.fromJson(response.data);
-      } else {
-        return ResponseErrorHandler.fromJson(response.data);
-      }
+      return BookingResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      _handleError(e,context: context);
     }
   }
 
@@ -300,10 +301,11 @@ class ApiHandler {
     }
   }
 
-  _handleError(DioException e) {
+  _handleError(DioException e, {BuildContext? context}) {
     Snack.show(
-        content: e.response!.data!,
+        content: e.response!.data!["message"].toString(),
         snackType: SnackType.error,
-        behavior: SnackBarBehavior.floating);
+        behavior: SnackBarBehavior.floating,
+        context: context);
   }
 }

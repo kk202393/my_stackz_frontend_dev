@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:my_stackz/screens/notifications/views/notification_view.dart';
+import 'package:my_stackz/main.dart';
+import 'package:my_stackz/routes/app_pages.dart';
 
 class FcmService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -40,10 +41,17 @@ class FcmService {
 
   void _navigateToScreen(
       BuildContext context, String screen, Map<String, dynamic> data) {
-        if(screen == 'providerScreen'){
-          Navigator.of(context);
-        }
-      }
+    if (screen == 'providerScreen') {
+      navigatorKey.currentState?.pushNamed(
+        // '/providerScreen',
+        Routes.PROVIDER_SCREEN,
+        arguments: {
+          "requestId": data['request_id'],
+          "userName": data['user_name'],
+        },
+      );
+    }
+  }
 
   // Show a simple dialog for foreground messages
   void _showNotificationDialog(

@@ -416,13 +416,6 @@ class CartSummaryView extends StatelessWidget {
 
                 if (_success) {
                   Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                          'Your booking is under process. Please try again later.'),
-                    ),
-                  );
                 }
               },
             ),

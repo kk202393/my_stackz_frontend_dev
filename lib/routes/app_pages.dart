@@ -1,20 +1,17 @@
-import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/screens/additionalDetails/views/additional_details_view.dart';
 import 'package:my_stackz/screens/airconServices/views/aircon_view.dart';
 import 'package:my_stackz/screens/cartSummary/views/chart_summary_view.dart';
-import 'package:my_stackz/screens/cleaning/views/cleaning_view.dart';
 import 'package:my_stackz/screens/googleMap/view/google_map.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_view.dart';
 import 'package:my_stackz/screens/login/views/login_view.dart';
-import 'package:my_stackz/screens/notifications/views/notification_two.dart';
-import 'package:my_stackz/screens/notifications/views/notification_view.dart';
 import 'package:my_stackz/screens/payments/views/payment_view.dart';
+import 'package:my_stackz/screens/provider_screen/views/provider_screen.dart';
 import 'package:my_stackz/screens/signUp/views/sign_up_view.dart';
 import 'package:my_stackz/screens/splace_screen/splace.dart';
 import 'package:my_stackz/widgets/subCatWidget.dart';
+
 import '../screens/booking/views/booking_view.dart';
 import '../screens/bookingAccepted/views/booking_accepted_view.dart';
 import '../screens/bookingDetails/views/booking_details_view.dart';
@@ -134,6 +131,20 @@ class AppPages {
           builder: (_) => GoogleMapView(
             streamController: arguments["streamController"],
             position: arguments["position"],
+          ),
+        );
+      case Routes.PROVIDER_SCREEN:
+        final Map<String, dynamic> arguments =
+            setting.arguments as Map<String, dynamic>;
+
+        final String? requestId = arguments["requestId"] as String?;
+        final String? userName = arguments["userName"] as String?;
+
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => ProviderScreen(
+            requestId: requestId,
+            userName: userName,
           ),
         );
       default:

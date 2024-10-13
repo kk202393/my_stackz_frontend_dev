@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_stackz/api/cloud_function_service.dart';
 import 'package:my_stackz/api/notification_api.dart';
 import 'package:my_stackz/constants/app_colors.dart';
+import 'package:my_stackz/screens/notifications/provider/polling_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../../widgets/button_widget.dart';
 
@@ -31,21 +33,37 @@ class _NotificationsViewState extends State<NotificationsView> {
 
   void onClickedNotification(String? payload) {}
 
+// providers id
+// 67056ece31665eb645d9b87c
+// onepus nord 2 : TP1A.220905.001(provider)
+// consumer id
+// 67056e3231665eb645d9b85f
+// samsung :UP1A.231005.007(consumer)
+
   Future<void> _sendNotification() async {
     try {
       List<String> providerIds = [
-        '66e8094431665eb645d9b28b',
-        '66503b214f59f3788a612c3d',
+        '67056ece31665eb645d9b87c', //provider
+        '67056e3231665eb645d9b85f', //consumer just for testing
       ]; // Replace with actual provider IDs
+
       String title = 'You have an upcoming service';
       String body = 'Do you want to accept?';
-      Map<String, dynamic> data = {
-        'key1': 'value1',
-        'key2': 'value2'
-      }; // Replace with actual data
 
+      // Additional data that needs to be passed along with the notification
+      Map<String, dynamic> data = {
+        'request_id': '12345', // Example request ID
+        'user_name': 'John Doe', // Example user name
+      };
+
+      String screen = 'providerScreen'; // Specify the screen to open
+
+      // Send the notification with screen info and data payload
       await _cloudFunctionService.sendNotificationToProviders(
-          providerIds, title, body, data);
+          providerIds, title, body, screen, data);
+
+      Provider.of<PollingProvider>(context, listen: false)
+          .startPolling('CMS0003'); // Start polling for booking status
     } catch (e) {
       print('Error sending notification: $e');
     }
@@ -54,6 +72,8 @@ class _NotificationsViewState extends State<NotificationsView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final pollingProvider = Provider.of<PollingProvider>(context);
+
     return Scaffold(
       backgroundColor: AppColors.cultured1,
       body: SafeArea(
@@ -76,9 +96,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                         size: 20,
                       ),
                     ),
-                    SizedBox(
-                      width: size.width * 0.3,
-                    ),
+                    SizedBox(width: size.width * 0.3),
                     TextWidget(
                       text: "Notification",
                       style: context.bodySmall.copyWith(
@@ -90,26 +108,35 @@ class _NotificationsViewState extends State<NotificationsView> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: size.height * 0.2,
-              ),
-              // ButtonWidget(
-              //   buttonText: 'Send Notification',
-              //   width: size.width * 0.5,
-              //   buttonColor: AppColors.red,
-              //   onTap: () {
-              //     NotificationApi.showNotification(
-              //         title: "You have an upcoming service",
-              //         body: "Do you want to accept?",
-              //         payload: "myStackz");
-              //   },
-              // )
+              SizedBox(height: size.height * 0.2),
               ButtonWidget(
                 buttonText: 'Send Notification',
                 width: size.width * 0.5,
                 buttonColor: AppColors.red,
                 onTap: _sendNotification,
-              )
+              ),
+              const SizedBox(height: 20),
+              // Show loader or booking status
+              if (pollingProvider.isLoading)
+                const CircularProgressIndicator()
+              else if (pollingProvider.bookingStatus == 'true')
+                const Text(
+                  'Booking Accepted',
+                  style: TextStyle(color: Colors.green, fontSize: 20),
+                )
+              else if (pollingProvider.bookingStatus == 'false')
+                const Text(
+                  'Booking Rejected',
+                  style: TextStyle(color: Colors.red, fontSize: 20),
+                )
+              else if (pollingProvider.bookingStatus == 'pending')
+                const Text(
+                  'Waiting for provider...',
+                  style: TextStyle(fontSize: 18),
+                )
+              else if (pollingProvider.bookingStatus == 'error')
+                const Text('Error fetching status',
+                    style: TextStyle(color: Colors.red, fontSize: 18)),
             ],
           ),
         ),

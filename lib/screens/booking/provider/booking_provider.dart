@@ -36,19 +36,19 @@ class BookingProvider with ChangeNotifier {
   ) async {
     {
       isLoading.value = true;
-      final Map<String, dynamic> body = {
+      Map<String, dynamic> body = {
         "servicecategory_id": serviceCategoryId.value,
         "subcategory_id": subCategoryId.value,
         "category_id": categoryId.value,
         "booking_date": bookingDate.value,
         "time_slot_id": timeSlotId.value,
-        "useraddress_id": useraddressId.value,
+        "useraddress_id": selectedAddressId,
       };
 
       try {
-        _response = await ApiHandler().callConsumerBookingApi(body);
+       Response _response = await ApiHandler().callConsumerBookingApi(body,context);
         return true;
-      } catch (e) {
+      }  catch (e) {
         debugPrint("Unexpected error occurred: $e");
         return false;
       } finally {
@@ -217,4 +217,3 @@ class BookingProvider with ChangeNotifier {
 // Function to show a SnackBar message
 }
 
-void _showSnackBar(BuildContext context, String content, SnackType type) {}

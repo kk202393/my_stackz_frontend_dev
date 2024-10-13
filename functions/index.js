@@ -90,13 +90,20 @@ async function sendNotifications(fcmTokens, title, body, data) {
       title: title || "Service Request",
       body: body || "A new service request has been made",
     },
-    data: data || {},
-    tokens: fcmTokens, // List of FCM tokens to send notifications to
+    data: {
+      ...data,
+      click_action: "FLUTTER_NOTIFICATION_CLICK", // Ensure that Flutter handles the notification click
+    },
+  };
+
+  const multicastMessage = {
+    tokens: fcmTokens, // List of FCM tokens
+    ...message, // Spread the message content (notification & data)
   };
 
   try {
     // Send notifications via Firebase Cloud Messaging
-    return await admin.messaging().sendEachForMulticast(message);
+    return await admin.messaging().sendEachForMulticast(multicastMessage);
   } catch (error) {
     throw new Error(`Failed to send notifications via FCM: ${error.message}`);
   }

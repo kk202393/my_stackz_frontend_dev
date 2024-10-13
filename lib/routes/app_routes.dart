@@ -33,11 +33,9 @@ abstract class Routes {
   static const RESCHEDULE = _Paths.RESCHEDULE;
   static const CANCELLATION = _Paths.CANCELLATION;
   static const GOOGLE_MAP = _Paths.GOOGLE_MAP;
-  static const SPLACE= _Paths.SPLACE;
-  static const TYPESERVICECATEGORY=_Paths.TYPESERVICECATEGORY;
-
-
-
+  static const SPLACE = _Paths.SPLACE;
+  static const TYPESERVICECATEGORY = _Paths.TYPESERVICECATEGORY;
+  static const PROVIDER_SCREEN = _Paths.PROVIDER_SCREEN;
 }
 
 abstract class _Paths {
@@ -45,11 +43,11 @@ abstract class _Paths {
   static const HOME = '/click-my-space-home';
   static const DASHBOARD = '/dashboard';
   static const SIGN_UP = '/sign-up';
-    static const LOGIN = '/login';
-      static const CLEANING = '/cleaning';
-       static const AIRCON_SERVICES = '/aircon-services';
+  static const LOGIN = '/login';
+  static const CLEANING = '/cleaning';
+  static const AIRCON_SERVICES = '/aircon-services';
   static const HANDYMAN = '/handyman';
-   static const FORGOT_PASSWORD = '/forgot-password';
+  static const FORGOT_PASSWORD = '/forgot-password';
   static const RESET_PASSWORD = '/reset-password';
   static const BOOKING = '/booking';
   static const CLEANING_DETAILS = '/cleaning-details';
@@ -72,11 +70,7 @@ abstract class _Paths {
   static const RESCHEDULE = '/reschedule';
   static const CANCELLATION = '/cancellation';
   static const SPLACE = '/spalce';
-    static const TYPESERVICECATEGORY = '/type-service-categoty';
-
+  static const TYPESERVICECATEGORY = '/type-service-categoty';
   static const GOOGLE_MAP = '/google-map';
+  static const PROVIDER_SCREEN = '/provider_screen';
 }
-
-
-
-
