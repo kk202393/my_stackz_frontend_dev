@@ -439,7 +439,7 @@ class CartSummaryView extends StatelessWidget {
                               actions: [
                                 TextButton(
                                   onPressed: () async {
-                                    bool _success = await bookingProvider
+                                    await bookingProvider
                                         .callBookingPageApi(
                                       context,
                                       serviceCategory,
@@ -448,61 +448,76 @@ class CartSummaryView extends StatelessWidget {
                                       selectedTimeSlotId,
                                       selectedAddressId,
                                       selectedAddressIndexValue,
+                                    )
+                                        .then(
+                                      (value) async {
+                                        if (value) {
+                                          homeController.isLoading.value = true;
+
+                                          // calling notification api
+                                          try {
+                                            List<String> providerIds =
+                                                []; // Replace with actual provider IDs
+                                            providerIds.add(bookingProvider
+                                                    .bookingAPIResponse
+                                                    ?.userDeviceInfo!
+                                                    .userId
+                                                    .toString() ??
+                                                '');
+                                            String title =
+                                                'You have an upcoming service';
+                                            String body =
+                                                'Do you want to accept?';
+
+                                            // Additional data that needs to be passed along with the notification
+                                            Map<String, dynamic> data = {
+                                              //booking_id
+                                              'request_id': bookingProvider
+                                                  .bookingAPIResponse!
+                                                  .consumerOrderDetails!
+                                                  .bookingId
+                                                  .toString()
+                                                  .trim(), // Example request ID
+
+                                              // optional
+                                              'user_name':
+                                                  'John Doe', // Example user name
+                                            };
+
+                                            String screen =
+                                                'providerScreen'; // Specify the screen to open
+
+                                            // Send the notification with screen info and data payload
+                                            await _cloudFunctionService!
+                                                .sendNotificationToProviders(
+                                              providerIds,
+                                              title,
+                                              body,
+                                              screen,
+                                              data,
+                                            );
+
+                                            Provider.of<PollingProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .startPolling(bookingProvider
+                                                    .bookingAPIResponse!
+                                                    .consumerOrderDetails!
+                                                    .bookingId
+                                                    .toString()
+                                                    .trim()); //bookingId // Start polling for booking status
+                                          } catch (e) {
+                                            print(
+                                                'Error sending notification: $e');
+                                          }
+                                          // polling api
+
+                                          // Navigator.pushNamed(
+                                          //     context, Routes.BOOKING_DETAILS);
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
                                     );
-
-                                    if (_success) {
-                                      homeController.isLoading.value = true;
-
-                                      // calling notification api
-                                      try {
-                                        List<String> providerIds =
-                                            []; // Replace with actual provider IDs
-                                        providerIds.add(bookingProvider
-                                                .bookingAPIResponse
-                                                ?.userDeviceInfo!
-                                                .userId
-                                                .toString() ??
-                                            '');
-                                        String title =
-                                            'You have an upcoming service';
-                                        String body = 'Do you want to accept?';
-
-                                        // Additional data that needs to be passed along with the notification
-                                        Map<String, dynamic> data = {
-                                          //booking_id
-                                          'request_id':
-                                              '12345', // Example request ID
-
-                                          // optional
-                                          'user_name':
-                                              'John Doe', // Example user name
-                                        };
-
-                                        String screen =
-                                            'providerScreen'; // Specify the screen to open
-
-                                        // Send the notification with screen info and data payload
-                                        await _cloudFunctionService!
-                                            .sendNotificationToProviders(
-                                                providerIds,
-                                                title,
-                                                body,
-                                                screen,
-                                                data);
-
-                                        Provider.of<PollingProvider>(context,
-                                                listen: false)
-                                            .startPolling(
-                                                'CMS0003'); //bookingId // Start polling for booking status
-                                      } catch (e) {
-                                        print('Error sending notification: $e');
-                                      }
-                                      // polling api
-
-                                      // Navigator.pushNamed(
-                                      //     context, Routes.BOOKING_DETAILS);
-                                      Navigator.of(context).pop();
-                                    }
                                   },
                                   child: const Text('Yes'),
                                 ),

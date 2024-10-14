@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:my_stackz/api/cloud_function_service.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/notifications/provider/polling_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
+import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 import '../../../models/home_page_response.dart';
 import '../../home/controllers/home_controller.dart';
 
@@ -135,79 +137,79 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                   itemCount: timeSlot.length),
               const SizedBox(height: 50),
               ButtonWidget(
-                  buttonText: 'Next',
-                  // onTap: () {
-                  //   if (_selectedTimeSlotId != null && _selectedDate != null) {
-                  //     String selectedDateString =
-                  //         DateFormat('MMM dd yyyy').format(_selectedDate!);
+                buttonText: 'Next',
+                onTap: () {
+                  if (_selectedTimeSlotId != null && _selectedDate != null) {
+                    String selectedDateString =
+                        DateFormat('MMM dd yyyy').format(_selectedDate!);
 
-                  //     BookingProvider bookingProvider =
-                  //         Provider.of<BookingProvider>(context, listen: false);
+                    BookingProvider bookingProvider =
+                        Provider.of<BookingProvider>(context, listen: false);
 
-                  //     bookingProvider.bookingDate.value = selectedDateString;
-                  //     bookingProvider.timeSlotId.value = _selectedTimeSlotId!;
+                    bookingProvider.bookingDate.value = selectedDateString;
+                    bookingProvider.timeSlotId.value = _selectedTimeSlotId!;
 
-                  //     // ERROR CODE
-                  //     Navigator.pushNamed(
-                  //       context,
-                  //       Routes.SELECT_ADDRESS,
-                  //       arguments: {
-                  //         'selectedTimeSlotId': bookingProvider.timeSlotId.value,
-                  //         'selectedDate': bookingProvider.bookingDate.value,
-                  //       },
-                  //     );
+                    // ERROR CODE
+                    Navigator.pushNamed(
+                      context,
+                      Routes.SELECT_ADDRESS,
+                      arguments: {
+                        'selectedTimeSlotId': bookingProvider.timeSlotId.value,
+                        'selectedDate': bookingProvider.bookingDate.value,
+                      },
+                    );
 
-                  //     //TEMPORARY CODE
-                  //     // Navigator.push(
-                  //     //     context,
-                  //     //     MaterialPageRoute(
-                  //     //         builder: (context) => NotificationsView()));
-                  //   } else {
-                  //     Snack.show(
-                  //         content: "No time slot or date selected.",
-                  //         snackType: SnackType.error,
-                  //         behavior: SnackBarBehavior.floating,
-                  //         context: context);
-                  //   }
-                  // },
-                  onTap: () async {
-                    if (true) {
-                      // homeController.isLoading.value = true;
+                    //TEMPORARY CODE
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => NotificationsView()));
+                  } else {
+                    Snack.show(
+                        content: "No time slot or date selected.",
+                        snackType: SnackType.error,
+                        behavior: SnackBarBehavior.floating,
+                        context: context);
+                  }
+                },
+                // onTap: () async {
+                //   if (true) {
+                //     // homeController.isLoading.value = true;
 
-                      try {
-                        BookingProvider bookingProvider =
-                            Provider.of<BookingProvider>(context,
-                                listen: false);
-                        String bookingId = bookingProvider.bookingId.value;
-                        List<String> providerIds = [];
-                        providerIds.add(bookingProvider
-                                .bookingAPIResponse?.userDeviceInfo!.userId
-                                .toString() ??
-                            '');
+                //     try {
+                //       BookingProvider bookingProvider =
+                //           Provider.of<BookingProvider>(context, listen: false);
+                //       String bookingId = bookingProvider.bookingId.value;
+                //       List<String> providerIds = [];
+                //       providerIds.add(bookingProvider
+                //               .bookingAPIResponse?.userDeviceInfo!.userId
+                //               .toString() ??
+                //           '');
 
-                        String title = 'You have upcomming service';
-                        String body = 'Do you want to accept?';
+                //       String title = 'You have upcomming service';
+                //       String body = 'Do you want to accept?';
 
-                        Map<String, dynamic> data = {
-                          //booking_id
-                          'request_id':
-                              bookingId.toString().trim(), // Example request ID
+                //       Map<String, dynamic> data = {
+                //         //booking_id
+                //         'request_id':
+                //             bookingId.toString().trim(), // Example request ID
 
-                          // optional
-                          'user_name': 'John Doe', // Example user name
-                        };
-                        String screen =
-                            'providerScreen'; // Specify the screen to open
+                //         // optional
+                //         'user_name': 'John Doe', // Example user name
+                //       };
+                //       String screen =
+                //           'providerScreen'; // Specify the screen to open
 
-                        await _cloudFunctionService.sendNotificationToProviders(
-                            providerIds, title, body, screen, data);
-                        Provider.of<PollingProvider>(context, listen: false)
-                            .startPolling(bookingId);
-                      } catch (error) {
-                        print("Error sending notification: $error");
-                      }
-                    }
-                  })
+                //       await _cloudFunctionService.sendNotificationToProviders(
+                //           providerIds, title, body, screen, data);
+                //       Provider.of<PollingProvider>(context, listen: false)
+                //           .startPolling(bookingId);
+                //     } catch (error) {
+                //       print("Error sending notification: $error");
+                //     }
+                //   }
+                // },
+              )
             ],
           ),
         ),
