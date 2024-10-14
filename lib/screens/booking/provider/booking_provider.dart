@@ -46,8 +46,7 @@ class BookingProvider with ChangeNotifier {
       };
 
       try {
-        BookingResponse _response =
-            await ApiHandler().callConsumerBookingApi(body, context);
+        _response = await ApiHandler().callConsumerBookingApi(body, context);
 
         // call notification api
         // polling api
