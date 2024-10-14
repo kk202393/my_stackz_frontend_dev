@@ -9,7 +9,7 @@ class ProviderScreen extends StatelessWidget {
   final String serviceProviderId = '67056ece31665eb645d9b87c';
   final Dio _dio = Dio();
 // booking id, username(optioal)
-  ProviderScreen({this.requestId, this.userName});
+  ProviderScreen({super.key, this.requestId, this.userName});
 
   @override
   Widget build(BuildContext context) {
