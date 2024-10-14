@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProviderScreen extends StatelessWidget {
   final String? requestId;
   final String? userName;
   final String serviceProviderId = '67056ece31665eb645d9b87c';
   final Dio _dio = Dio();
-
+// booking id, username(optioal)
   ProviderScreen({this.requestId, this.userName});
 
   @override
@@ -100,10 +102,18 @@ class ProviderScreen extends StatelessWidget {
   }
 
   Future<void> _handleRequest(BuildContext context, bool isAccepted) async {
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
+    String userId =
+        bookingProvider.bookingAPIResponse?.userDeviceInfo!.userId.toString() ??
+            '';
     final url = 'http://cospazes.com/api/v1/userasigntoprovider';
     final data = {
-      "booking_id": 'CMS0002',
-      "service_provider_id": '67056ece31665eb645d9b87c',
+      "booking_id": requestId.toString().trim(), // booking id
+      // "service_provider_id":
+      //     '67056ece31665eb645d9b87c', //using from shared preference user id
+      "service_provider_id":
+          userId.toString().trim, //using from shared preference user id
     };
 
     try {

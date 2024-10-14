@@ -8,12 +8,18 @@ import 'package:my_stackz/widgets/app_divider.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
+
 import '../../login/provider/login_provider.dart';
-import 'package:intl/intl.dart';
 
 class SelectAddressView extends StatelessWidget {
-  SelectAddressView({super.key});
+  SelectAddressView({
+    Key? key,
+    required this.selectedTimeSlotId,
+    required this.selectedDate,
+  }) : super(key: key);
 
+  final String selectedTimeSlotId;
+  final String selectedDate;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -168,7 +174,7 @@ class SelectAddressView extends StatelessWidget {
                     //             .parse(bookingProvider.bookingDate.value)
                     //         : null;
 
-                    if (selectedTimeSlotId.isNotEmpty ) {
+                    if (selectedTimeSlotId.isNotEmpty) {
                       Navigator.pushNamed(
                         context,
                         Routes.CART_SUMMARY,

@@ -120,9 +120,16 @@ class AppPages {
           ),
         );
       case Routes.SELECT_ADDRESS:
+        final arguments = setting.arguments as Map<String, dynamic>;
+        final String? selectedSlotId =
+            arguments['selectedTimeSlotId'] as String;
+        final String? selectedDate = arguments['selectedDate'] as String;
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => SelectAddressView(),
+          builder: (_) => SelectAddressView(
+            selectedTimeSlotId: arguments['selectedTimeSlotId'],
+            selectedDate: arguments['selectedDate'],
+          ),
         );
       case Routes.GOOGLE_MAP:
         final arguments = setting.arguments as Map<String, dynamic>;

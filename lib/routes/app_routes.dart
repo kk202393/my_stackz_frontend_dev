@@ -54,7 +54,7 @@ abstract class _Paths {
   static const ADDITIONAL_DETAILS = '/additional-details';
   static const FAVOURITES = '/favourites';
   static const DATE_AND_TIME = '/date-and-time';
-  static const SELECT_ADDRESS = '/select-address';
+  static const SELECT_ADDRESS = '/select-address-view';
   static const CART_SUMMARY = '/cart-summary';
   static const PAYMENT = '/payment';
   static const MY_PROFILE = '/my-profile';
