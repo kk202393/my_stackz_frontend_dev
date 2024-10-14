@@ -85,7 +85,8 @@ class ApiHandler {
     }
   }
 
-  callConsumerBookingApi(Map<String, dynamic> body,BuildContext context) async {
+  callConsumerBookingApi(
+      Map<String, dynamic> body, BuildContext context) async {
     String? token = await Utils().ReadToken();
 
     if (token == null || token.isEmpty) {
@@ -95,15 +96,14 @@ class ApiHandler {
     try {
       if (dio == null) initDio();
       Response response = await DioClient().postData(
-        url: AppURLs.consumerorderbookingURL,
-        header: <String, String>{
-          'Authorization': 'Bearer $token',
-        },
-        data: body
-      );
+          url: AppURLs.consumerorderbookingURL,
+          header: <String, String>{
+            'Authorization': 'Bearer $token',
+          },
+          data: body);
       return BookingResponse.fromJson(response.data);
     } on DioException catch (e) {
-      _handleError(e,context: context);
+      _handleError(e, context: context);
     }
   }
 

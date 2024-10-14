@@ -72,7 +72,7 @@ openServiceCatOptions(BuildContext context,
                           ServiceCategory item = subcategory[index];
                           return InkWell(
                             onTap: () {
-                              bookingProvider.serviceCategoryId.value = item.servicecategoryId!;
+                              bookingProvider.serviceCategoryId.value = item.servicecategory!;
                               // bookingProvider.serviceCategoryId.value =
                               //     homeProvider
                               //         .homeAPIResponse

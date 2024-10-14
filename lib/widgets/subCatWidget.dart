@@ -93,7 +93,7 @@ class SubCatView extends StatelessWidget {
                       return InkWell(
                         onTap: () {
                           if (list[index].serviceCategories.isNotEmpty) {
-                            bookingProvider.subCategoryId.value = list[index].subcategoryId!;
+                            bookingProvider.subCategoryId.value = list[index].subcategory!;
                             openServiceCatOptions(
                               context,
                               subcategory: list[index].serviceCategories,

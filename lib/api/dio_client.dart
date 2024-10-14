@@ -47,7 +47,7 @@ class DioClient {
         };
       var response = await _dio.post(
         url,
-        options: Options(headers: header),
+        options: Options(headers: header,responseType: ResponseType.json),
         data: jsonEncode(data),
         cancelToken: token,
       );

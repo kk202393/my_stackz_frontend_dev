@@ -46,7 +46,7 @@ class BookingProvider with ChangeNotifier {
       };
 
       try {
-       Response _response = await ApiHandler().callConsumerBookingApi(body,context);
+       BookingResponse _response = await ApiHandler().callConsumerBookingApi(body,context);
         return true;
       }  catch (e) {
         debugPrint("Unexpected error occurred: $e");
@@ -79,8 +79,8 @@ class BookingProvider with ChangeNotifier {
     try {
       final response = await ApiHandler().updateUserBookingStatus(body);
 
-      debugPrint('API response: ${response?.toJson()}');
-      if (response != null && response.success) {
+      // debugPrint('API response: ${response?.toJson()}');
+      if (response != null ) {
         final updatedStatus =
             response.consumerOrderDetails?.consumerBookingStatus;
 
