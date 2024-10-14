@@ -56,7 +56,7 @@ class PollingProvider with ChangeNotifier {
         if (currentBookingStatus == true) {
           _bookingStatus = 'true';
         } else if (currentBookingStatus == false) {
-          _bookingStatus = 'false';
+          _bookingStatus = 'true';
         } else {
           _bookingStatus = 'pending';
         }
