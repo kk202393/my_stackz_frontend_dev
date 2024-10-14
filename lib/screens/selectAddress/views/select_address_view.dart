@@ -162,20 +162,20 @@ class SelectAddressView extends StatelessWidget {
 
                     String selectedTimeSlotId =
                         bookingProvider.timeSlotId.value;
-                    DateTime? selectedDate =
-                        bookingProvider.bookingDate.value.isNotEmpty
-                            ? DateFormat('MMM dd yyyy')
-                                .parse(bookingProvider.bookingDate.value)
-                            : null;
+                    // DateTime? selectedDate =
+                    //     bookingProvider.bookingDate.value.isNotEmpty
+                    //         ? DateFormat('MMM dd yyyy')
+                    //             .parse(bookingProvider.bookingDate.value)
+                    //         : null;
 
-                    if (selectedTimeSlotId.isNotEmpty && selectedDate != null) {
+                    if (selectedTimeSlotId.isNotEmpty ) {
                       Navigator.pushNamed(
                         context,
                         Routes.CART_SUMMARY,
                         arguments: {
                           'selectedAddress': selectedAddress,
                           'selectedTimeSlotId': selectedTimeSlotId,
-                          'selectedDate': selectedDate,
+                          // 'selectedDate': selectedDate,
                         },
                       );
                     } else {

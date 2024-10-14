@@ -6,9 +6,11 @@ import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/home_page_response.dart';
+import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/widgets/service_cat_Bottom_sheet.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
 class SubCatView extends StatelessWidget {
   final List<Subcategory> list;
@@ -26,6 +28,7 @@ class SubCatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    BookingProvider bookingProvider = Provider.of(context,listen: false);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -90,6 +93,7 @@ class SubCatView extends StatelessWidget {
                       return InkWell(
                         onTap: () {
                           if (list[index].serviceCategories.isNotEmpty) {
+                            bookingProvider.subCategoryId.value = list[index].subcategory!;
                             openServiceCatOptions(
                               context,
                               subcategory: list[index].serviceCategories,

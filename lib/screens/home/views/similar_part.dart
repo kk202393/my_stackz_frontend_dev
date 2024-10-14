@@ -1,13 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
-import 'package:my_stackz/widgets/user_location.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_images.dart';
@@ -141,7 +139,6 @@ class SimilarPart extends StatelessWidget {
                       } else if (element.categoryId == 3) {
                         bookingProvider.categoryId.value = element.categoryId!;
                         homeProvider.categoryId.value = element.categoryId!;
-                        // Navigator.pushNamed(context, Routes.HANDYMAN);
                         Navigator.pushNamed(context, Routes.CLEANING,
                             arguments: {
                               "itemList": allItem[2]["itemList"],

@@ -1,15 +1,13 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 
 class DioClient {
   static BaseOptions options =
       BaseOptions(connectTimeout: const Duration(seconds: 60));
 
   final Dio _dio = Dio(options);
+
+  // Set your proxy here
 
   Future<dynamic> postFormData({
     dynamic data,
@@ -22,7 +20,12 @@ class DioClient {
     try {
       var response = await _dio.post(
         url,
-        options: Options(headers: header),
+        options: Options(
+          headers: header,
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ),
         data: formData,
       );
 
@@ -39,16 +42,15 @@ class DioClient {
       CancelToken? token}) async {
     token = token;
     try {
-      _dio.httpClientAdapter = DefaultHttpClientAdapter()
-        ..onHttpClientCreate = (HttpClient client) {
-          client.badCertificateCallback =
-              (X509Certificate cert, String host, int port) => true;
-          return client;
-        };
       var response = await _dio.post(
         url,
-        options: Options(headers: header,responseType: ResponseType.json),
-        data: jsonEncode(data),
+        options: Options(
+          headers: header,
+          validateStatus: (status) {
+            return status! < 500;
+          },
+        ),
+        data: data,
         cancelToken: token,
       );
       return response;

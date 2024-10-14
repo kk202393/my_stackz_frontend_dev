@@ -24,69 +24,39 @@ class BookingProvider with ChangeNotifier {
 
   BookingResponse? get bookingAPIResponse => _response;
 
-
   Future<bool> callBookingPageApi(
     BuildContext context,
     int serviceCategory,
     int subCategory,
     int category,
-    String? selectedDateString,
+    // String? selectedDateString,
     String? selectedTimeSlotId,
     String? selectedAddressId,
     int? selectedAddressIndexValue,
   ) async {
-   {
-    isLoading.value = true;
+    {
+      isLoading.value = true;
+      Map<String, dynamic> body = {
+        "servicecategory_id": serviceCategoryId.value,
+        "subcategory_id": subCategoryId.value,
+        "category_id": categoryId.value,
+        "booking_date": bookingDate.value,
+        "time_slot_id": timeSlotId.value,
+        "useraddress_id": selectedAddressId,
+      };
 
-    serviceCategoryId.value = serviceCategory;
-    subCategoryId.value = subCategory;
-    categoryId.value = category;
-    bookingDate.value = selectedDateString ?? "";
-    timeSlotId.value = selectedTimeSlotId ?? "";
-    useraddressId.value = selectedAddressId ?? "";
-    selectedAddressIndex.value = selectedAddressIndexValue ?? 1;
-
-    final Map<String, dynamic> body = {
-      "servicecategory_id": serviceCategoryId.value,
-      "subcategory_id": subCategoryId.value,
-      "category_id": categoryId.value,
-      "booking_date": bookingDate.value,
-      "time_slot_id": timeSlotId.value,
-      "useraddress_id": useraddressId.value,
-    };
-
-    try {
-      final response = await ApiHandler().callConsumerBookingApi(body);
-
-      debugPrint('API response: $response');
-
-      if (response != null && response["success"] == true) {
-        _response = BookingResponse.fromJson(response);
-        bookingId.value = _response!.consumerOrderDetails.bookingId;
-        notifyListeners();
+      try {
+       BookingResponse _response = await ApiHandler().callConsumerBookingApi(body,context);
         return true;
-      } else {
-        debugPrint("Booking failed. Response: $response");
+      }  catch (e) {
+        debugPrint("Unexpected error occurred: $e");
         return false;
+      } finally {
+        isLoading.value = false;
+        notifyListeners();
       }
-    } on DioException catch (dioError) {
-      debugPrint("DioException occurred: ${dioError.message}");
-
-      if (dioError.response != null) {
-        debugPrint("DioException response data: ${dioError.response!.data}");
-        debugPrint(
-            "DioException response headers: ${dioError.response!.headers}");
-      }
-
-      return false;
-    } catch (e) {
-      debugPrint("Unexpected error occurred: $e");
-      return false;
-    } finally {
-      isLoading.value = false;
-      notifyListeners();
     }
-  }}
+  }
 
   Future<bool> updateBookingStatus(
       BuildContext context, String? bookingStatusId, String? bookingId) async {
@@ -109,8 +79,8 @@ class BookingProvider with ChangeNotifier {
     try {
       final response = await ApiHandler().updateUserBookingStatus(body);
 
-      debugPrint('API response: ${response?.toJson()}');
-      if (response != null && response.success) {
+      // debugPrint('API response: ${response?.toJson()}');
+      if (response != null ) {
         final updatedStatus =
             response.consumerOrderDetails?.consumerBookingStatus;
 
@@ -155,23 +125,20 @@ class BookingProvider with ChangeNotifier {
     );
   }
 
- 
-
-String _getStatusString(String? bookingStatus) {
-  switch (bookingStatus) {
-    case '1':
-      return 'Pending';
-    case '2':
-      return 'Accepted';
-    case '3':
-      return 'Underprocess';
-    case '4':
-      return 'Complete';
-    default:
-      return 'Unknown Status';
+  String _getStatusString(String? bookingStatus) {
+    switch (bookingStatus) {
+      case '1':
+        return 'Pending';
+      case '2':
+        return 'Accepted';
+      case '3':
+        return 'Underprocess';
+      case '4':
+        return 'Complete';
+      default:
+        return 'Unknown Status';
+    }
   }
-}
-
 
 //   Future<bool> updateBookingStatus(BuildContext context) async {
 //     isLoading.value = true;
@@ -248,7 +215,5 @@ String _getStatusString(String? bookingStatus) {
 //   }
 
 // Function to show a SnackBar message
-
 }
 
-void _showSnackBar(BuildContext context, String content, SnackType type) {}

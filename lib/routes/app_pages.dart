@@ -109,14 +109,14 @@ class AppPages {
 
         final Address selectedAddress = args["selectedAddress"] as Address;
         final String selectedTimeSlotId = args["selectedTimeSlotId"] as String;
-        final DateTime selectedDate = args["selectedDate"] as DateTime;
+        // final DateTime selectedDate = args["selectedDate"] as DateTime;
 
         return MaterialPageRoute(
           settings: setting,
           builder: (_) => CartSummaryView(
             selectedAddress: selectedAddress,
             selectedTimeSlotId: selectedTimeSlotId,
-            selectedDate: selectedDate,
+            // selectedDate: selectedDate,
           ),
         );
       case Routes.SELECT_ADDRESS:

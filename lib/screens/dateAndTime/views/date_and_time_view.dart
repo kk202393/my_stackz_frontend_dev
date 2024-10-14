@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/notifications/views/notification_view.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
+import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -145,29 +147,29 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                     bookingProvider.bookingDate.value = selectedDateString;
                     bookingProvider.timeSlotId.value = _selectedTimeSlotId!;
 
-                    print(
-                        "Selected Time Slot ID: ${bookingProvider.timeSlotId.value}");
-                    print(
-                        "Selected Date: ${bookingProvider.bookingDate.value}");
-
                     // ERROR CODE
-                    // Navigator.pushNamed(
-                    //   context,
-                    //   Routes.NOTIFICATIONS,
-                    //   // Routes.SELECT_ADDRESS,
-                    //   arguments: {
-                    //     'selectedTimeSlotId': bookingProvider.timeSlotId.value,
-                    //     'selectedDate': bookingProvider.bookingDate.value,
-                    //   },
-                    // );
+                    Navigator.pushNamed(
+                      context,
+                      // Routes.NOTIFICATIONS,
+                      Routes.SELECT_ADDRESS,
+                      arguments: {
+                        'selectedTimeSlotId': bookingProvider.timeSlotId.value,
+                        'selectedDate': bookingProvider.bookingDate.value,
+                      },
+                    );
 
                     //TEMPORARY CODE
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NotificationsView()));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => NotificationsView()));
                   } else {
-                    print("No time slot or date selected.");
+                    Snack.show(
+                        content: "No time slot or date selected.",
+                        snackType: SnackType.error,
+                        behavior: SnackBarBehavior.floating,
+                        context: context
+                        );
                   }
                 },
               )
