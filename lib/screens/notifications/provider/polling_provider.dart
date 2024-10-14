@@ -2,13 +2,20 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:my_stackz/utils/utils.dart';
 
 class PollingProvider with ChangeNotifier {
   final Dio _dio = Dio();
   String _bookingStatus = 'pending'; // initial status
   bool _isLoading = true;
-  String _bearerToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzA1NmUzMjMxNjY1ZWI2NDVkOWI4NWYiLCJpYXQiOjE3Mjg0MTMyNTEsImV4cCI6MTcyOTcwOTI1MX0.NkBdkNigGZc5hYwwDkwmTpdqMof1A_xVcEImV5kkbtk"; // Replace with actual token
+  // String _bearerToken =
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzA1NmUzMjMxNjY1ZWI2NDVkOWI4NWYiLCJpYXQiOjE3Mjg0MTMyNTEsImV4cCI6MTcyOTcwOTI1MX0.NkBdkNigGZc5hYwwDkwmTpdqMof1A_xVcEImV5kkbtk"; // Replace with actual token
+
+  String? _bearerToken = '';
+
+  Future<void> setBearerToken() async {
+    _bearerToken = await Utils().ReadToken() ?? '';
+  }
 
   String get bookingStatus => _bookingStatus;
   bool get isLoading => _isLoading;

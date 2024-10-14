@@ -1,34 +1,33 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_stackz/api/cloud_function_service.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
-import 'package:my_stackz/models/consumer_booking_response.dart';
-import 'package:my_stackz/models/consumer_booking_response.dart';
-import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
+import 'package:my_stackz/screens/notifications/provider/polling_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
+
 import '../../../models/login_response.dart';
-import 'package:intl/intl.dart'; // Add this import for date formatting
 
 class CartSummaryView extends StatelessWidget {
   final Address selectedAddress;
   final String? selectedTimeSlotId;
   // final DateTime? selectedDate;
 
-  const CartSummaryView({
+  CloudFunctionService? _cloudFunctionService = CloudFunctionService();
+
+  CartSummaryView({
     super.key,
     required this.selectedAddress,
     this.selectedTimeSlotId,
@@ -452,12 +451,58 @@ class CartSummaryView extends StatelessWidget {
                                     );
 
                                     if (_success) {
-                                      homeController.isLoading.value = true; 
+                                      homeController.isLoading.value = true;
+
+                                      // calling notification api
+                                      try {
+                                        List<String> providerIds =
+                                            []; // Replace with actual provider IDs
+                                        providerIds.add(bookingProvider
+                                                .bookingAPIResponse
+                                                ?.userDeviceInfo!
+                                                .userId
+                                                .toString() ??
+                                            '');
+                                        String title =
+                                            'You have an upcoming service';
+                                        String body = 'Do you want to accept?';
+
+                                        // Additional data that needs to be passed along with the notification
+                                        Map<String, dynamic> data = {
+                                          //booking_id
+                                          'request_id':
+                                              '12345', // Example request ID
+
+                                          // optional
+                                          'user_name':
+                                              'John Doe', // Example user name
+                                        };
+
+                                        String screen =
+                                            'providerScreen'; // Specify the screen to open
+
+                                        // Send the notification with screen info and data payload
+                                        await _cloudFunctionService!
+                                            .sendNotificationToProviders(
+                                                providerIds,
+                                                title,
+                                                body,
+                                                screen,
+                                                data);
+
+                                        Provider.of<PollingProvider>(context,
+                                                listen: false)
+                                            .startPolling(
+                                                'CMS0003'); //bookingId // Start polling for booking status
+                                      } catch (e) {
+                                        print('Error sending notification: $e');
+                                      }
+                                      // polling api
+
                                       // Navigator.pushNamed(
                                       //     context, Routes.BOOKING_DETAILS);
-                                       Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
                                     }
-                                   
                                   },
                                   child: const Text('Yes'),
                                 ),
@@ -491,13 +536,15 @@ class CartSummaryView extends StatelessWidget {
                             consumerOrderDetails?.consumerBookingStatus;
 
                         String? bookingId =
-                            consumerOrderDetails?.bookingId!.isNotEmpty == true
-                                ? bookingProvider.bookingStatusId.value
+                            consumerOrderDetails?.bookingId != null &&
+                                    consumerOrderDetails!.bookingId!.isNotEmpty
+                                ? consumerOrderDetails.bookingId
                                 : null;
 
                         String? bookingStatusId =
-                            bookingStatus?.bookingStatus!.isNotEmpty == true
-                                ? bookingProvider.bookingId.value
+                            bookingStatus?.bookingStatus != null &&
+                                    bookingStatus!.bookingStatus!.isNotEmpty
+                                ? bookingStatus.bookingStatus
                                 : null;
 
                         bool _success =

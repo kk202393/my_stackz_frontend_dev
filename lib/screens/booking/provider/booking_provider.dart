@@ -46,9 +46,13 @@ class BookingProvider with ChangeNotifier {
       };
 
       try {
-       BookingResponse _response = await ApiHandler().callConsumerBookingApi(body,context);
+        BookingResponse _response =
+            await ApiHandler().callConsumerBookingApi(body, context);
+
+        // call notification api
+        // polling api
         return true;
-      }  catch (e) {
+      } catch (e) {
         debugPrint("Unexpected error occurred: $e");
         return false;
       } finally {
@@ -80,7 +84,7 @@ class BookingProvider with ChangeNotifier {
       final response = await ApiHandler().updateUserBookingStatus(body);
 
       // debugPrint('API response: ${response?.toJson()}');
-      if (response != null ) {
+      if (response != null) {
         final updatedStatus =
             response.consumerOrderDetails?.consumerBookingStatus;
 
@@ -216,4 +220,3 @@ class BookingProvider with ChangeNotifier {
 
 // Function to show a SnackBar message
 }
-
