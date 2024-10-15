@@ -121,27 +121,13 @@ class LoginView extends StatelessWidget {
 
                                       homeController.isLoading.value = false;
                                       debugPrint('homeController $another');
-                                      final userRole = controller
-                                              .logInAPIResponse
-                                              ?.user
-                                              ?.userRole ??
-                                          '1';
-                                      //userRole = "Consumer" || "Service Provider"
 
                                       if (another) {
-                                        if (userRole == "3") {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            Routes.HOME,
-                                            (route) => false,
-                                          );
-                                        } else {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            Routes.HOME,
-                                            (route) => false,
-                                          );
-                                        }
+                                        Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          Routes.HOME,
+                                          (route) => false,
+                                        );
                                       } else {
                                         String msg = "Failed to fetch data";
                                         DialogHelper().showSnackBar(

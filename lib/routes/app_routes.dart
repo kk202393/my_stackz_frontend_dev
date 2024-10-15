@@ -4,6 +4,7 @@ part of 'app_pages.dart';
 abstract class Routes {
   Routes._();
   static const HOME = _Paths.HOME;
+  static const HOME_PROVIDER = _Paths.HOME_PROVIDER;
   static const DASHBOARD = _Paths.DASHBOARD;
   static const SIGN_UP = _Paths.SIGN_UP;
   static const LOGIN = _Paths.LOGIN;
@@ -41,6 +42,7 @@ abstract class Routes {
 abstract class _Paths {
   _Paths._();
   static const HOME = '/click-my-space-home';
+  static const HOME_PROVIDER = '/home-provider';
   static const DASHBOARD = '/dashboard';
   static const SIGN_UP = '/sign-up';
   static const LOGIN = '/login';
