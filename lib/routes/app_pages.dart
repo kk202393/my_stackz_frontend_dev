@@ -5,12 +5,15 @@ import 'package:my_stackz/screens/airconServices/views/aircon_view.dart';
 import 'package:my_stackz/screens/cartSummary/views/chart_summary_view.dart';
 import 'package:my_stackz/screens/googleMap/view/google_map.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_view.dart';
+import 'package:my_stackz/screens/home_provider_screen/views/home_provider_screen_view.dart';
+import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/screens/login/views/login_view.dart';
 import 'package:my_stackz/screens/payments/views/payment_view.dart';
 import 'package:my_stackz/screens/provider_screen/views/provider_screen.dart';
 import 'package:my_stackz/screens/signUp/views/sign_up_view.dart';
 import 'package:my_stackz/screens/splace_screen/splace.dart';
 import 'package:my_stackz/widgets/subCatWidget.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/booking/views/booking_view.dart';
 import '../screens/bookingAccepted/views/booking_accepted_view.dart';
@@ -35,8 +38,41 @@ class AppPages {
       case Routes.HOME:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => const HomeView(),
+          builder: (context) {
+            LoginProvider loginProvider =
+                Provider.of<LoginProvider>(context, listen: false);
+            final userRole =
+                loginProvider.logInAPIResponse?.user?.userRole ?? 1;
+            Widget targetView;
+
+            switch (userRole) {
+              case 1:
+                targetView = const HomeView();
+                break;
+              // case 2:
+              //   targetView = const AdminDashboardView();
+              //   break;
+              case 3:
+                targetView = const HomeProviderScreen();
+                break;
+              default:
+                targetView = const HomeView();
+                break;
+            }
+
+            return targetView;
+          },
         );
+      // case Routes.HOME:
+      //   return MaterialPageRoute(
+      //     settings: setting,
+      //     builder: (_) => const HomeView(),
+      //   );
+      // case Routes.HOME_PROVIDER:
+      //   return MaterialPageRoute(
+      //     settings: setting,
+      //     builder: (_) => const HomeProvider(),
+      //   );
       case Routes.LOGIN:
         return MaterialPageRoute(
           settings: setting,
