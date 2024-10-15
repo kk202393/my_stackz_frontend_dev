@@ -28,8 +28,12 @@ class SelectAddressView extends StatelessWidget {
     BookingProvider bookingProvider =
         Provider.of<BookingProvider>(context, listen: false);
 
+    // final userAddressList =
+    //     loginProvider.logInAPIResponse?.userAddress?.first.addresses ?? [];
     final userAddressList =
-        loginProvider.logInAPIResponse?.userAddress?.first.addresses ?? [];
+        (loginProvider.logInAPIResponse?.userAddress?.isNotEmpty ?? false)
+            ? loginProvider.logInAPIResponse!.userAddress!.first.addresses ?? []
+            : [];
 
     final defaultAddressIndex =
         userAddressList.indexWhere((address) => address.isDefault);
