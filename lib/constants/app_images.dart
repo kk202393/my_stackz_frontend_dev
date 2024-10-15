@@ -25,6 +25,7 @@ class AppImages {
   static const String decorationIcon = "$baseImage/decoration_icon.png";
   static const String airconBanner = "$baseImage/aircon_banner.jpg";
   static const String acRepair = "$baseImage/ac_repair.jpg";
+  static const String alert = "$baseImage/alert.png";
   static const String repairOrder = "$baseImage/repair_order.png";
   static const String profileIcon = "$baseImage/profile.png";
   static const String handymanBanner = "$baseImage/handyman_banner.jpg";

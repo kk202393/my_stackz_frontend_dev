@@ -565,7 +565,7 @@ class DialogHelper {
                         (BuildContext context, double value, Widget? child) {
                       return iconData == null
                           ? Image.asset(
-                              AppImages.acRepair,
+                              AppImages.alert,
                               width: value,
                             )
                           : Icon(

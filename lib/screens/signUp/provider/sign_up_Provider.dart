@@ -50,50 +50,55 @@ class SignUpProvider with ChangeNotifier {
   //   super.onInit();
   // }
   UserDeviceInformation? _userDeviceInformation;
-  UserDeviceInformation? get userDeviceInformationResponse => _userDeviceInformation;
-
+  UserDeviceInformation? get userDeviceInformationResponse =>
+      _userDeviceInformation;
 
   onChangePasswordVisibility() {
     obscureText.value = !obscureText.value;
   }
 
   validateFields(BuildContext context) {
-
     if (!formKey.currentState!.validate()) {
       return;
     } else {
-      callCreateAccountApi();
+      // callCreateAccountApi();
       /*Navigator.pushNamed(context, Routes.DASHBOARD);*/
     }
   }
 
-  callCreateAccountApi() async {
+  Future<bool> callCreateAccountApi() async {
     isLoading.value = true;
     final body = {
-      "username": name.value,
-      "user_role": userRole.value,
-      "first_name": firstName.value,
-      "last_name": lastName.value,
-      "email": email.value,
-      "password": password.value,
-      "phone_number": "+91${phoneNumber.value}",
-      "address": address.value,
-      "dob": dob.value
+      "username": nameController.text,
+      "user_role": "2",
+      "first_name": nameController.text,
+      "last_name": "Kumar",
+      "email": emailController.text,
+      "password": passwordController.text,
+      "phone_number": "+91${phoneController.text}",
+      // "address": address.value,
+      "dob": "18/09/1998"
     };
     try {
       CreateAccountResponse response =
           await ApiHandler().callCreateAccountApi(body);
       isLoading.value = false;
-      if (response.success! && response.user != null) {
+      if (response.success!) {
+        return true;
+      } else if (response.success! && response.user != null) {
         sId.value = response.user!.sId!;
         // callUserDeviceInformation();
         Snack.show(
             content: "User Already Exists",
             snackType: SnackType.info,
             behavior: SnackBarBehavior.floating);
+        return false;
+      } else {
+        return false;
       }
     } catch (e) {
       isLoading.value = false;
+      return false;
     }
   }
 
@@ -120,6 +125,4 @@ class SignUpProvider with ChangeNotifier {
   //     isLoading.value = false;
   //   }
   // }
-
-
 }

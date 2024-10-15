@@ -200,7 +200,7 @@ class LoginView extends StatelessWidget {
                           const SizedBox(height: 20)
                         ])),
                     const SizedBox(height: 20),
-                    homeController.isLoading.value
+                    controller.isLoading.value
                         ? Utils.getLoadingUI(context)
                         : const SizedBox(),
                   ],

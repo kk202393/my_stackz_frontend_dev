@@ -13,9 +13,7 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-                 SignUpProvider controller = Provider.of<SignUpProvider>(context, listen: false);
-
-
+    SignUpProvider controller = Provider.of<SignUpProvider>(context, listen: false);
     return Form(
       key: controller.formKey,
       child: Column(

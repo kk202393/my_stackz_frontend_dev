@@ -84,7 +84,7 @@ class LoginProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      String errorMessage = "An unexpected error occurred.";
+      String errorMessage = "Please check your username or password";
       if (e is SocketException) {
         errorMessage = "Network error, please check your internet connection.";
       } else if (e is HttpException) {
