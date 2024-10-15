@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, no_leading_underscores_for_local_identifiers
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
@@ -122,12 +121,27 @@ class LoginView extends StatelessWidget {
 
                                       homeController.isLoading.value = false;
                                       debugPrint('homeController $another');
+                                      final userRole = controller
+                                              .logInAPIResponse
+                                              ?.user
+                                              ?.userRole ??
+                                          '1';
+                                      //userRole = "Consumer" || "Service Provider"
+
                                       if (another) {
-                                        Navigator.pushNamedAndRemoveUntil(
-                                          context,
-                                          Routes.HOME,
-                                          (route) => false,
-                                        );
+                                        if (userRole == "3") {
+                                          Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            Routes.HOME,
+                                            (route) => false,
+                                          );
+                                        } else {
+                                          Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            Routes.HOME,
+                                            (route) => false,
+                                          );
+                                        }
                                       } else {
                                         String msg = "Failed to fetch data";
                                         DialogHelper().showSnackBar(
