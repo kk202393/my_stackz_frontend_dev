@@ -64,15 +64,20 @@ class LoginView extends StatelessWidget {
                                       InputValidator.isValidEmail(value),
                                 ),
                                 const SizedBox(height: 20),
-                                AppFormField(
-                                  controller: controller.passwordController,
-                                  obscureText: controller.obscureText.value,
-                                  hintText: StringConstants.enterPassword,
-                                  onTapSuffixIcon: () =>
-                                      controller.onChangePasswordVisibility(),
-                                  validator: (value) =>
-                                      InputValidator.validateFields(
-                                          "password", value),
+                                ValueListenableBuilder<bool>(
+                                  valueListenable: controller.obscureText,
+                                  builder: (context, obscureText, child) {
+                                    return AppFormField(
+                                      controller: controller.passwordController,
+                                      obscureText: obscureText,
+                                      hintText: StringConstants.enterPassword,
+                                      onTapSuffixIcon: () => controller
+                                          .onChangePasswordVisibility(),
+                                      validator: (value) =>
+                                          InputValidator.validateFields(
+                                              "password", value),
+                                    );
+                                  },
                                 ),
                                 const SizedBox(height: 10),
                                 Padding(
