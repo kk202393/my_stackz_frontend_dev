@@ -26,6 +26,7 @@ class AppFormField extends StatelessWidget {
   final IconData? prefixIcon;
   final TextInputType? keyboardType;
   final GestureTapCallback? onTapSuffixIcon;
+  final int? maxLength;
 
   const AppFormField(
       {super.key,
@@ -48,6 +49,7 @@ class AppFormField extends StatelessWidget {
       this.prefixIcon,
       this.onTapSuffixIcon,
       this.keyboardType,
+      this.maxLength,
       this.obscureText = false});
 
   @override
@@ -59,6 +61,7 @@ class AppFormField extends StatelessWidget {
       maxLines: maxLines,
       controller: controller,
       cursorColor: textColor,
+      maxLength: maxLength,
       obscureText: obscureText,
       keyboardType: keyboardType ?? TextInputType.text,
       style: GoogleFonts.openSans(

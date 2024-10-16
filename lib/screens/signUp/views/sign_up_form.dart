@@ -43,6 +43,8 @@ class SignUpForm extends StatelessWidget {
             hintText: StringConstants.enterMobileNumber,
             validator: (value) => InputValidator.isValidPhoneNumber(value),
             isPhoneNumber: true,
+            keyboardType: TextInputType.number,
+            maxLength: 10,
           ),
           const SizedBox(height: 10),
         ],

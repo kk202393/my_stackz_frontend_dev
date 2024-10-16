@@ -30,9 +30,13 @@ class SignUpView extends StatelessWidget {
           text: StringConstants.signUp,
         ),
       ),
-      body: PopScope(
-        onPopInvoked: (didPop) {
-          print("this is run");
+      body: WillPopScope(
+        onWillPop: () {
+          controller.emailController.clear();
+          controller.nameController.clear();
+          controller.passwordController.clear();
+          controller.phoneController.clear();
+          return Future.value(true);
         },
         child: ValueListenableBuilder(
           valueListenable: controller.isLoading,
@@ -41,8 +45,8 @@ class SignUpView extends StatelessWidget {
               children: [
                 SingleChildScrollView(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
                     child: Column(
                       children: [
                         const SizedBox(height: 50),
@@ -54,7 +58,7 @@ class SignUpView extends StatelessWidget {
                             controller.validateFields(context);
                             controller.callCreateAccountApi(context).then(
                               (value) {
-                              controller.isLoading.value = false;
+                                controller.isLoading.value = false;
                                 if (value) {
                                   Navigator.pushNamed(context, Routes.LOGIN);
                                 }
