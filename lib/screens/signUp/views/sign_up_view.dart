@@ -30,44 +30,49 @@ class SignUpView extends StatelessWidget {
           text: StringConstants.signUp,
         ),
       ),
-      body: ValueListenableBuilder(
-        valueListenable: controller.isLoading,
-        builder: (BuildContext context, value, Widget? child) {
-          return Stack(
-            children: [
-              SingleChildScrollView(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 50),
-                      const SignUpForm(),
-                      const SizedBox(height: 50),
-                      ButtonWidget(
-                        buttonText: StringConstants.signUp,
-                        onTap: () {
-                          controller.validateFields(context);
-                          controller.callCreateAccountApi(context).then(
-                            (value) {
-                            controller.isLoading.value = false;
-                              if (value) {
-                                Navigator.pushNamed(context, Routes.LOGIN);
-                              }
-                            },
-                          );
-                        },
-                      ),
-                    ],
+      body: PopScope(
+        onPopInvoked: (didPop) {
+          print("this is run");
+        },
+        child: ValueListenableBuilder(
+          valueListenable: controller.isLoading,
+          builder: (BuildContext context, value, Widget? child) {
+            return Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 50),
+                        const SignUpForm(),
+                        const SizedBox(height: 50),
+                        ButtonWidget(
+                          buttonText: StringConstants.signUp,
+                          onTap: () {
+                            controller.validateFields(context);
+                            controller.callCreateAccountApi(context).then(
+                              (value) {
+                              controller.isLoading.value = false;
+                                if (value) {
+                                  Navigator.pushNamed(context, Routes.LOGIN);
+                                }
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              controller.isLoading.value
-                  ? Utils.getLoadingUI(context)
-                  : const SizedBox(),
-            ],
-          );
-        },
+                controller.isLoading.value
+                    ? Utils.getLoadingUI(context)
+                    : const SizedBox(),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
