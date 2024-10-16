@@ -48,8 +48,9 @@ class SignUpView extends StatelessWidget {
                         buttonText: StringConstants.signUp,
                         onTap: () {
                           controller.validateFields(context);
-                          controller.callCreateAccountApi().then(
+                          controller.callCreateAccountApi(context).then(
                             (value) {
+                            controller.isLoading.value = false;
                               if (value) {
                                 Navigator.pushNamed(context, Routes.LOGIN);
                               }

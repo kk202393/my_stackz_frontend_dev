@@ -5,9 +5,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/dio_client.dart';
 import 'package:my_stackz/api/error_handler.dart';
+import 'package:my_stackz/constants/app_colors.dart';
+import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/models/forget_password_response.dart';
 import 'package:my_stackz/utils/utils.dart';
+import 'package:my_stackz/widgets/button_widget.dart';
+import 'package:my_stackz/widgets/text_widget.dart';
 import '../constants/app_constants.dart';
 import '../models/change_password_response.dart';
 import '../models/home_page_response.dart';
@@ -107,13 +111,13 @@ class ApiHandler {
     }
   }
 
-  callCreateAccountApi(body) async {
+  callCreateAccountApi(body, context) async {
     try {
       if (dio == null) initDio();
       final Response response = await dio!.post(AppURLs.createURL, data: body);
       return CreateAccountResponse.fromJson(response.data);
     } on DioException catch (e) {
-      _handleError(e);
+      _handleError(e, context: context);
     }
   }
 
@@ -302,10 +306,47 @@ class ApiHandler {
   }
 
   _handleError(DioException e, {BuildContext? context}) {
-    Snack.show(
-        content: e.response!.data!["message"].toString(),
-        snackType: SnackType.error,
-        behavior: SnackBarBehavior.floating,
-        context: context);
+    showDialog(
+        builder: (context) {
+          return AlertDialog(
+            surfaceTintColor: AppColors.white,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.2,
+                  child: TweenAnimationBuilder<double>(
+                    tween: Tween<double>(begin: 20.0, end: 80.0),
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.bounceOut,
+                    builder:
+                        (BuildContext context, double value, Widget? child) {
+                      return Image.asset(
+                        AppImages.alert,
+                        width: value,
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextWidget(
+                  text: e.response!.data!["message"].toString(),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+            actions: [
+              Center(
+                child: ButtonWidget(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  buttonText: 'ok',
+                ),
+              ),
+            ],
+          );
+        },
+        context: context!);
   }
 }

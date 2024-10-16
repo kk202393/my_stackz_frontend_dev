@@ -1,8 +1,6 @@
-
 import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
-
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +15,11 @@ import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 void closeBox(BuildContext context) {
   Navigator.pop(context);
 }
+
 class DialogHelper {
   void onLoading(BuildContext context) {
     final HomeProvider homeProvider =
@@ -67,7 +67,6 @@ class DialogHelper {
     }
   }
 
-  
   // List<Route> poppedRoutes = [];
 //     if (isLoadingDialogOpened.value) {
 //       Navigator.of(context, rootNavigator: true).popUntil((route) {
@@ -114,10 +113,10 @@ class DialogHelper {
                   duration: const Duration(seconds: 1),
                   curve: Curves.bounceOut,
                   builder: (BuildContext context, double value, Widget? child) {
-                    return  Image.asset(
-                                  AppImages.room,
-                                  width:45,
-                                );
+                    return Image.asset(
+                      AppImages.alert,
+                      width: 45,
+                    );
                   },
                 ),
               ),
@@ -137,7 +136,7 @@ class DialogHelper {
                     f();
                   }
                 },
-               buttonText: 'ok',
+                buttonText: 'ok',
               ),
             ),
           ],
@@ -172,10 +171,11 @@ class DialogHelper {
                   duration: const Duration(seconds: 1),
                   curve: Curves.bounceOut,
                   builder: (BuildContext context, double value, Widget? child) {
-                    return Image.asset(AppImages.acRepair,
-                        // color: AColors.yellowOrange,
-                        width: value,
-                        );
+                    return Image.asset(
+                      AppImages.acRepair,
+                      // color: AColors.yellowOrange,
+                      width: value,
+                    );
                   },
                 ),
               ),
@@ -194,7 +194,8 @@ class DialogHelper {
                   if (f != null) {
                     f();
                   }
-                }, buttonText: 'ok',
+                },
+                buttonText: 'ok',
                 // width: MediaQuery.of(context).size.width * 0.4,
                 // label: AppLocalizations.of(context)!.ok,
                 // fontSize: 18,
@@ -264,10 +265,11 @@ class DialogHelper {
                     curve: Curves.bounceOut,
                     builder:
                         (BuildContext context, double value, Widget? child) {
-                      return Image.asset(AppImages.acRepair,
-                          // color: AColors.water,
-                          width: value,
-                          );
+                      return Image.asset(
+                        AppImages.acRepair,
+                        // color: AColors.water,
+                        width: value,
+                      );
                     },
                   ),
                 ),
@@ -288,7 +290,6 @@ class DialogHelper {
                       if (noFunction != null) {
                         await noFunction();
                       }
-                     
                     },
                     // width: MediaQuery.of(context).size.width * 0.25,
                     // label: noLabel ?? AppLocalizations.of(context)!.prsNo,
@@ -377,10 +378,11 @@ class DialogHelper {
                     curve: Curves.bounceOut,
                     builder:
                         (BuildContext context, double value, Widget? child) {
-                      return Image.asset(AppImages.acRepair,
-                          // color: AColors.water,
-                          width: value,
-                          );
+                      return Image.asset(
+                        AppImages.acRepair,
+                        // color: AColors.water,
+                        width: value,
+                      );
                     },
                   ),
                 ),
@@ -548,7 +550,7 @@ class DialogHelper {
         context: context,
         builder: (BuildContext context) {
           if (msg.isEmpty) {
-            msg ="somethingWentWrong";
+            msg = "somethingWentWrong";
           }
           return AlertDialog(
             surfaceTintColor: AppColors.white,
@@ -1020,71 +1022,72 @@ class DialogHelper {
   //   }
   // }
   void showSuccessAlertDialog(
-    {required BuildContext context,
-    required String message,
-    String? title,
-    IconData iconData = Icons.info, // Default icon is info
-    Color iconColor = Colors.blue,
-    bool barrierDismissible = true,
-    Function? f // Default icon color is blue
-    }) {
-  showDialog(
-    context: context,
-    barrierDismissible: barrierDismissible,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Center(child: title != null ? TextWidget(text: title) : null),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              iconData,
-              color: iconColor,
-              size: 50.0,
-            ),
-            const SizedBox(height: 10),
-            TextWidget(text: message),
-          ],
-        ),
-        actions: [
-          Center(
-            child: ButtonWidget(
-             buttonText:  "",
-              onTap: () {
-                Navigator.pop(context);
-                if (f != null) {
-                  f();
-                }
-              },
-              // width: MediaQuery.of(context).size.width * 0.2,
-              // label: AppLocalizations.of(context)!.ok,
-              // fontSize: 18,
-              // fontWeight: FontWeight.w700,
-            ),
+      {required BuildContext context,
+      required String message,
+      String? title,
+      IconData iconData = Icons.info, // Default icon is info
+      Color iconColor = Colors.blue,
+      bool barrierDismissible = true,
+      Function? f // Default icon color is blue
+      }) {
+    showDialog(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(child: title != null ? TextWidget(text: title) : null),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                iconData,
+                color: iconColor,
+                size: 50.0,
+              ),
+              const SizedBox(height: 10),
+              TextWidget(text: message),
+            ],
           ),
-        ],
-      );
-    },
-  );
-}
-systemOverlayDesign(Color color) {
-  SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
-    overlays: [
-      SystemUiOverlay.top,
-      SystemUiOverlay.bottom,
-    ],
-  );
-  // if (Platform.isAndroid) {
-  //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-  //       overlays: [SystemUiOverlay.top]);
-  // } else if (Platform.isIOS) {
-  //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-  //       overlays: [SystemUiOverlay.top]);
-  // }
-  return SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: color, systemNavigationBarIconBrightness: Brightness.light,statusBarIconBrightness: Brightness.dark));
-}
+          actions: [
+            Center(
+              child: ButtonWidget(
+                buttonText: "",
+                onTap: () {
+                  Navigator.pop(context);
+                  if (f != null) {
+                    f();
+                  }
+                },
+                // width: MediaQuery.of(context).size.width * 0.2,
+                // label: AppLocalizations.of(context)!.ok,
+                // fontSize: 18,
+                // fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-
+  systemOverlayDesign(Color color) {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [
+        SystemUiOverlay.top,
+        SystemUiOverlay.bottom,
+      ],
+    );
+    // if (Platform.isAndroid) {
+    //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+    //       overlays: [SystemUiOverlay.top]);
+    // } else if (Platform.isIOS) {
+    //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+    //       overlays: [SystemUiOverlay.top]);
+    // }
+    return SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: color,
+        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark));
+  }
 }
