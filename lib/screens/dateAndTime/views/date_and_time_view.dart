@@ -1,17 +1,17 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_stackz/api/cloud_function_service.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
-import 'package:my_stackz/screens/notifications/provider/polling_provider.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/snack_bar.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
+
 import '../../../models/home_page_response.dart';
 import '../../home/controllers/home_controller.dart';
 
@@ -23,7 +23,7 @@ class DateAndTimeView extends StatefulWidget {
 }
 
 class _DateAndTimeViewState extends State<DateAndTimeView> {
-  int _selectedSlotIndex = -1;
+  int? _selectedSlotIndex;
   final _cloudFunctionService =
       CloudFunctionService(); // Initialize your service here
   String? _selectedTimeSlotId;
@@ -38,6 +38,31 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
   ValueNotifier<String> bookingId = ValueNotifier<String>("");
   ValueNotifier<String> useraddressId = ValueNotifier<String>("");
   ValueNotifier<int?> selectedAddressIndex = ValueNotifier<int>(1);
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the default selected slot
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      HomeProvider homeProvider =
+          Provider.of<HomeProvider>(context, listen: false);
+      List<TimeSlot> timeSlot = homeProvider.homeAPIResponse.timeSlot;
+      if (timeSlot.isNotEmpty) {
+        setState(() {
+          _selectedSlotIndex = 0;
+          _selectedTimeSlotId = timeSlot[0].id;
+          _selectedDate = DateTime.now();
+        });
+
+        // Update the BookingProvider with the default selected date and time slot
+        BookingProvider bookingProvider =
+            Provider.of<BookingProvider>(context, listen: false);
+        bookingProvider.bookingDate.value =
+            DateFormat('MMM dd yyyy').format(DateTime.now());
+        bookingProvider.timeSlotId.value = timeSlot[0].id.toString();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +174,6 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                     bookingProvider.bookingDate.value = selectedDateString;
                     bookingProvider.timeSlotId.value = _selectedTimeSlotId!;
 
-                    // ERROR CODE
                     Navigator.pushNamed(
                       context,
                       Routes.SELECT_ADDRESS,
@@ -158,12 +182,6 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                         'selectedDate': bookingProvider.bookingDate.value,
                       },
                     );
-
-                    //TEMPORARY CODE
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => NotificationsView()));
                   } else {
                     Snack.show(
                         content: "No time slot or date selected.",
@@ -172,43 +190,6 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
                         context: context);
                   }
                 },
-                // onTap: () async {
-                //   if (true) {
-                //     // homeController.isLoading.value = true;
-
-                //     try {
-                //       BookingProvider bookingProvider =
-                //           Provider.of<BookingProvider>(context, listen: false);
-                //       String bookingId = bookingProvider.bookingId.value;
-                //       List<String> providerIds = [];
-                //       providerIds.add(bookingProvider
-                //               .bookingAPIResponse?.userDeviceInfo!.userId
-                //               .toString() ??
-                //           '');
-
-                //       String title = 'You have upcomming service';
-                //       String body = 'Do you want to accept?';
-
-                //       Map<String, dynamic> data = {
-                //         //booking_id
-                //         'request_id':
-                //             bookingId.toString().trim(), // Example request ID
-
-                //         // optional
-                //         'user_name': 'John Doe', // Example user name
-                //       };
-                //       String screen =
-                //           'providerScreen'; // Specify the screen to open
-
-                //       await _cloudFunctionService.sendNotificationToProviders(
-                //           providerIds, title, body, screen, data);
-                //       Provider.of<PollingProvider>(context, listen: false)
-                //           .startPolling(bookingId);
-                //     } catch (error) {
-                //       print("Error sending notification: $error");
-                //     }
-                //   }
-                // },
               )
             ],
           ),
