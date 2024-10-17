@@ -66,7 +66,7 @@ class SignUpProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> callCreateAccountApi() async {
+  Future<bool> callCreateAccountApi(BuildContext context) async {
     isLoading.value = true;
     final body = {
       "username": nameController.text,
@@ -81,18 +81,9 @@ class SignUpProvider with ChangeNotifier {
     };
     try {
       CreateAccountResponse response =
-          await ApiHandler().callCreateAccountApi(body);
-      isLoading.value = false;
+          await ApiHandler().callCreateAccountApi(body, context);
       if (response.success!) {
         return true;
-      } else if (response.success! && response.user != null) {
-        sId.value = response.user!.sId!;
-        // callUserDeviceInformation();
-        Snack.show(
-            content: "User Already Exists",
-            snackType: SnackType.info,
-            behavior: SnackBarBehavior.floating);
-        return false;
       } else {
         return false;
       }
