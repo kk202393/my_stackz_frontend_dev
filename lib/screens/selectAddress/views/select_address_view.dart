@@ -3,6 +3,7 @@ import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
+import 'package:my_stackz/screens/selectAddress/views/add_new_address.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
@@ -11,8 +12,8 @@ import 'package:provider/provider.dart';
 
 import '../../login/provider/login_provider.dart';
 
-class SelectAddressView extends StatelessWidget {
-  SelectAddressView({
+class SelectAddressView extends StatefulWidget {
+  const SelectAddressView({
     Key? key,
     required this.selectedTimeSlotId,
     required this.selectedDate,
@@ -20,16 +21,27 @@ class SelectAddressView extends StatelessWidget {
 
   final String selectedTimeSlotId;
   final String selectedDate;
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    LoginProvider loginProvider =
-        Provider.of<LoginProvider>(context, listen: false);
-    BookingProvider bookingProvider =
-        Provider.of<BookingProvider>(context, listen: false);
 
-    final userAddressList =
-        loginProvider.logInAPIResponse?.userAddress?.first.addresses ?? [];
+  @override
+  _SelectAddressViewState createState() => _SelectAddressViewState();
+}
+
+class _SelectAddressViewState extends State<SelectAddressView> {
+  late LoginProvider loginProvider;
+  late BookingProvider bookingProvider;
+  late List<dynamic> userAddressList;
+
+  @override
+  void initState() {
+    super.initState();
+    loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+
+    // Initialize the address list
+    userAddressList =
+        (loginProvider.logInAPIResponse?.userAddress?.isNotEmpty ?? false)
+            ? loginProvider.logInAPIResponse!.userAddress!.first.addresses ?? []
+            : [];
 
     final defaultAddressIndex =
         userAddressList.indexWhere((address) => address.isDefault);
@@ -37,11 +49,56 @@ class SelectAddressView extends StatelessWidget {
         bookingProvider.selectedAddressIndex.value == null) {
       bookingProvider.selectedAddressIndex.value = defaultAddressIndex;
     }
+  }
+
+  void showAddressForm(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 16.0,
+            right: 16.0,
+            top: 16.0,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+          ),
+          child: Wrap(
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AddressForm(onFormSubmitted: (updatedAddressList) {
+                    setState(() {
+                      userAddressList = updatedAddressList;
+                    });
+                    Navigator.pop(context);
+                  }),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: EdgeInsets.only(
+            left: 15,
+            right: 15,
+            top: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 26.0,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +119,9 @@ class SelectAddressView extends StatelessWidget {
               Row(
                 children: [
                   InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        showAddressForm(context);
+                      },
                       child: const Icon(Icons.add,
                           color: AppColors.black, size: 15)),
                   const SizedBox(width: 20),
@@ -88,13 +147,16 @@ class SelectAddressView extends StatelessWidget {
 
                         return GestureDetector(
                           onTap: () {
-                            if (bookingProvider.selectedAddressIndex.value ==
-                                index) {
-                              bookingProvider.selectedAddressIndex.value = null;
-                            } else {
-                              bookingProvider.selectedAddressIndex.value =
-                                  index;
-                            }
+                            setState(() {
+                              if (bookingProvider.selectedAddressIndex.value ==
+                                  index) {
+                                bookingProvider.selectedAddressIndex.value =
+                                    null;
+                              } else {
+                                bookingProvider.selectedAddressIndex.value =
+                                    index;
+                              }
+                            });
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -168,11 +230,6 @@ class SelectAddressView extends StatelessWidget {
 
                     String selectedTimeSlotId =
                         bookingProvider.timeSlotId.value;
-                    // DateTime? selectedDate =
-                    //     bookingProvider.bookingDate.value.isNotEmpty
-                    //         ? DateFormat('MMM dd yyyy')
-                    //             .parse(bookingProvider.bookingDate.value)
-                    //         : null;
 
                     if (selectedTimeSlotId.isNotEmpty) {
                       Navigator.pushNamed(
@@ -181,7 +238,6 @@ class SelectAddressView extends StatelessWidget {
                         arguments: {
                           'selectedAddress': selectedAddress,
                           'selectedTimeSlotId': selectedTimeSlotId,
-                          // 'selectedDate': selectedDate,
                         },
                       );
                     } else {

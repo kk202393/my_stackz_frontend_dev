@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/screens/signUp/provider/sign_up_Provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +11,8 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SignUpProvider controller = Provider.of<SignUpProvider>(context, listen: false);
+    SignUpProvider controller =
+        Provider.of<SignUpProvider>(context, listen: false);
     return Form(
       key: controller.formKey,
       child: Column(
@@ -30,13 +29,18 @@ class SignUpForm extends StatelessWidget {
             validator: (value) => InputValidator.isValidEmail(value),
           ),
           const SizedBox(height: 20),
-          AppFormField(
-                controller: controller.passwordController,
-                obscureText: controller.obscureText.value,
-                hintText: StringConstants.enterPassword,
-                onTapSuffixIcon: () => controller.onChangePasswordVisibility(),
-                validator: (value) => InputValidator.isValidPassword(value),
-              ),
+          ValueListenableBuilder(
+              valueListenable: controller.obscureText,
+              builder: (context, obscureText, child) {
+                return AppFormField(
+                  controller: controller.passwordController,
+                  obscureText: controller.obscureText.value,
+                  hintText: StringConstants.enterPassword,
+                  onTapSuffixIcon: () =>
+                      controller.onChangePasswordVisibility(),
+                  validator: (value) => InputValidator.isValidPassword(value),
+                );
+              }),
           const SizedBox(height: 20),
           AppFormField(
             controller: controller.phoneController,

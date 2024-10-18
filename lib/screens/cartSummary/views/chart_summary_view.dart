@@ -463,7 +463,7 @@ class CartSummaryView extends StatelessWidget {
                                                     ?.userDeviceInfo!
                                                     .userId
                                                     .toString() ??
-                                                '');
+                                                '670cb3281cfb1c9d3cf0c0fb');
                                             String title =
                                                 'You have an upcoming service';
                                             String body =
@@ -471,13 +471,14 @@ class CartSummaryView extends StatelessWidget {
 
                                             // Additional data that needs to be passed along with the notification
                                             Map<String, dynamic> data = {
-                                              //booking_id
+                                              // booking_id
                                               'request_id': bookingProvider
-                                                  .bookingAPIResponse!
-                                                  .consumerOrderDetails!
-                                                  .bookingId
-                                                  .toString()
-                                                  .trim(), // Example request ID
+                                                      .bookingAPIResponse
+                                                      ?.consumerOrderDetails
+                                                      ?.bookingId
+                                                      ?.toString()
+                                                      ?.trim() ??
+                                                  'CMS0003', // Example request ID
 
                                               // optional
                                               'user_name':
@@ -510,7 +511,6 @@ class CartSummaryView extends StatelessWidget {
                                             print(
                                                 'Error sending notification: $e');
                                           }
-                                          // polling api
 
                                           // Navigator.pushNamed(
                                           //     context, Routes.BOOKING_DETAILS);
