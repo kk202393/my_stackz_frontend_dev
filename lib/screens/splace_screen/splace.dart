@@ -10,56 +10,47 @@ import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-class SplaceScreen extends StatelessWidget {
+class SplaceScreen extends StatefulWidget {
   const SplaceScreen({super.key});
+
+  @override
+  State<SplaceScreen> createState() => _SplaceScreenState();
+}
+
+class _SplaceScreenState extends State<SplaceScreen> {
+  @override
+  void initState() {
+    _handleLoading(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: Column(
-        children: [
-          Expanded(
-            flex: 3,
-            child: Align(
-              alignment: Alignment.center,
-              child: TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 350.0, end: 160.0),
-                duration: const Duration(milliseconds: 3000),
-                curve: Curves.easeInOut,
-                builder: (BuildContext context, double value, Widget? child) {
-                  return Image.asset(
-                    AppImages.newLogo,
-                    fit: BoxFit.fill,
-                    width: value,
-                  );
-                },
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: FutureBuilder<void>(
-              future: _handleLoading(context),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  return const SizedBox.shrink();
-                }
+      body: Center(
+        child: TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 180.0, end: 420.0),
+              duration: const Duration(milliseconds: 2400),
+              curve: Curves.bounceOut,
+              builder: (BuildContext context, double value, Widget? child) {
+                return Image.asset(
+                  AppImages.newLogo,
+                  fit: BoxFit.fill,
+                  width: value,
+                );
               },
             ),
-          ),
-        ],
       ),
     );
   }
 
   Future<void> _handleLoading(BuildContext context) async {
-    await Future.delayed(const Duration(milliseconds: 1500));
-    await _readTokenAndNavigate(context);
+    await Future.delayed(const Duration(milliseconds: 2500)).then(
+      (value) {
+        _readTokenAndNavigate(context);
+      },
+    );
   }
 
   Future<void> _readTokenAndNavigate(BuildContext context) async {

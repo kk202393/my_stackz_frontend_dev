@@ -136,20 +136,20 @@ class _MyStackzState extends State<MyStackz> {
     //   },
     // );
     _fcmService.initialize(context);
-    _checkAuth();
+    // _checkAuth();
   }
 
-  void _checkAuth() async {
-    token = await Utils().ReadToken();
+  // void _checkAuth() async {
+  //   token = await Utils().ReadToken();
 
-    if (token == null) {
-      // Redirect to login if no token
-      navigatorKey.currentState?.pushNamed(Routes.LOGIN);
-    } else {
-      // Redirect to home if authenticated
-      navigatorKey.currentState?.pushNamed(Routes.HOME);
-    }
-  }
+  //   if (token == null) {
+  //     // Redirect to login if no token
+  //     navigatorKey.currentState?.pushNamed(Routes.LOGIN);
+  //   } else {
+  //     // Redirect to home if authenticated
+  //     navigatorKey.currentState?.pushNamed(Routes.HOME);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
