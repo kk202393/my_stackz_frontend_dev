@@ -130,12 +130,14 @@ class StringConstants {
   static const String bookingDetails = "Booking Details";
   static const String serviceLocation = "Service Location";
   static const String timings = "Timings";
-  static const String loremIpsum = "Lorem Ipsum is the dummy text of the printing";
+  static const String loremIpsum =
+      "Lorem Ipsum is the dummy text of the printing";
   static const String topPicks = "Top Picks For You";
   static const String payViaCreditCard = "Pay via credit card";
   static const String balance = "Balance";
   static const String transferMoney = "Transfer Money";
   static const String cartSummary = "Cart Summary";
-  static const String typeServiceCategory= "Type Service Category";
-
+  static const String typeServiceCategory = "Type Service Category";
+  static const String city = 'city';
+  static const String pincode = 'pincode';
 }

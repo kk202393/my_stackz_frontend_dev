@@ -1,10 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/dio_client.dart';
-import 'package:my_stackz/api/error_handler.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/models/consumer_booking_response.dart';
@@ -12,6 +10,7 @@ import 'package:my_stackz/models/forget_password_response.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
+
 import '../constants/app_constants.dart';
 import '../models/change_password_response.dart';
 import '../models/home_page_response.dart';
@@ -19,9 +18,7 @@ import '../models/login_response.dart';
 import '../models/logout_response.dart';
 import '../models/reset_password_response.dart';
 import '../models/sign_up_response.dart';
-import '../models/user_device_information_response.dart';
 import '../utils/shared_preferences.dart';
-import '../widgets/snack_bar.dart';
 import 'urls.dart';
 
 class ApiHandler {
@@ -63,6 +60,32 @@ class ApiHandler {
     } on DioException catch (e) {
       debugPrint("Login API exception $e");
       _handleError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>?> callCreateNewAddressApi(
+      Map<String, dynamic> body) async {
+    try {
+      if (dio == null) initDio();
+      String? token = await Utils().ReadToken();
+      Response response = await DioClient().postData(
+        url: AppURLs.createNewAddress,
+        header: <String, String>{
+          'Authorization': 'Bearer $token',
+        },
+        data: body,
+      );
+      print("Address API ${response.data}");
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        return response.data;
+      } else {
+        return null;
+      }
+    } on DioException catch (e) {
+      debugPrint("Address API exception $e");
+      _handleError(e);
+      return null;
     }
   }
 

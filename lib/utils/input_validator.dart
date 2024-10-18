@@ -54,4 +54,33 @@ class InputValidator {
       return null;
     }
   }
+
+  static String? validateAddress(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter the address';
+    } else if (value.length < 3) {
+      return 'Address must be least 3 characters long.';
+    }
+    return null;
+  }
+
+  static String? validateCity(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter the city';
+    } else if (!RegExp(r"^[a-zA-Z\s]+$")
+        .hasMatch(value)) // city must have only alphabets and spaces
+    {
+      return 'City name should only contain alphabets';
+    }
+    return null;
+  }
+
+  static String? validatePincode(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter the pincode.';
+    } else if (!RegExp(r"^\d{6}$").hasMatch(value)) {
+      return 'Pincode must be a 6-digit number';
+    }
+    return null;
+  }
 }

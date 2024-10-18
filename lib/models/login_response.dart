@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class LoginResponse {
   final bool success;
   final String message;
