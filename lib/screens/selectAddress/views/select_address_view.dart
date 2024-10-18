@@ -64,22 +64,35 @@ class _SelectAddressViewState extends State<SelectAddressView> {
             left: 16.0,
             right: 16.0,
             top: 16.0,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
           ),
-          child: Wrap(
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AddressForm(onFormSubmitted: (updatedAddressList) {
-                    setState(() {
-                      userAddressList = updatedAddressList;
-                    });
-                    Navigator.pop(context);
-                  }),
-                ],
-              ),
-            ],
+          child: SafeArea(
+            child: DraggableScrollableSheet(
+              expand: false,
+              minChildSize: 0.5,
+              maxChildSize: 0.95,
+              initialChildSize: 0.6,
+              builder: (context, scrollController) {
+                return SingleChildScrollView(
+                  controller: scrollController,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AddressForm(onFormSubmitted: (updatedAddressList) {
+                          setState(() {
+                            userAddressList = updatedAddressList;
+                          });
+                          Navigator.pop(context);
+                        }),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         );
       },

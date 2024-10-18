@@ -111,92 +111,53 @@ class _AddressFormState extends State<AddressForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextFormField(
+            decoration: const InputDecoration(
+              hintText: StringConstants.address,
+            ),
+            validator: (value) => InputValidator.validateAddress(value),
+            onSaved: (value) {
+              _enteredAddress = value!;
+            },
           ),
-          child: Column(
-            children: [
-              TextFormField(
-                initialValue: _enteredAddress.toString(),
-                decoration: const InputDecoration(
-                  hintText: StringConstants.address,
-                ),
-                validator: (value) => InputValidator.validateAddress(value),
-                onSaved: (value) {
-                  _enteredAddress = value!;
-                },
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              TextFormField(
-                initialValue: _enteredCity.toString(),
-                decoration: const InputDecoration(
-                  hintText: StringConstants.city,
-                ),
-                validator: (value) => InputValidator.validateCity(value),
-                onSaved: (value) {
-                  _enteredCity = value!;
-                },
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              TextFormField(
-                initialValue: _enteredPincode.toString(),
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  hintText: StringConstants.pincode,
-                ),
-                validator: (value) => InputValidator.validatePincode(value),
-                onSaved: (value) {
-                  _enteredPincode = value!;
-                },
-                maxLength: 6,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: resetForm,
-                      child: const Text(
-                        'Reset',
-                        style: TextStyle(color: Colors.red),
-                      ),
+          TextFormField(
+            decoration: const InputDecoration(
+              hintText: StringConstants.city,
+            ),
+            validator: (value) => InputValidator.validateCity(value),
+            onSaved: (value) {
+              _enteredCity = value!;
+            },
+          ),
+          TextFormField(
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              hintText: StringConstants.pincode,
+            ),
+            validator: (value) => InputValidator.validatePincode(value),
+            onSaved: (value) {
+              _enteredPincode = value!;
+            },
+          ),
+          const SizedBox(height: 20.0),
+          _isLoading
+              ? CircularProgressIndicator()
+              : ElevatedButton(
+                  onPressed: saveAddress,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Add Address',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              _isLoading
-                  ? CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: saveAddress,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.65,
-                        child: Text(
-                          'Add Address',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-              const SizedBox(height: 20.0),
-            ],
-          ),
-        ),
+                ),
+          const SizedBox(height: 20.0),
+        ],
       ),
     );
   }
