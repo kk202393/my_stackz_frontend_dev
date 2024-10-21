@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
+import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
+import 'package:my_stackz/screens/selectAddress/provider/select_address_provider.dart';
 import 'package:my_stackz/screens/selectAddress/views/add_new_address.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
 import 'package:my_stackz/widgets/app_divider.dart';
@@ -29,25 +31,30 @@ class SelectAddressView extends StatefulWidget {
 class _SelectAddressViewState extends State<SelectAddressView> {
   late LoginProvider loginProvider;
   late BookingProvider bookingProvider;
-  late List<dynamic> userAddressList;
+  late SelectAddressProvider selectAddressProvider;
 
   @override
   void initState() {
     super.initState();
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+    selectAddressProvider =
+        Provider.of<SelectAddressProvider>(context, listen: false);
 
-    // Initialize the address list
-    userAddressList =
-        (loginProvider.logInAPIResponse?.userAddress?.isNotEmpty ?? false)
-            ? loginProvider.logInAPIResponse!.userAddress!.first.addresses ?? []
-            : [];
+    // Initialize the address list from the loginProvider
+    // final userAddresses =
+    //     loginProvider.logInAPIResponse?.userAddress?.first.addresses ?? [];
+    final userAddresses = loginProvider.addressList ?? [];
 
+    selectAddressProvider.setUserAddressList(userAddresses.cast<Address>());
+
+    // Set default address index if not already set in bookingProvider
     final defaultAddressIndex =
-        userAddressList.indexWhere((address) => address.isDefault);
+        userAddresses.indexWhere((address) => address.isDefault);
     if (defaultAddressIndex != -1 &&
         bookingProvider.selectedAddressIndex.value == null) {
       bookingProvider.selectedAddressIndex.value = defaultAddressIndex;
+      selectAddressProvider.setSelectedAddressIndex(defaultAddressIndex);
     }
   }
 
@@ -64,22 +71,36 @@ class _SelectAddressViewState extends State<SelectAddressView> {
             left: 16.0,
             right: 16.0,
             top: 16.0,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
           ),
-          child: Wrap(
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AddressForm(onFormSubmitted: (updatedAddressList) {
-                    setState(() {
-                      userAddressList = updatedAddressList;
-                    });
-                    Navigator.pop(context);
-                  }),
-                ],
-              ),
-            ],
+          child: SafeArea(
+            child: DraggableScrollableSheet(
+              expand: false,
+              minChildSize: 0.5,
+              maxChildSize: 0.95,
+              initialChildSize: 0.6,
+              builder: (context, scrollController) {
+                return SingleChildScrollView(
+                  controller: scrollController,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AddressForm(onFormSubmitted: (updatedAddressList) {
+                          selectAddressProvider
+                              .updatedAddressList(updatedAddressList);
+                          loginProvider.setAddressList(updatedAddressList);
+
+                          Navigator.pop(context);
+                        }),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         );
       },
@@ -92,71 +113,64 @@ class _SelectAddressViewState extends State<SelectAddressView> {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(
-            left: 15,
-            right: 15,
-            top: 10,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 26.0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+        child: Consumer<SelectAddressProvider>(
+          builder: (context, selectAddressProvider, child) {
+            return SingleChildScrollView(
+              padding: EdgeInsets.only(
+                left: 15,
+                right: 15,
+                top: 10,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 26.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InkWell(
-                    onTap: () => Navigator.pop(context),
-                    child: const Icon(Icons.chevron_left_outlined,
-                        size: 30, color: AppColors.pineTree),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () => Navigator.pop(context),
+                        child: const Icon(Icons.chevron_left_outlined,
+                            size: 30, color: AppColors.pineTree),
+                      ),
+                      SizedBox(width: width * 0.15),
+                      TextWidget(
+                          text: "Select Address", style: context.headlineSmall)
+                    ],
                   ),
-                  SizedBox(width: width * 0.15),
-                  TextWidget(
-                      text: "Select Address", style: context.headlineSmall)
-                ],
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  InkWell(
-                      onTap: () {
-                        showAddressForm(context);
-                      },
-                      child: const Icon(Icons.add,
-                          color: AppColors.black, size: 15)),
-                  const SizedBox(width: 20),
-                  TextWidget(
-                      text: StringConstants.addNewAddress,
-                      style: context.headlineSmall),
-                ],
-              ),
-              const SizedBox(height: 10),
-              AppDivider(width: width),
-              const SizedBox(height: 10),
-              if (userAddressList.isNotEmpty)
-                ValueListenableBuilder<int?>(
-                  valueListenable: bookingProvider.selectedAddressIndex,
-                  builder: (context, selectedIndex, child) {
-                    return ListView.builder(
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      InkWell(
+                          onTap: () {
+                            showAddressForm(context);
+                          },
+                          child: const Icon(Icons.add,
+                              color: AppColors.black, size: 15)),
+                      const SizedBox(width: 20),
+                      TextWidget(
+                          text: StringConstants.addNewAddress,
+                          style: context.headlineSmall),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  AppDivider(width: width),
+                  const SizedBox(height: 10),
+                  if (selectAddressProvider.userAddressList.isNotEmpty)
+                    ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: userAddressList.length,
+                      itemCount: selectAddressProvider.userAddressList.length,
                       itemBuilder: (context, index) {
-                        final address = userAddressList[index];
-                        final isSelected = selectedIndex == index;
+                        final address =
+                            selectAddressProvider.userAddressList[index];
+                        final isSelected =
+                            selectAddressProvider.selectedAddressIndex == index;
 
                         return GestureDetector(
                           onTap: () {
-                            setState(() {
-                              if (bookingProvider.selectedAddressIndex.value ==
-                                  index) {
-                                bookingProvider.selectedAddressIndex.value =
-                                    null;
-                              } else {
-                                bookingProvider.selectedAddressIndex.value =
-                                    index;
-                              }
-                            });
+                            selectAddressProvider.setSelectedAddressIndex(
+                                isSelected ? -1 : index);
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -213,51 +227,53 @@ class _SelectAddressViewState extends State<SelectAddressView> {
                           ),
                         );
                       },
-                    );
-                  },
-                )
-              else
-                const TextWidget(
-                    text: 'No addresses found',
-                    style: TextStyle(color: AppColors.gray)),
-              const SizedBox(height: 50),
-              ButtonWidget(
-                buttonText: 'Continue',
-                onTap: () {
-                  if (bookingProvider.selectedAddressIndex.value != null) {
-                    final selectedAddress = userAddressList[
-                        bookingProvider.selectedAddressIndex.value!];
+                    )
+                  else
+                    const TextWidget(
+                        text: 'No addresses found',
+                        style: TextStyle(color: AppColors.gray)),
+                  const SizedBox(height: 50),
+                  ButtonWidget(
+                    buttonText: 'Continue',
+                    onTap: () {
+                      if (selectAddressProvider.selectedAddressIndex != null) {
+                        final selectedAddress =
+                            selectAddressProvider.userAddressList[
+                                selectAddressProvider.selectedAddressIndex!];
 
-                    String selectedTimeSlotId =
-                        bookingProvider.timeSlotId.value;
+                        String selectedTimeSlotId =
+                            bookingProvider.timeSlotId.value;
 
-                    if (selectedTimeSlotId.isNotEmpty) {
-                      Navigator.pushNamed(
-                        context,
-                        Routes.CART_SUMMARY,
-                        arguments: {
-                          'selectedAddress': selectedAddress,
-                          'selectedTimeSlotId': selectedTimeSlotId,
-                        },
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please select a time slot and date.'),
-                        ),
-                      );
-                    }
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please select an address.'),
-                      ),
-                    );
-                  }
-                },
+                        if (selectedTimeSlotId.isNotEmpty) {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.CART_SUMMARY,
+                            arguments: {
+                              'selectedAddress': selectedAddress,
+                              'selectedTimeSlotId': selectedTimeSlotId,
+                            },
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Please select a time slot and date.'),
+                            ),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please select an address.'),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
