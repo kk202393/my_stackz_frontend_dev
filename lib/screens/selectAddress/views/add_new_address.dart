@@ -77,7 +77,7 @@ class _AddressFormState extends State<AddressForm> {
               ),
               const SizedBox(height: 20.0),
               provider.isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: saveAddress,
                       child: Container(
