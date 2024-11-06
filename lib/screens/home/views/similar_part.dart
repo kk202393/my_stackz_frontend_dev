@@ -49,7 +49,7 @@ class SimilarPart extends StatelessWidget {
                 id: '',
                 isVerified: false,
                 isDefault: false,
-                address: 'No address found',
+                address: ' 24 B CBD Singapore',
                 city: '',
                 pincode: '',
                 longitude: '',
@@ -57,7 +57,7 @@ class SimilarPart extends StatelessWidget {
               ),
             )
             .address
-        : 'No address found';
+        : ' 24 B CBD Singapore';
 
     return Column(
       children: [
@@ -192,8 +192,8 @@ class SimilarPart extends StatelessWidget {
               onTap: () => homeProvider.onArrowClicked(),
               child: Icon(
                 !homeProvider.isArrowClicked.value
-                    ? Icons.keyboard_arrow_up_outlined
-                    : Icons.keyboard_arrow_down_outlined,
+                    ? Icons.keyboard_arrow_down_outlined
+                    : Icons.keyboard_arrow_up_outlined,
                 size: 40,
               ),
             ),

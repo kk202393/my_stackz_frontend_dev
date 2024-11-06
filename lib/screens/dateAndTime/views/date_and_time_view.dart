@@ -163,34 +163,33 @@ class _DateAndTimeViewState extends State<DateAndTimeView> {
               const SizedBox(height: 50),
               ButtonWidget(
                 buttonText: 'Next',
-                onTap: () {
-                  if (_selectedTimeSlotId != null && _selectedDate != null) {
-                    String selectedDateString =
-                        DateFormat('MMM dd yyyy').format(_selectedDate!);
+       onTap: () {
+  if (_selectedTimeSlotId != null && _selectedDate != null) {
+    print('Navigating with time slot ID: $_selectedTimeSlotId and date: $_selectedDate');
+    // Ensure that the date formatting works correctly
+    String selectedDateString = DateFormat('MMM dd yyyy').format(_selectedDate!);
 
-                    BookingProvider bookingProvider =
-                        Provider.of<BookingProvider>(context, listen: false);
+    BookingProvider bookingProvider = Provider.of<BookingProvider>(context, listen: false);
+    bookingProvider.bookingDate.value = selectedDateString;
+    bookingProvider.timeSlotId.value = _selectedTimeSlotId!;
 
-                    bookingProvider.bookingDate.value = selectedDateString;
-                    bookingProvider.timeSlotId.value = _selectedTimeSlotId!;
-
-                    Navigator.pushNamed(
-                      context,
-                      Routes.SELECT_ADDRESS,
-                      arguments: {
-                        'selectedTimeSlotId': bookingProvider.timeSlotId.value,
-                        'selectedDate': bookingProvider.bookingDate.value,
-                      },
-                    );
-                  } else {
-                    Snack.show(
-                        content: "No time slot or date selected.",
-                        snackType: SnackType.error,
-                        behavior: SnackBarBehavior.floating,
-                        context: context);
-                  }
-                },
-              )
+    Navigator.pushNamed(
+      context,
+      Routes.SELECT_ADDRESS,
+      arguments: {
+        'selectedTimeSlotId': bookingProvider.timeSlotId.value,
+        'selectedDate': bookingProvider.bookingDate.value,
+      },
+    );
+  } else {
+    Snack.show(
+        content: "No time slot or date selected.",
+        snackType: SnackType.error,
+        behavior: SnackBarBehavior.floating,
+        context: context);
+  }
+},
+       )
             ],
           ),
         ),
