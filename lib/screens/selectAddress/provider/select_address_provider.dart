@@ -13,7 +13,7 @@ class SelectAddressProvider with ChangeNotifier {
 
   void setUserAddressList(List<Address> addresses) {
     _userAddressList = addresses;
-    notifyListeners();
+  //  notifyListeners();
   }
 
   void setSelectedAddressIndex(int index) {
@@ -41,38 +41,20 @@ class SelectAddressProvider with ChangeNotifier {
     try {
       final response = await ApiHandler().callCreateNewAddressApi(body);
       if (response != null && response['success'] == true) {
-        List<Address> addresses = (response['userAddress']['addresses'] as List)
-            .map((addressJson) => Address.fromJson(addressJson))
-            .toList();
-        _userAddressList = addresses;
-        notifyListeners();
-      } else if (response != null && response['success'] == false) {
-        String errorMessage =
-            response['message'] ?? "Failed to add address. Please try again.";
-        DialogHelper().showSnackBar(
-          context: context,
-          msg: errorMessage,
-          backgroundColor: Colors.red.shade600,
-        );
-        throw Exception(errorMessage);
+        if (response['userAddress'] != null &&
+            response['userAddress']['addresses'] != null) {
+          List<Address> addresses = (response['userAddress']['addresses'] as List)
+              .map((addressJson) => Address.fromJson(addressJson))
+              .toList();
+          _userAddressList = addresses;
+          notifyListeners();
+        }
       } else {
-        String errorMessage = "Failed to add address. Please try again.";
-        DialogHelper().showSnackBar(
-          context: context,
-          msg: errorMessage,
-          backgroundColor: Colors.red.shade600,
-        );
-        throw Exception(errorMessage);
+        String errorMessage = response?['message'] ?? "Failed to add address. Please try again.";
+        _showSnackBar(context, errorMessage, Colors.red.shade600);
       }
     } catch (e) {
-      String errorMessage = "You can create only 10 addresses";
-
-      DialogHelper().showSnackBar(
-        context: context,
-        msg: errorMessage,
-        backgroundColor: Colors.red.shade600,
-      );
-      _showErrorMessage(errorMessage);
+      _showSnackBar(context, "You can create only 10 addresses", Colors.red.shade600);
     } finally {
       _setLoading(false);
     }
@@ -83,19 +65,9 @@ class SelectAddressProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void _showErrorMessage(String message) {
-    debugPrint(message);
-  }
-}
-
-class DialogHelper {
-  void showSnackBar({
-    required BuildContext context,
-    required String msg,
-    required Color backgroundColor,
-  }) {
+  void _showSnackBar(BuildContext context, String message, Color backgroundColor) {
     final snackBar = SnackBar(
-      content: Text(msg),
+      content: Text(message),
       backgroundColor: backgroundColor,
       behavior: SnackBarBehavior.floating,
     );

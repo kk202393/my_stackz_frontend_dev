@@ -25,7 +25,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LoginProvider controller =
-        Provider.of<LoginProvider>(context, listen: false);
+        Provider.of<LoginProvider>(context, listen: true);
 
     return Consumer<HomeProvider>(
       builder:

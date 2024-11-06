@@ -49,7 +49,7 @@ abstract class _Paths {
   static const CLEANING = '/cleaning';
   static const AIRCON_SERVICES = '/aircon-services';
   static const HANDYMAN = '/handyman';
-  static const FORGOT_PASSWORD = '/forgot-password';
+  static const FORGOT_PASSWORD = '/forgetpassword';
   static const RESET_PASSWORD = '/reset-password';
   static const BOOKING = '/booking';
   static const CLEANING_DETAILS = '/cleaning-details';
