@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_images.dart';
-import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/resetPassword/views/reset_password.dart';
 
-class ForgetPassword extends StatelessWidget {
-  const ForgetPassword({super.key});
+
+class Emailverification extends StatelessWidget {
+  const Emailverification({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
                 children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              width: 187.68,
-              height: 75.23,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(AppImages.newLogo),
-                ),
+          Container(
+            width: 187.68,
+            height: 75.23,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(AppImages.newLogo),
               ),
             ),
           ),
           SizedBox(
-            height: 100,
+            height: 80,
           ),
           Container(
             width: double.infinity,
@@ -35,15 +33,27 @@ class ForgetPassword extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      'Forgot your Password?',
+                      'You must’ve received a 6 digit', 
                       style: TextStyle(
                           color: Color(0xFF0000000),
                           fontWeight: FontWeight.w700,
                           fontSize: 18),
                     ),
-                    SizedBox(height: 20),
+                     SizedBox(
+                  height: 20,
+                ),
+                     Text(
+                      'code on your mail',
+                      style: TextStyle(
+                          color: Color(0xFF0000000),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18),
+                    ),
+                     SizedBox(
+                  height: 20,
+                ),
                       Text(
-                  'Enter your email ',
+                  ' Enter verification code ',
                   style: TextStyle(
                       color: Color(0xFF0000000),
                       fontWeight: FontWeight.w400,
@@ -57,6 +67,7 @@ class ForgetPassword extends StatelessWidget {
                   child: Column(
                     children: [
                       TextField(
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -64,17 +75,18 @@ class ForgetPassword extends StatelessWidget {
                                 color: Color(0xFFE0E0E0),
                                 width: 1.0,
                               )),
-                          labelText: 'email@domain.com',labelStyle: TextStyle(fontSize: 20),
-                          fillColor: Color(0xFF828282),
+                        
                         ),
                       ),
                       SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                   InkWell(
                     onTap: () {
-                       Navigator.pushNamed(
-                                             context, Routes.RESET_PASSWORD);
+                       Navigator.push(
+                    context,
+                   MaterialPageRoute(builder: (context) => ResetPassword()),
+                  );
                     },
                     child: Container(
                      height: 40,
@@ -85,7 +97,7 @@ class ForgetPassword extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          'Next',
+                          'Submit',
                           style: TextStyle(
                               color: Color(0xFFFFFFFF),
                               fontSize: 14,
@@ -102,7 +114,6 @@ class ForgetPassword extends StatelessWidget {
               
                   ],
                 ),
-          
                 SizedBox(
                   height: 20,
                 ),
@@ -123,37 +134,37 @@ class ForgetPassword extends StatelessWidget {
                             style: TextStyle(
                               color: Color(0xFF828282),
                               fontWeight: FontWeight.w400,
-                              fontSize: 15,
+                              fontSize: 12,
                             ),
                           ),
                           TextSpan(
                             text: 'Terms of Service ',
                             style: TextStyle(
                               color: Color(
-                                  0xFF000000), // Change this to desired color
+                                  0xFF000000), 
                               fontWeight: FontWeight
-                                  .w400, // Change this to desired font weight
-                              fontSize: 15,
+                                  .w400, 
+                              fontSize: 12,
                             ),
                           ),
                           TextSpan(
                             text: 'and \n',
                             style: TextStyle(
                               color: Color(
-                                  0xFF828282), // Change this to desired color
+                                  0xFF828282), 
                               fontWeight: FontWeight
-                                  .w400, // Change this to desired font weight
-                              fontSize: 15,
+                                  .w400, 
+                              fontSize: 12,
                             ),
                           ),
                           TextSpan(
                             text: 'Privacy Policy',
                             style: TextStyle(
                               color: Color(
-                                  0xFF000000), // Change this to desired color
+                                  0xFF000000), 
                               fontWeight: FontWeight
-                                  .w400, // Change this to desired font weight
-                              fontSize: 15,
+                                  .w400, 
+                              fontSize: 12,
                             ),
                           ),
                         ],

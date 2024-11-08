@@ -3,6 +3,7 @@ import 'package:my_stackz/models/login_response.dart';
 import 'package:my_stackz/screens/additionalDetails/views/additional_details_view.dart';
 import 'package:my_stackz/screens/airconServices/views/aircon_view.dart';
 import 'package:my_stackz/screens/cartSummary/views/chart_summary_view.dart';
+import 'package:my_stackz/screens/emailverification/views/emailverification.dart';
 import 'package:my_stackz/screens/forgetpassword/view/forgetpassword.dart';
 import 'package:my_stackz/screens/googleMap/view/google_map.dart';
 import 'package:my_stackz/screens/handyman/views/handyman_view.dart';
@@ -149,7 +150,7 @@ class AppPages {
          case Routes.RESET_PASSWORD:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => const ResetPasswordView(),
+          builder: (_) => const Emailverification(),
         );
       case Routes.CART_SUMMARY:
         final Map<String, dynamic> args =
