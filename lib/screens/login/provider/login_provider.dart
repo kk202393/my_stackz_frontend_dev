@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -56,11 +58,15 @@ class LoginProvider with ChangeNotifier {
 
   Future<bool> getMyProfile(BuildContext context) async {
     String? token = await Utils().ReadToken();
-    if (token == null) {
+    try {
+      if (token == null) {
+        return false;
+      }
+      _response = await ApiHandler().callViewProfileApi(token, context);
+      return _response!.success;
+    } catch (e) {
       return false;
     }
-    _response = await ApiHandler().callViewProfileApi(token);
-    return _response!.success;
   }
 
   Future<bool> callLoginApi(homeController, BuildContext context) async {
