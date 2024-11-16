@@ -35,7 +35,7 @@ class AppPages {
       case Routes.SPLACE:
         return MaterialPageRoute(
           settings: setting,
-          builder: (_) => SplaceScreen(),
+          builder: (_) => const SplaceScreen(),
         );
       case Routes.HOME:
         return MaterialPageRoute(
