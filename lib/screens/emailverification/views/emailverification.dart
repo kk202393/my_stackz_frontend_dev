@@ -10,20 +10,23 @@ class Emailverification extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only( top:  15.0,left: 15,right: 15),
           child: Column(
                 children: [
-          Container(
-            width: 187.68,
-            height: 75.23,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppImages.newLogo),
+          Padding(
+            padding: const EdgeInsets.only( top:  20.0,left: 20,right: 20),
+            child: Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(AppImages.newLogo),
+                ),
               ),
             ),
           ),
           SizedBox(
-            height: 80,
+            height: 50,
           ),
           Container(
             width: double.infinity,
@@ -37,30 +40,28 @@ class Emailverification extends StatelessWidget {
                       style: TextStyle(
                           color: Color(0xFF0000000),
                           fontWeight: FontWeight.w700,
-                          fontSize: 18),
+                          fontSize: 20),
                     ),
-                     SizedBox(
-                  height: 20,
-                ),
+                
                      Text(
                       'code on your mail',
                       style: TextStyle(
                           color: Color(0xFF0000000),
                           fontWeight: FontWeight.w700,
-                          fontSize: 18),
+                          fontSize: 20),
                     ),
                      SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                       Text(
                   ' Enter verification code ',
                   style: TextStyle(
                       color: Color(0xFF0000000),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                  Container(
                   width: 327,
@@ -69,6 +70,7 @@ class Emailverification extends StatelessWidget {
                       TextField(
                         obscureText: true,
                         decoration: InputDecoration(
+                          hintText: "verification code",hintStyle: TextStyle(fontSize: 16),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
                               borderSide: BorderSide(
@@ -115,60 +117,53 @@ class Emailverification extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
-                Container(
-                  width: 327,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF),
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'By clicking continue, you agree to our ',
-                            style: TextStyle(
-                              color: Color(0xFF828282),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                            ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'By clicking continue, you agree to our ',
+                          style: TextStyle(
+                            color: Color(0xFF828282),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
                           ),
-                          TextSpan(
-                            text: 'Terms of Service ',
-                            style: TextStyle(
-                              color: Color(
-                                  0xFF000000), 
-                              fontWeight: FontWeight
-                                  .w400, 
-                              fontSize: 12,
-                            ),
+                        ),
+                        TextSpan(
+                          text: 'Terms of Service ',
+                          style: TextStyle(
+                            color: Color(
+                                0xFF000000), 
+                            fontWeight: FontWeight
+                                .w400, 
+                            fontSize: 12,
                           ),
-                          TextSpan(
-                            text: 'and \n',
-                            style: TextStyle(
-                              color: Color(
-                                  0xFF828282), 
-                              fontWeight: FontWeight
-                                  .w400, 
-                              fontSize: 12,
-                            ),
+                        ),
+                        TextSpan(
+                          text: 'and \n',
+                          style: TextStyle(
+                            color: Color(
+                                0xFF828282), 
+                            fontWeight: FontWeight
+                                .w400, 
+                            fontSize: 12,
                           ),
-                          TextSpan(
-                            text: 'Privacy Policy',
-                            style: TextStyle(
-                              color: Color(
-                                  0xFF000000), 
-                              fontWeight: FontWeight
-                                  .w400, 
-                              fontSize: 12,
-                            ),
+                        ),
+                        TextSpan(
+                          text: 'Privacy Policy',
+                          style: TextStyle(
+                            color: Color(
+                                0xFF000000), 
+                            fontWeight: FontWeight
+                                .w400, 
+                            fontSize: 12,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

@@ -9,7 +9,7 @@ abstract class Routes {
   static const SIGN_UP = _Paths.SIGN_UP;
   static const LOGIN = _Paths.LOGIN;
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
-  static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
+  static const EMAIL_VERIFICATION = _Paths.EMAIL_VERIFICATION;
   static const CLEANING = _Paths.CLEANING;
   static const AIRCON_SERVICES = _Paths.AIRCON_SERVICES;
   static const HANDYMAN = _Paths.HANDYMAN;
@@ -50,7 +50,7 @@ abstract class _Paths {
   static const AIRCON_SERVICES = '/aircon-services';
   static const HANDYMAN = '/handyman';
   static const FORGOT_PASSWORD = '/forgetpassword';
-  static const RESET_PASSWORD = '/reset-password';
+  static const EMAIL_VERIFICATION = '/emailverification';
   static const BOOKING = '/booking';
   static const CLEANING_DETAILS = '/cleaning-details';
   static const ADDITIONAL_DETAILS = '/additional-details';

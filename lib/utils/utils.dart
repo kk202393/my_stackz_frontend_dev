@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -125,6 +126,16 @@ class Utils {
         ),
       ),
     );
+  }
+
+  static void log(Object? o) {
+    assert(() {
+      if (kDebugMode) {
+        print(o);
+      }
+
+      return true;
+    }());
   }
 }
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names

@@ -9,14 +9,14 @@ class ForgetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.only( top:  15.0,left: 15,right: 15),
           child: Column(
                 children: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only( top:  20.0,left: 20,right: 20),
             child: Container(
-              width: 187.68,
-              height: 75.23,
+              width: 150,
+              height: 150,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(AppImages.newLogo),
@@ -25,7 +25,7 @@ class ForgetPassword extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 100,
+            height: 50,
           ),
           Container(
             width: double.infinity,
@@ -39,18 +39,18 @@ class ForgetPassword extends StatelessWidget {
                       style: TextStyle(
                           color: Color(0xFF0000000),
                           fontWeight: FontWeight.w700,
-                          fontSize: 18),
+                          fontSize: 23),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
                       Text(
                   'Enter your email ',
                   style: TextStyle(
                       color: Color(0xFF0000000),
                       fontWeight: FontWeight.w400,
-                      fontSize: 14),
+                      fontSize: 16),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                  Container(
                   width: 327,
@@ -64,17 +64,17 @@ class ForgetPassword extends StatelessWidget {
                                 color: Color(0xFFE0E0E0),
                                 width: 1.0,
                               )),
-                          labelText: 'email@domain.com',labelStyle: TextStyle(fontSize: 20),
+                          labelText: 'email@domain.com',labelStyle: TextStyle(fontSize: 16),
                           fillColor: Color(0xFF828282),
                         ),
                       ),
                       SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                   InkWell(
                     onTap: () {
                        Navigator.pushNamed(
-                                             context, Routes.RESET_PASSWORD);
+                                             context, Routes.EMAIL_VERIFICATION);
                     },
                     child: Container(
                      height: 40,
@@ -88,7 +88,7 @@ class ForgetPassword extends StatelessWidget {
                           'Next',
                           style: TextStyle(
                               color: Color(0xFFFFFFFF),
-                              fontSize: 14,
+                              fontSize: 16,
                               fontWeight: FontWeight.w400),
                     
                         ),
@@ -104,14 +104,12 @@ class ForgetPassword extends StatelessWidget {
                 ),
           
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 Container(
                   width: 327,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF),
-                  ),
+                 // height: 36,
+                  
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
@@ -123,7 +121,7 @@ class ForgetPassword extends StatelessWidget {
                             style: TextStyle(
                               color: Color(0xFF828282),
                               fontWeight: FontWeight.w400,
-                              fontSize: 15,
+                              fontSize: 12,
                             ),
                           ),
                           TextSpan(
@@ -133,17 +131,17 @@ class ForgetPassword extends StatelessWidget {
                                   0xFF000000), // Change this to desired color
                               fontWeight: FontWeight
                                   .w400, // Change this to desired font weight
-                              fontSize: 15,
+                              fontSize: 12,
                             ),
                           ),
                           TextSpan(
-                            text: 'and \n',
+                            text: 'and ',
                             style: TextStyle(
                               color: Color(
                                   0xFF828282), // Change this to desired color
                               fontWeight: FontWeight
                                   .w400, // Change this to desired font weight
-                              fontSize: 15,
+                              fontSize: 12,
                             ),
                           ),
                           TextSpan(
@@ -153,7 +151,7 @@ class ForgetPassword extends StatelessWidget {
                                   0xFF000000), // Change this to desired color
                               fontWeight: FontWeight
                                   .w400, // Change this to desired font weight
-                              fontSize: 15,
+                              fontSize: 12,
                             ),
                           ),
                         ],

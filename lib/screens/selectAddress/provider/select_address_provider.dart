@@ -73,4 +73,16 @@ class SelectAddressProvider with ChangeNotifier {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
+  deleteAddress(BuildContext context) {}
+    void removeAddressAt(int index) {
+    if (index >= 0 && index < _userAddressList.length) {
+      _userAddressList.removeAt(index);
+      notifyListeners();
+    }
+}  void addAddress(Address address) {
+    _userAddressList.add(address);
+    notifyListeners();  // Notify listeners to update the UI
+  }
+
 }
