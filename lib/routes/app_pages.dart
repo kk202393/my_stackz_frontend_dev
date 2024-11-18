@@ -12,6 +12,7 @@ import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/screens/login/views/login_view.dart';
 import 'package:my_stackz/screens/payments/views/payment_view.dart';
 import 'package:my_stackz/screens/provider_screen/views/provider_screen.dart';
+import 'package:my_stackz/screens/setting/views/setting_screen.dart';
 import 'package:my_stackz/screens/signUp/views/sign_up_view.dart';
 import 'package:my_stackz/screens/splace_screen/splace.dart';
 import 'package:my_stackz/widgets/subCatWidget.dart';
@@ -79,6 +80,11 @@ class AppPages {
         return MaterialPageRoute(
           settings: setting,
           builder: (_) => LoginView(),
+        );
+          case Routes.SETTINGS:
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => SettingsScreen(),
         );
       case Routes.SIGN_UP:
         return MaterialPageRoute(

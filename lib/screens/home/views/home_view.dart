@@ -144,11 +144,16 @@ class HomeView extends StatelessWidget {
                                           color: AppColors.princeTonOrange
                                               .withOpacity(0.3),
                                         ),
-                                        child: TextWidget(
-                                          text: StringConstants.settings,
-                                          style: context.bodyMedium.copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 17),
+                                        child: InkWell(onTap: () {
+                                           Navigator.pushNamed(
+                                                      context, Routes.SETTINGS);  
+                                        },
+                                          child: TextWidget(
+                                            text: StringConstants.settings,
+                                            style: context.bodyMedium.copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 17),
+                                          ),
                                         ),
                                       ),
                                       AppDivider(width: width),
@@ -214,88 +219,71 @@ class HomeView extends StatelessWidget {
                               },
                             ),
                           ),
-                          Visibility(
-                            visible: !homeProvider.isArrowClicked.value,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: carousel_slider.CarouselSlider(
-                                items: [
-                                  SizedBox(
-                                    height: 220,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Image.asset(AppImages.carousalOne),
-                                        Positioned(
-                                          top: 20,
-                                          child: TextWidget(
-                                            text:
-                                                "We provide you the best services",
-                                            style: GoogleFonts.knewave(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.pineTree,
-                                            ),
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.center,
-                                          child: InkWell(
-                                            onTap: () async {
-                                              // homeProvider.isLoading.value =
-                                              //     true;
-
-                                              // bool success =
-                                              //     await bookingProvider
-                                              //         .callBookingPageApi(
-                                              //             context);
-                                              // ScaffoldMessenger.of(context)
-                                              //     .showSnackBar(
-                                              //   SnackBar(
-                                              //     content: Text(success
-                                              //         ? 'Booking Successful!'
-                                              //         : 'Booking Failed!'),
-                                              //   ),
-                                              // );
-                                              // homeProvider.isLoading.value =
-                                              //     false;
-                                            },
-                                            child: Container(
-                                              width: 80,
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      12, 5, 0, 5),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: AppColors.white),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                color: AppColors.white,
-                                              ),
-                                              child: TextWidget(
-                                                text: StringConstants.bookNow,
-                                                style: context.headlineSmall
-                                                    .copyWith(fontSize: 10),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                                options: carousel_slider.CarouselOptions(
-                                  autoPlay: true,
-                                  enlargeCenterPage: false,
-                                  aspectRatio: 2.5,
-                                  viewportFraction: 0.5,
-                                  initialPage: 1,
-                                ),
+                       ValueListenableBuilder<bool>(
+      valueListenable: homeProvider.isArrowClicked,
+      builder: (context, isArrowClicked, child) {
+        return Visibility(
+          visible: !isArrowClicked, // Show/Hide based on isArrowClicked
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: carousel_slider.CarouselSlider(
+              items: [
+                SizedBox(
+                  height: 220,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Image.asset(AppImages.carousalOne),
+                      Positioned(
+                        top: 20,
+                        child: TextWidget(
+                          text: "We provide you the best services",
+                          style: GoogleFonts.knewave(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.pineTree,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: InkWell(
+                          onTap: () async {
+                            // Action for "Book Now" button
+                          },
+                          child: Container(
+                            width: 80,
+                            padding: const EdgeInsets.fromLTRB(12, 5, 0, 5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.white),
+                              borderRadius: BorderRadius.circular(5),
+                              color: AppColors.white,
+                            ),
+                            child: TextWidget(
+                              text: StringConstants.bookNow,
+                              style: context.headlineSmall.copyWith(
+                                fontSize: 10,
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              options: carousel_slider.CarouselOptions(
+                autoPlay: true,
+                enlargeCenterPage: false,
+                aspectRatio: 2.5,
+                viewportFraction: 0.5,
+                initialPage: 1,
+              ),
+            ),
+          ),
+        );
+      },
+    ),    const SizedBox(height: 20),
                           Container(
                             width: width,
                             padding: const EdgeInsets.symmetric(

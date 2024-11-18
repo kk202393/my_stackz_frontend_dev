@@ -275,7 +275,7 @@
 //                     child: ElevatedButton(
 //                       onPressed: () async {
 //                         bool success = await deleteSavedAddress();
-                    
+
 //                         ScaffoldMessenger.of(context).showSnackBar(
 //                           SnackBar(
 //                             content: Text(
@@ -298,8 +298,6 @@
 //                     ),
 //                   ),
 
-
-
 //                 ],
 //               ),
 //             );
@@ -307,7 +305,7 @@
 //         ),
 //       ),
 //     );
-    
+
 //   }
 //   // Function to perform delete operation
 // Future<bool> deleteSavedAddress() async {
@@ -324,7 +322,6 @@
 //   }
 // }
 // }
-
 
 import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
@@ -545,7 +542,7 @@ class _SelectAddressViewState extends State<SelectAddressView> {
                                     ],
                                   ),
                                 ),
-                                 const Icon(Icons.edit_outlined,
+                                const Icon(Icons.edit_outlined,
                                     color: AppColors.black, size: 20),
                                 IconButton(
                                   icon: Icon(Icons.delete_outline,
@@ -568,8 +565,8 @@ class _SelectAddressViewState extends State<SelectAddressView> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              'Failed to delete address.'),
+                                          content:
+                                              Text('Failed to delete address.'),
                                         ),
                                       );
                                     }
@@ -633,17 +630,12 @@ class _SelectAddressViewState extends State<SelectAddressView> {
   }
 }
 
-
 Future<bool> deleteSavedAddress(int index) async {
-
   try {
-    await Future.delayed(Duration(seconds: 5)); 
+    await Future.delayed(Duration(seconds: 2));
     return true;
   } catch (e) {
     print("Error deleting address: $e");
-    return false; 
+    return false;
   }
-  
 }
-
-

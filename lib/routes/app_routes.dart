@@ -37,6 +37,7 @@ abstract class Routes {
   static const SPLACE = _Paths.SPLACE;
   static const TYPESERVICECATEGORY = _Paths.TYPESERVICECATEGORY;
   static const PROVIDER_SCREEN = _Paths.PROVIDER_SCREEN;
+ // static const SETTINGS = _Paths.SETTINGS;
 }
 
 abstract class _Paths {
@@ -62,7 +63,7 @@ abstract class _Paths {
   static const MY_PROFILE = '/my-profile';
   static const PERSONAL_DETAILS = '/personal-details';
   static const HISTORY = '/history';
-  static const SETTINGS = '/settings';
+  static const SETTINGS = '/setting_screen';//settings';
   static const THANK_YOU_PAGE = '/thank-you-page';
   static const NOTIFICATIONS = '/notifications';
   static const NOTIFICATIONS_TWO = '/notifications-two';
@@ -75,4 +76,6 @@ abstract class _Paths {
   static const TYPESERVICECATEGORY = '/type-service-categoty';
   static const GOOGLE_MAP = '/google-map';
   static const PROVIDER_SCREEN = '/provider_screen';
+//  static const SETTINGS = '/setting_screen';
+  
 }
