@@ -13,7 +13,7 @@ class SelectAddressProvider with ChangeNotifier {
 
   void setUserAddressList(List<Address> addresses) {
     _userAddressList = addresses;
-  //  notifyListeners();
+   // notifyListeners();
   }
 
   void setSelectedAddressIndex(int index) {

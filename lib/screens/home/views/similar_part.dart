@@ -188,15 +188,24 @@ class SimilarPart extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            InkWell(
-              onTap: () => homeProvider.onArrowClicked(),
-              child: Icon(
-                !homeProvider.isArrowClicked.value
-                    ? Icons.keyboard_arrow_down_outlined
-                    : Icons.keyboard_arrow_up_outlined,
-                size: 40,
-              ),
-            ),
+          InkWell(
+  onTap: () {
+    // Toggles the isArrowClicked value
+    homeProvider.isArrowClicked.value = !homeProvider.isArrowClicked.value;
+  },
+  child: ValueListenableBuilder<bool>(
+    valueListenable: homeProvider.isArrowClicked,
+    builder: (context, isArrowClicked, child) {
+      return Icon(
+        isArrowClicked
+            ? Icons. keyboard_arrow_down_outlined
+            : Icons.keyboard_arrow_up_outlined,
+        size: 40,
+      );
+    },
+  ),
+),
+
           ],
         ),
       ],
