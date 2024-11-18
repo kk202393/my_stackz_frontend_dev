@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
+import 'package:my_stackz/api/dio_client.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/routes/app_pages.dart';
@@ -22,6 +23,7 @@ class _SplaceScreenState extends State<SplaceScreen> {
   void initState() {
     _handleLoading(context);
     super.initState();
+    DioClient().createDio();
   }
 
   @override
@@ -30,17 +32,17 @@ class _SplaceScreenState extends State<SplaceScreen> {
       backgroundColor: AppColors.white,
       body: Center(
         child: TweenAnimationBuilder<double>(
-              tween: Tween<double>(begin: 180.0, end: 420.0),
-              duration: const Duration(milliseconds: 2400),
-              curve: Curves.bounceOut,
-              builder: (BuildContext context, double value, Widget? child) {
-                return Image.asset(
-                  AppImages.newLogo,
-                  fit: BoxFit.fill,
-                  width: value,
-                );
-              },
-            ),
+          tween: Tween<double>(begin: 180.0, end: 420.0),
+          duration: const Duration(milliseconds: 2400),
+          curve: Curves.bounceOut,
+          builder: (BuildContext context, double value, Widget? child) {
+            return Image.asset(
+              AppImages.newLogo,
+              fit: BoxFit.fill,
+              width: value,
+            );
+          },
+        ),
       ),
     );
   }
@@ -70,6 +72,8 @@ class _SplaceScreenState extends State<SplaceScreen> {
             homeController.isLoading.value = false;
             Navigator.pushReplacementNamed(context, Routes.HOME);
           }
+        } else {
+          Navigator.pushReplacementNamed(context, Routes.LOGIN);
         }
       } else {
         Navigator.pushReplacementNamed(context, Routes.LOGIN);

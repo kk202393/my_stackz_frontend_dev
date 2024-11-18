@@ -80,7 +80,7 @@ class BookingProvider with ChangeNotifier {
     }
 
     try {
-      final response = await ApiHandler().updateUserBookingStatus(body);
+      final response = await ApiHandler().updateUserBookingStatus(body,context);
 
       // debugPrint('API response: ${response?.toJson()}');
       if (response != null) {

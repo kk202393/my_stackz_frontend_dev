@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/constants/app_constants.dart';
@@ -208,7 +210,7 @@ class HomeProvider with ChangeNotifier {
         isLoading.value = false;
         return false;
       }
-      _response = await ApiHandler().callGetViewHomePageApi(token);
+      _response = await ApiHandler().callGetViewHomePageApi(token,context);
       debugPrint('callGetViewHomePageApi $_response');
       isLoading.value = false;
       if (_response != null && _response!.allCategories != null) {
@@ -231,7 +233,7 @@ class HomeProvider with ChangeNotifier {
     //     .ensureInitialized(); // Ensure Flutter binding is initialized
     try {
       isLoading.value = true;
-      LogoutResponse response = await ApiHandler().callLogoutApi(token);
+      LogoutResponse response = await ApiHandler().callLogoutApi(token,context);
       if (response.success! && response.message == "Log Out Successfully") {
         // Snack.show(
         //     content: response.message ?? '',

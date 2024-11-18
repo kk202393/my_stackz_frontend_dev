@@ -13,7 +13,7 @@ class SelectAddressProvider with ChangeNotifier {
 
   void setUserAddressList(List<Address> addresses) {
     _userAddressList = addresses;
-   // notifyListeners();
+    //  notifyListeners();
   }
 
   void setSelectedAddressIndex(int index) {
@@ -39,22 +39,26 @@ class SelectAddressProvider with ChangeNotifier {
     };
 
     try {
-      final response = await ApiHandler().callCreateNewAddressApi(body);
+      final response =
+          await ApiHandler().callCreateNewAddressApi(body, context);
       if (response != null && response['success'] == true) {
         if (response['userAddress'] != null &&
             response['userAddress']['addresses'] != null) {
-          List<Address> addresses = (response['userAddress']['addresses'] as List)
-              .map((addressJson) => Address.fromJson(addressJson))
-              .toList();
+          List<Address> addresses =
+              (response['userAddress']['addresses'] as List)
+                  .map((addressJson) => Address.fromJson(addressJson))
+                  .toList();
           _userAddressList = addresses;
           notifyListeners();
         }
       } else {
-        String errorMessage = response?['message'] ?? "Failed to add address. Please try again.";
+        String errorMessage =
+            response?['message'] ?? "Failed to add address. Please try again.";
         _showSnackBar(context, errorMessage, Colors.red.shade600);
       }
     } catch (e) {
-      _showSnackBar(context, "You can create only 10 addresses", Colors.red.shade600);
+      _showSnackBar(
+          context, "You can create only 10 addresses", Colors.red.shade600);
     } finally {
       _setLoading(false);
     }
@@ -65,7 +69,8 @@ class SelectAddressProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void _showSnackBar(BuildContext context, String message, Color backgroundColor) {
+  void _showSnackBar(
+      BuildContext context, String message, Color backgroundColor) {
     final snackBar = SnackBar(
       content: Text(message),
       backgroundColor: backgroundColor,
