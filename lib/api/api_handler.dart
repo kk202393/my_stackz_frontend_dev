@@ -8,7 +8,6 @@ import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/models/forget_password_response.dart';
-import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
@@ -263,15 +262,13 @@ class ApiHandler {
   callViewProfileApi(String token, BuildContext context) async {
     final accessToken = 'Bearer $token';
     try {
-      // if (dio == null) initDio();
-      final Response response = await DioClient().getData(
-        url: AppURLs.profileURL,
-        header: <String, String>{'Authorization': accessToken},
-      );
-
+      if (dio == null) initDio();
+      final Response response = await dio!.get(AppURLs.profileURL,
+          options:
+              Options(headers: <String, String>{'Authorization': accessToken}));
       return LoginResponse.fromJson(response.data);
     } on DioException catch (e) {
-      _handleError(e, context: context);
+      _handleError(e,context: context);
     }
   }
 

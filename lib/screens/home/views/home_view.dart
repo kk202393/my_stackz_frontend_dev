@@ -145,11 +145,16 @@ class HomeView extends StatelessWidget {
                                           color: AppColors.princeTonOrange
                                               .withOpacity(0.3),
                                         ),
-                                        child: TextWidget(
-                                          text: StringConstants.settings,
-                                          style: context.bodyMedium.copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 17),
+                                        child: InkWell(onTap: () {
+                                           Navigator.pushNamed(
+                                                      context, Routes.SETTINGS);  
+                                        },
+                                          child: TextWidget(
+                                            text: StringConstants.settings,
+                                            style: context.bodyMedium.copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 17),
+                                          ),
                                         ),
                                       ),
                                       AppDivider(width: width),
@@ -215,7 +220,7 @@ class HomeView extends StatelessWidget {
                               },
                             ),
                           ),
-                    ValueListenableBuilder<bool>(
+                       ValueListenableBuilder<bool>(
       valueListenable: homeProvider.isArrowClicked,
       builder: (context, isArrowClicked, child) {
         return Visibility(
@@ -279,9 +284,7 @@ class HomeView extends StatelessWidget {
           ),
         );
       },
-    ),
- 
-     const SizedBox(height: 20),
+    ),    const SizedBox(height: 20),
                           Container(
                             width: width,
                             padding: const EdgeInsets.symmetric(

@@ -13,4 +13,7 @@ class CartSummaryProvider  with ChangeNotifier{
          numberOfServices.value = numberOfServices.value - 1;
       }
    }
+   
+  
+
 }
