@@ -7,30 +7,33 @@ import '../provider/dashboard_provider.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    DashboardProvider dashboardProvider= Provider.of<DashboardProvider>(context, listen: false);
+    // Access the DashboardProvider
+    DashboardProvider dashboardProvider = Provider.of<DashboardProvider>(context);
 
     Utils().setSystemOverlayStyle();
+
     return Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        body: SafeArea(
-            child: AnnotatedRegion<SystemUiOverlayStyle>(
-                value: SystemUiOverlayStyle.light,
-                child:
-                dashboardProvider.children[dashboardProvider.currentIndex])),
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      body: SafeArea(
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.light,
+          child: dashboardProvider.children[dashboardProvider.currentIndex],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: dashboardProvider.currentIndex,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
-        onTap: (index) => dashboardProvider.updateIndex(index),
+        onTap: (index) {
+          dashboardProvider.updateIndex(index); // Notify the provider
+        },
       ),
-      // bottomNavigationBar: Obx(() => MyStackzBottomNavigationBar(
-        //     currentIndex: dashboardProvider.selectedIndex.value,
-        //     onTap: dashboardProvider.onItemTapped,))
-            );
+    );
   }
 }

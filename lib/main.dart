@@ -9,6 +9,7 @@ import 'package:my_stackz/screens/airconServices/provider/aircon_provider.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/cartSummary/provider/chart_summary_provider.dart';
 import 'package:my_stackz/screens/cleaning/provider/cleaning_provider.dart';
+import 'package:my_stackz/screens/dashboard/provider/dashboard_provider.dart';
 import 'package:my_stackz/screens/dateAndTime/provider/date_and_time_provider.dart';
 import 'package:my_stackz/screens/handyman/provider/handyman_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
@@ -43,6 +44,10 @@ void main() async {
     MultiProvider(providers: [
       ChangeNotifierProvider(
         create: (context) => LoginProvider(),
+        lazy: true,
+      ),
+      ChangeNotifierProvider(
+        create: (context) => DashboardProvider(),
         lazy: true,
       ),
       ChangeNotifierProvider(

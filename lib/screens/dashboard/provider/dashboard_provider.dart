@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:my_stackz/screens/booking/views/booking_view.dart';
+import 'package:my_stackz/screens/favourites/views/favourites_view.dart';
 import 'package:my_stackz/screens/home/views/home_view.dart';
+import 'package:my_stackz/screens/notifications/views/notification_view.dart';
 
 class DashboardProvider with ChangeNotifier {
-  final List<Widget> children = [
-    const HomeView(),
-    // const BookingView(),
-    // const FavouritesView(),
-    const HomeView(),
-    const HomeView(),
-  ];
-    ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);
-
   int _currentIndex = 0;
 
   int get currentIndex => _currentIndex;
 
-  set currentIndex(int index) {
-    _currentIndex = index;
-    notifyListeners(); // Notify listeners of changes
-  }
+  // List of widgets to display in the body
+  final List<Widget> children = [
+    const HomeView(),
+    const BookingView(),
+    FavouriteView(),
+    NotificationsView()
+  ];
 
-  void updateIndex(int newIndex) {
-    currentIndex = newIndex;
+  void updateIndex(int index) {
+    _currentIndex = index;
+    notifyListeners();
   }
+}
 
   // @override
   // void onInit() {
@@ -61,4 +60,4 @@ class DashboardProvider with ChangeNotifier {
   //     return Future.value(true);
   //   }
   // }
-}
+
