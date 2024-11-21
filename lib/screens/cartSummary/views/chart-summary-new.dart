@@ -565,7 +565,6 @@ class CartSummaryView extends StatelessWidget {
                         BookingProvider bookingProvider =
                             Provider.of<BookingProvider>(context,
                                 listen: false);
-
                         final bookingAPIResponse =
                             bookingProvider.bookingAPIResponse;
                         final consumerOrderDetails =
@@ -594,7 +593,7 @@ class CartSummaryView extends StatelessWidget {
                         print("Success: $_success");
 
                         if (_success) {
-                          Navigator.pushNamed(context, Routes.BOOKING_DETAILS);
+                          Navigator.pushNamed(context, Routes.BOOKING_ACCEPTED);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

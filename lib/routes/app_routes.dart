@@ -60,10 +60,10 @@ abstract class _Paths {
   static const SELECT_ADDRESS = '/select-address-view';
   static const CART_SUMMARY = '/cart-summary';
   static const PAYMENT = '/payment';
-  static const MY_PROFILE = '/my-profile';
+  static const MY_PROFILE = '/myprofile_view';
   static const PERSONAL_DETAILS = '/personal-details';
   static const HISTORY = '/history';
-  static const SETTINGS = '/setting_screen';//settings';
+  static const SETTINGS = '/setting_screen';// settings';
   static const THANK_YOU_PAGE = '/thank-you-page';
   static const NOTIFICATIONS = '/notifications';
   static const NOTIFICATIONS_TWO = '/notifications-two';
