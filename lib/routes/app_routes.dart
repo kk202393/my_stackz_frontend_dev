@@ -9,7 +9,7 @@ abstract class Routes {
   static const SIGN_UP = _Paths.SIGN_UP;
   static const LOGIN = _Paths.LOGIN;
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
-  static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
+  static const EMAIL_VERIFICATION = _Paths.EMAIL_VERIFICATION;
   static const CLEANING = _Paths.CLEANING;
   static const AIRCON_SERVICES = _Paths.AIRCON_SERVICES;
   static const HANDYMAN = _Paths.HANDYMAN;
@@ -37,6 +37,7 @@ abstract class Routes {
   static const SPLACE = _Paths.SPLACE;
   static const TYPESERVICECATEGORY = _Paths.TYPESERVICECATEGORY;
   static const PROVIDER_SCREEN = _Paths.PROVIDER_SCREEN;
+ // static const SETTINGS = _Paths.SETTINGS;
 }
 
 abstract class _Paths {
@@ -50,7 +51,7 @@ abstract class _Paths {
   static const AIRCON_SERVICES = '/aircon-services';
   static const HANDYMAN = '/handyman';
   static const FORGOT_PASSWORD = '/forgetpassword';
-  static const RESET_PASSWORD = '/reset-password';
+  static const EMAIL_VERIFICATION = '/emailverification';
   static const BOOKING = '/booking';
   static const CLEANING_DETAILS = '/cleaning-details';
   static const ADDITIONAL_DETAILS = '/additional-details';
@@ -62,7 +63,7 @@ abstract class _Paths {
   static const MY_PROFILE = '/my-profile';
   static const PERSONAL_DETAILS = '/personal-details';
   static const HISTORY = '/history';
-  static const SETTINGS = '/settings';
+  static const SETTINGS = '/setting_screen';//settings';
   static const THANK_YOU_PAGE = '/thank-you-page';
   static const NOTIFICATIONS = '/notifications';
   static const NOTIFICATIONS_TWO = '/notifications-two';
@@ -75,4 +76,6 @@ abstract class _Paths {
   static const TYPESERVICECATEGORY = '/type-service-categoty';
   static const GOOGLE_MAP = '/google-map';
   static const PROVIDER_SCREEN = '/provider_screen';
+//  static const SETTINGS = '/setting_screen';
+  
 }

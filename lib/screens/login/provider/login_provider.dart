@@ -76,7 +76,7 @@ class LoginProvider with ChangeNotifier {
       "password": passwordController.text
     };
     try {
-      _response = await ApiHandler().callLoginApi(body);
+      _response = await ApiHandler().callLoginApi(body, context);
       await Utils().storeToken(_response!.token);
 
       //Call FCM methods after successful login

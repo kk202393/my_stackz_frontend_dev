@@ -2,12 +2,12 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/servicemanagement/v1.dart';
 import 'package:my_stackz/api/dio_client.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/models/consumer_booking_response.dart';
 import 'package:my_stackz/models/forget_password_response.dart';
-import 'package:my_stackz/routes/app_pages.dart';
 import 'package:my_stackz/utils/utils.dart';
 import 'package:my_stackz/widgets/button_widget.dart';
 import 'package:my_stackz/widgets/text_widget.dart';
@@ -51,7 +51,7 @@ class ApiHandler {
     }
   }
 
-  callLoginApi(body) async {
+  callLoginApi(body, context) async {
     try {
       if (dio == null) initDio();
       Response response = await dio!.post(AppURLs.loginURL, data: body);
@@ -60,12 +60,12 @@ class ApiHandler {
       return LoginResponse.fromJson(response.data);
     } on DioException catch (e) {
       debugPrint("Login API exception $e");
-      _handleError(e);
+      _handleError(e, context: context);
     }
   }
 
   Future<Map<String, dynamic>?> callCreateNewAddressApi(
-      Map<String, dynamic> body) async {
+      Map<String, dynamic> body, context) async {
     try {
       if (dio == null) initDio();
       String? token = await Utils().ReadToken();
@@ -76,8 +76,6 @@ class ApiHandler {
         },
         data: body,
       );
-      print("Address API ${response.data}");
-
       if (response.statusCode == 200 && response.data['success'] == true) {
         return response.data;
       } else {
@@ -85,12 +83,12 @@ class ApiHandler {
       }
     } on DioException catch (e) {
       debugPrint("Address API exception $e");
-      _handleError(e);
+      _handleError(e, context: context);
       return null;
     }
   }
 
-  callGetViewHomePageApi(String token) async {
+  callGetViewHomePageApi(String token, context) async {
     final accessToken = 'Bearer $token';
     try {
       if (dio == null) initDio();
@@ -109,7 +107,7 @@ class ApiHandler {
       }
       return HomePageResponse.fromJson(response.data);
     } on DioException catch (e) {
-      _handleError(e);
+      _handleError(e, context: context);
     }
   }
 
@@ -145,7 +143,7 @@ class ApiHandler {
     }
   }
 
-  callDeleteUserBookingApi(String token) async {
+  callDeleteUserBookingApi(String token, BuildContext context) async {
     final accessToken = 'Bearer $token';
     try {
       if (dio == null) initDio();
@@ -159,11 +157,7 @@ class ApiHandler {
         debugPrint('Response Data: ${e.response!.data}');
         debugPrint('Response Headers: ${e.response!.headers}');
       }
-      _handleError(e);
-      return null;
-    } catch (e, stacktrace) {
-      debugPrint('Unexpected error: $e');
-      debugPrint('Stacktrace: $stacktrace');
+      _handleError(e, context: context);
       return null;
     }
   }
@@ -222,7 +216,7 @@ class ApiHandler {
   // }
 
   Future<BookingResponse?> updateUserBookingStatus(
-      Map<String, dynamic> body) async {
+      Map<String, dynamic> body, BuildContext context) async {
     try {
       final String? token = await Utils().ReadToken();
       if (token == null) {
@@ -256,7 +250,7 @@ class ApiHandler {
         debugPrint('Response Data: ${e.response!.data}');
         debugPrint('Response Headers: ${e.response!.headers}');
       }
-      _handleError(e);
+      _handleError(e, context: context);
       return null;
     } catch (e, stacktrace) {
       debugPrint('Unexpected error: $e');
@@ -268,30 +262,28 @@ class ApiHandler {
   callViewProfileApi(String token, BuildContext context) async {
     final accessToken = 'Bearer $token';
     try {
-      // if (dio == null) initDio();
-      final Response response = await DioClient().getData(
-        url: AppURLs.profileURL,
-        header: <String, String>{'Authorization': accessToken},
-      );
-     
+      if (dio == null) initDio();
+      final Response response = await dio!.get(AppURLs.profileURL,
+          options:
+              Options(headers: <String, String>{'Authorization': accessToken}));
       return LoginResponse.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e,context: context);
     }
   }
 
-  callPutChangePasswordApi(body) async {
+  callPutChangePasswordApi(body, context) async {
     try {
       if (dio == null) initDio();
       final Response response =
           await dio!.put(AppURLs.changePasswordURL, data: body);
       return ChangePasswordResponse.fromJson(response.data);
     } on DioException catch (e) {
-      _handleError(e);
+      _handleError(e, context: context);
     }
   }
 
-  callLogoutApi(body) async {
+  callLogoutApi(body, context) async {
     final accessToken = 'Bearer $body';
     try {
       if (dio == null) initDio();
@@ -301,22 +293,22 @@ class ApiHandler {
           }));
       return LogoutResponse.fromJson(response.data);
     } on DioException catch (e) {
-      _handleError(e);
+      _handleError(e, context: context);
     }
   }
 
-  callPostForgotPasswordApi(body) async {
+  callPostForgotPasswordApi(body, context) async {
     try {
       if (dio == null) initDio();
       final Response response =
           await dio!.post(AppURLs.forgetPasswordURL, data: body);
       return ForgetPasswordResponse.fromJson(response.data);
     } on DioException catch (e) {
-      _handleError(e);
+      _handleError(e, context: context);
     }
   }
 
-  callPostResetPasswordApi(body) async {
+  callPostResetPasswordApi(body, context) async {
     final accessToken =
         'Bearer ${await AppPreferences().getSharedPreferences(AppConstants.token)}';
     try {
@@ -327,7 +319,7 @@ class ApiHandler {
               Options(headers: <String, String>{'Authorization': accessToken}));
       return ResetPasswordResponse.fromJson(response.data);
     } on DioException catch (e) {
-      _handleError(e);
+      _handleError(e, context: context);
     }
   }
 
@@ -360,9 +352,7 @@ class ApiHandler {
                   text: apiExp.cause.toString(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14
-                  ),
+                      fontWeight: FontWeight.w500, fontSize: 14),
                 ),
               ],
             ),
