@@ -46,54 +46,59 @@ class HomeView extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ValueListenableBuilder(
-                                  valueListenable: homeProvider.name,
-                                  builder: (BuildContext context, String name,
-                                      Widget? child) {
-                                    return RichText(
-                                      textAlign: TextAlign.start,
-                                      text: TextSpan(
-                                        text: "${StringConstants.welcome} ",
-                                        style: context.headlineMedium,
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: loginProvider.logInAPIResponse
-                                                    ?.user?.username ??
-                                                'Guest',
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () =>
-                                                  Navigator.pushNamed(
-                                                      context, Routes.SIGN_UP),
-                                            style: context.headlineSmall,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                                const Spacer(),
-                                InkWell(
-                                  onTap: () {
-                                    homeProvider.onIconClicked();
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      border:
-                                          Border.all(color: AppColors.darkGray),
-                                      color: AppColors.bgColor,
-                                    ),
-                                    child: const Icon(Icons.menu_outlined,
-                                        size: 30),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(context, Routes.MPIN);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ValueListenableBuilder(
+                                    valueListenable: homeProvider.name,
+                                    builder: (BuildContext context, String name,
+                                        Widget? child) {
+                                      return RichText(
+                                        textAlign: TextAlign.start,
+                                        text: TextSpan(
+                                          text: "${StringConstants.welcome} ",
+                                          style: context.headlineMedium,
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: loginProvider.logInAPIResponse
+                                                      ?.user?.username ??
+                                                  'Guest',
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () =>
+                                                    Navigator.pushNamed(
+                                                        context, Routes.SIGN_UP),
+                                              style: context.headlineSmall,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                ),
-                              ],
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      homeProvider.onIconClicked();
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border:
+                                            Border.all(color: AppColors.darkGray),
+                                        color: AppColors.bgColor,
+                                      ),
+                                      child: const Icon(Icons.menu_outlined,
+                                          size: 30),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           ValueListenableBuilder(

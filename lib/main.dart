@@ -21,6 +21,7 @@ import 'package:my_stackz/screens/settings/provider/setting_provider.dart';
 import 'package:my_stackz/screens/signUp/provider/sign_up_Provider.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/mpinScreen/provider/mpin_provider.dart';
 import 'themes/themes.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -97,6 +98,10 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => BookingProvider(),
+        lazy: true,
+      ),
+      ChangeNotifierProvider(
+        create: (context) => MpinProvider(),
         lazy: true,
       ),
       ChangeNotifierProvider(

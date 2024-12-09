@@ -37,6 +37,7 @@ abstract class Routes {
   static const SPLACE = _Paths.SPLACE;
   static const TYPESERVICECATEGORY = _Paths.TYPESERVICECATEGORY;
   static const PROVIDER_SCREEN = _Paths.PROVIDER_SCREEN;
+  static const MPIN = _Paths.MPIN;
  // static const SETTINGS = _Paths.SETTINGS;
 }
 
@@ -76,6 +77,7 @@ abstract class _Paths {
   static const TYPESERVICECATEGORY = '/type-service-categoty';
   static const GOOGLE_MAP = '/google-map';
   static const PROVIDER_SCREEN = '/provider_screen';
+  static const MPIN = '/mpin';
 //  static const SETTINGS = '/setting_screen';
   
 }

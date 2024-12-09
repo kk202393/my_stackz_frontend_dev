@@ -10,6 +10,7 @@ import 'package:my_stackz/screens/handyman/views/handyman_view.dart';
 import 'package:my_stackz/screens/home_provider_screen/views/home_provider_screen_view.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
 import 'package:my_stackz/screens/login/views/login_view.dart';
+import 'package:my_stackz/screens/mpinScreen/views/mpin_view.dart';
 import 'package:my_stackz/screens/myProfile/views/myprofile_view.dart';
 import 'package:my_stackz/screens/payments/views/payment_view.dart';
 import 'package:my_stackz/screens/provider_screen/views/provider_screen.dart';
@@ -213,6 +214,11 @@ class AppPages {
             requestId: requestId,
             userName: userName,
           ),
+        );
+      case Routes.MPIN:
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => const MpinView(),
         );
       default:
         return MaterialPageRoute(
