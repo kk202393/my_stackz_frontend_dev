@@ -6,6 +6,7 @@ import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/bookNow/views/book_now.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/home/views/similar_part.dart';
@@ -250,8 +251,13 @@ class HomeView extends StatelessWidget {
                         alignment: Alignment.center,
                         child: InkWell(
                           onTap: () async {
-                            // Action for "Book Now" button
-                          },
+                          // Navigator.pushNamed(
+                          //                   context, Routes.BOOKING_HOME_CLEANING);
+                           Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const BookNow()),
+  );
+                                                    },
                           child: Container(
                             width: 80,
                             padding: const EdgeInsets.fromLTRB(12, 5, 0, 5),

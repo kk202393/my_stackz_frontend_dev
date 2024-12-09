@@ -22,9 +22,9 @@ class MyStackzBottomNavigationBar extends StatelessWidget {
               icon: Icon(Icons.list_alt_outlined, size: 25), label: 'Booking'),
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border, size: 25), label: 'Favorites'),
-          /*BottomNavigationBarItem(
+          BottomNavigationBarItem(
               icon: Icon(Icons.wallet_membership_outlined, size: 25), label: 'Wallets'),
-          */BottomNavigationBarItem(
+          BottomNavigationBarItem(
               icon: Icon(Icons.notifications_active_outlined, size: 25), label: 'Notification'),
         ],
         currentIndex: currentIndex,

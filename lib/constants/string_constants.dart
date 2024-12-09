@@ -100,7 +100,11 @@ class StringConstants {
   static const String electrician = "Electrician";
   static const String personalDetails = "Personal Details";
   static const String fullName = "FULL NAME";
+  static const String fullname = "Full Name";
   static const String emailId = "EMAIL ID";
+  static const String emailid = "Email Id";
+  static const String bookingid = "Booking Id";
+  
   static const String mobileNumber = "MOBILE NUMBER";
   static const String detailsAddress = "ADDRESS";
   static const String updateProfile = "Update Profile";
@@ -118,7 +122,7 @@ class StringConstants {
   static const String financialPlanning = "Financial Planning";
   static const String loanInformation =
       "You can check your loan eligibility for Interior Designing here within 5 minutes";
-  static const String bookingAccepted = "Booking Accepted";
+  static const String bookingAccepted = "Booking Acepted";
   static const String advancePayment = "Advance Payment";
   static const String secondInstallment = "Second Installment";
   static const String thirdInstallment = "Third Installment";
@@ -127,7 +131,9 @@ class StringConstants {
   static const String choosePaymentMethod = "Choose Payment method";
   static const String reschedule = "Reschedule";
   static const String cancel = "Cancel";
+  static const String booknow = " book Now";
   static const String bookingDetails = "Booking Details";
+  static const String recentBooking = "Recent Booking";
   static const String serviceLocation = "Service Location";
   static const String timings = "Timings";
   static const String loremIpsum =
@@ -140,4 +146,7 @@ class StringConstants {
   static const String typeServiceCategory = "Type Service Category";
   static const String city = 'city';
   static const String pincode = 'pincode';
+  
+  static const String Bookinghistory = 'Booking\nHistory';
+  
 }

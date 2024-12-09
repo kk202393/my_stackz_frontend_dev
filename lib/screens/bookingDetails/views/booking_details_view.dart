@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/app_images.dart';
-import 'package:my_stackz/models/consumer_booking_response.dart';
-import 'package:my_stackz/models/home_page_response.dart';
 import 'package:my_stackz/screens/booking/provider/booking_provider.dart';
 import 'package:my_stackz/screens/home/controllers/home_controller.dart';
 import 'package:my_stackz/screens/login/provider/login_provider.dart';
@@ -36,7 +34,7 @@ class BookingDetailsView extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: TextWidget(
-                    text: StringConstants.bookingAccepted,
+                    text: StringConstants.bookingDetails,
                     style: context.headlineLarge
                         .copyWith(fontWeight: FontWeight.w500),
                   ),
@@ -126,7 +124,7 @@ class BookingDetailsView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextWidget(
-                        text: StringConstants.bookingDetails,
+                        text: StringConstants.recentBooking,
                         style: context.headlineLarge
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
