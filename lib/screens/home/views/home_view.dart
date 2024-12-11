@@ -46,59 +46,54 @@ class HomeView extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 15),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(context, Routes.MPIN);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ValueListenableBuilder(
-                                    valueListenable: homeProvider.name,
-                                    builder: (BuildContext context, String name,
-                                        Widget? child) {
-                                      return RichText(
-                                        textAlign: TextAlign.start,
-                                        text: TextSpan(
-                                          text: "${StringConstants.welcome} ",
-                                          style: context.headlineMedium,
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: loginProvider.logInAPIResponse
-                                                      ?.user?.username ??
-                                                  'Guest',
-                                              recognizer: TapGestureRecognizer()
-                                                ..onTap = () =>
-                                                    Navigator.pushNamed(
-                                                        context, Routes.SIGN_UP),
-                                              style: context.headlineSmall,
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  const Spacer(),
-                                  InkWell(
-                                    onTap: () {
-                                      homeProvider.onIconClicked();
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        border:
-                                            Border.all(color: AppColors.darkGray),
-                                        color: AppColors.bgColor,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ValueListenableBuilder(
+                                  valueListenable: homeProvider.name,
+                                  builder: (BuildContext context, String name,
+                                      Widget? child) {
+                                    return RichText(
+                                      textAlign: TextAlign.start,
+                                      text: TextSpan(
+                                        text: "${StringConstants.welcome} ",
+                                        style: context.headlineMedium,
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: loginProvider.logInAPIResponse
+                                                    ?.user?.username ??
+                                                'Guest',
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () =>
+                                                  Navigator.pushNamed(
+                                                      context, Routes.SIGN_UP),
+                                            style: context.headlineSmall,
+                                          ),
+                                        ],
                                       ),
-                                      child: const Icon(Icons.menu_outlined,
-                                          size: 30),
+                                    );
+                                  },
+                                ),
+                                const Spacer(),
+                                InkWell(
+                                  onTap: () {
+                                    homeProvider.onIconClicked();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border:
+                                          Border.all(color: AppColors.darkGray),
+                                      color: AppColors.bgColor,
                                     ),
+                                    child: const Icon(Icons.menu_outlined,
+                                        size: 30),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                           ValueListenableBuilder(
@@ -151,10 +146,11 @@ class HomeView extends StatelessWidget {
                                           color: AppColors.princeTonOrange
                                               .withOpacity(0.3),
                                         ),
-                                        child: InkWell(onTap: () {
-                                           Navigator.pushNamed(
-                                                      context, Routes.SETTINGS);  
-                                        },
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, Routes.SETTINGS);
+                                          },
                                           child: TextWidget(
                                             text: StringConstants.settings,
                                             style: context.bodyMedium.copyWith(
@@ -226,76 +222,89 @@ class HomeView extends StatelessWidget {
                               },
                             ),
                           ),
-                       ValueListenableBuilder<bool>(
-      valueListenable: homeProvider.isArrowClicked,
-      builder: (context, isArrowClicked, child) {
-        return Visibility(
-          visible: !isArrowClicked, // Show/Hide based on isArrowClicked
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: carousel_slider.CarouselSlider(
-              items: [
-                SizedBox(
-                  height: 220,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Image.asset(AppImages.carousalOne),
-                      Positioned(
-                        top: 20,
-                        child: TextWidget(
-                          text: "We provide you the best services",
-                          style: GoogleFonts.knewave(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.pineTree,
+                          ValueListenableBuilder<bool>(
+                            valueListenable: homeProvider.isArrowClicked,
+                            builder: (context, isArrowClicked, child) {
+                              return Visibility(
+                                visible:
+                                    !isArrowClicked, // Show/Hide based on isArrowClicked
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: carousel_slider.CarouselSlider(
+                                    items: [
+                                      SizedBox(
+                                        height: 220,
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Image.asset(AppImages.carousalOne),
+                                            Positioned(
+                                              top: 20,
+                                              child: TextWidget(
+                                                text:
+                                                    "We provide you the best services",
+                                                style: GoogleFonts.knewave(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColors.pineTree,
+                                                ),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.center,
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  // Navigator.pushNamed(
+                                                  //                   context, Routes.BOOKING_HOME_CLEANING);
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const BookNow()),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  width: 80,
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          12, 5, 0, 5),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: AppColors.white),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    color: AppColors.white,
+                                                  ),
+                                                  child: TextWidget(
+                                                    text:
+                                                        StringConstants.bookNow,
+                                                    style: context.headlineSmall
+                                                        .copyWith(
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                    options: carousel_slider.CarouselOptions(
+                                      autoPlay: true,
+                                      enlargeCenterPage: false,
+                                      aspectRatio: 2.5,
+                                      viewportFraction: 0.5,
+                                      initialPage: 1,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: InkWell(
-                          onTap: () async {
-                          // Navigator.pushNamed(
-                          //                   context, Routes.BOOKING_HOME_CLEANING);
-                           Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const BookNow()),
-  );
-                                                    },
-                          child: Container(
-                            width: 80,
-                            padding: const EdgeInsets.fromLTRB(12, 5, 0, 5),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.white),
-                              borderRadius: BorderRadius.circular(5),
-                              color: AppColors.white,
-                            ),
-                            child: TextWidget(
-                              text: StringConstants.bookNow,
-                              style: context.headlineSmall.copyWith(
-                                fontSize: 10,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-              options: carousel_slider.CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: false,
-                aspectRatio: 2.5,
-                viewportFraction: 0.5,
-                initialPage: 1,
-              ),
-            ),
-          ),
-        );
-      },
-    ),    const SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Container(
                             width: width,
                             padding: const EdgeInsets.symmetric(

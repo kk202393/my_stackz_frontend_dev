@@ -9,6 +9,7 @@ class AppURLs {
   static const String forgetPasswordURL = '$appBaseURL/api/v1/forgetpassword';
   static const String resetPasswordURL = '$appBaseURL/api/v1/resetpassword';
   static const String logoutURL = '$appBaseURL/api/v1/logout';
+  static const String deleteUserAddress = '$appBaseURL/api/v1/deleteuseraddress';
   static const String settingChangePasswordURL =
       '$appBaseURL/api/v1/changepassword';
   static const String consumerorderbookingURL =

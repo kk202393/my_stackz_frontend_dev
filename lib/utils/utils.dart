@@ -25,6 +25,15 @@ class Utils {
     }
   }
 
+  Future<bool> storeMPIN(String mpin) async {
+    try {
+      await _storage.write(key: 'mpin', value: mpin);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<bool> storeFcmToken(String fcmToken) async {
     try {
       await _storage.write(key: 'fcmToken', value: fcmToken);
@@ -58,6 +67,10 @@ class Utils {
 
   Future<String?> ReadToken() async {
     return await _storage.read(key: 'token');
+  }
+
+  Future<String?> ReadMPIN() async {
+    return await _storage.read(key: 'mpin');
   }
 
   Future<String?> ReadEmail() async {

@@ -78,14 +78,11 @@ class LoginProvider with ChangeNotifier {
     try {
       _response = await ApiHandler().callLoginApi(body, context);
       await Utils().storeToken(_response!.token);
-
       //Call FCM methods after successful login
       final userId = _response!.user!.id;
       final userRole = _response!.userRole;
       await _fcmService.getTokenAndStoreInFirestore(userId, userRole);
       _fcmService.listenForTokenRefresh(userId, userRole);
-      print('FCM token sent to backend successfully $userId $userRole');
-
       isLoading.value = false;
       notifyListeners();
       return true;
@@ -99,11 +96,11 @@ class LoginProvider with ChangeNotifier {
         errorMessage = "Data format error, please contact support.";
       }
 
-      DialogHelper().showSnackBar(
-        context: context,
-        msg: _response?.message ?? errorMessage,
-        backgroundColor: Colors.red.shade600,
-      );
+      // DialogHelper().showSnackBar(
+      //   context: context,
+      //   msg: _response?.message ?? errorMessage,
+      //   backgroundColor: Colors.red.shade600,
+      // );
 
       isLoading.value = false;
       notifyListeners();

@@ -324,6 +324,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:my_stackz/api/api_handler.dart';
 import 'package:my_stackz/constants/app_colors.dart';
 import 'package:my_stackz/constants/string_constants.dart';
 import 'package:my_stackz/models/login_response.dart';
@@ -478,14 +479,22 @@ class _SelectAddressViewState extends State<SelectAddressView> {
                   const SizedBox(height: 10),
                   AppDivider(width: width),
                   const SizedBox(height: 10),
-                  if (selectAddressProvider.userAddressList.isNotEmpty)
+                  if (selectAddressProvider.userAddressList.isNotEmpty ||
+                      loginProvider.logInAPIResponse!.userAddress!.isNotEmpty)
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: selectAddressProvider.userAddressList.length,
+                      itemCount:
+                          selectAddressProvider.userAddressList.isNotEmpty
+                              ? selectAddressProvider.userAddressList.length
+                              : loginProvider.logInAPIResponse!.userAddress![0]
+                                  .addresses!.length,
                       itemBuilder: (context, index) {
                         final address =
-                            selectAddressProvider.userAddressList[index];
+                            selectAddressProvider.userAddressList.isNotEmpty
+                                ? selectAddressProvider.userAddressList[index]
+                                : loginProvider.logInAPIResponse!
+                                    .userAddress![0].addresses![index];
                         final isSelected =
                             selectAddressProvider.selectedAddressIndex == index;
 
@@ -542,18 +551,35 @@ class _SelectAddressViewState extends State<SelectAddressView> {
                                     ],
                                   ),
                                 ),
-                                const Icon(Icons.edit_outlined,
-                                    color: AppColors.black, size: 20),
+                                const Icon(
+                                  Icons.edit_outlined,
+                                  color: AppColors.black,
+                                  size: 20,
+                                ),
                                 IconButton(
-                                  icon: Icon(Icons.delete_outline,
-                                      color: AppColors.black, size: 20),
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    color: AppColors.black,
+                                    size: 20,
+                                  ),
                                   onPressed: () async {
-                                    bool success =
-                                        await deleteSavedAddress(index);
+                                    bool success = await deleteSavedAddress(
+                                        index,
+                                        context,
+                                        loginProvider.logInAPIResponse!
+                                            .userAddress![0].id,
+                                        loginProvider
+                                            .logInAPIResponse!
+                                            .userAddress![0]
+                                            .addresses![index]
+                                            .id);
 
                                     if (success) {
-                                      selectAddressProvider
-                                          .removeAddressAt(index);
+                                      setState(() {
+                                        selectAddressProvider
+                                            .removeAddressAt(index);
+                                      });
+
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
@@ -630,9 +656,14 @@ class _SelectAddressViewState extends State<SelectAddressView> {
   }
 }
 
-Future<bool> deleteSavedAddress(int index) async {
+Future<bool> deleteSavedAddress(int index, BuildContext context,
+    String userAddressId, String addressId) async {
   try {
-    await Future.delayed(Duration(seconds: 2));
+    Map<String, dynamic> data = {
+      "userAddressId": userAddressId.toString().trim(),
+      "addressId": addressId.toString().trim()
+    };
+    await ApiHandler().callDeleteUserAddressApi(data, context);
     return true;
   } catch (e) {
     print("Error deleting address: $e");

@@ -136,7 +136,8 @@ class ApiHandler {
   callCreateAccountApi(body, context) async {
     try {
       if (dio == null) initDio();
-      final Response response = await dio!.post(AppURLs.createURL, data: body);
+      Response response =
+          await DioClient().postData(url: AppURLs.createURL, data: body);
       return CreateAccountResponse.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e, context: context);
@@ -147,9 +148,12 @@ class ApiHandler {
     final accessToken = 'Bearer $token';
     try {
       if (dio == null) initDio();
-      final Response response = await dio!.get(AppURLs.deleteuserBookingURL,
-          options:
-              Options(headers: <String, String>{'Authorization': accessToken}));
+      Response response = await DioClient().getData(
+        url: AppURLs.deleteuserBookingURL,
+        header: <String, String>{
+          'Authorization': accessToken,
+        },
+      );
       return LoginResponse.fromJson(response.data);
     } on DioException catch (e) {
       debugPrint('DioException: ${e.message}');
@@ -263,12 +267,15 @@ class ApiHandler {
     final accessToken = 'Bearer $token';
     try {
       if (dio == null) initDio();
-      final Response response = await dio!.get(AppURLs.profileURL,
-          options:
-              Options(headers: <String, String>{'Authorization': accessToken}));
+      Response response = await DioClient().getData(
+        url: AppURLs.profileURL,
+        header: <String, String>{
+          'Authorization': accessToken,
+        },
+      );
       return LoginResponse.fromJson(response.data);
     } on DioException catch (e) {
-      _handleError(e,context: context);
+      _handleError(e, context: context);
     }
   }
 
@@ -287,10 +294,13 @@ class ApiHandler {
     final accessToken = 'Bearer $body';
     try {
       if (dio == null) initDio();
-      final Response response = await dio!.post(AppURLs.logoutURL,
-          options: Options(headers: <String, String>{
-            'Authorization': accessToken.toString()
-          }));
+      Response response = await DioClient().postData(
+        url: AppURLs.logoutURL,
+        header: <String, String>{
+          'Authorization': accessToken,
+        },
+        data: {}
+      );
       return LogoutResponse.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e, context: context);
@@ -300,8 +310,8 @@ class ApiHandler {
   callPostForgotPasswordApi(body, context) async {
     try {
       if (dio == null) initDio();
-      final Response response =
-          await dio!.post(AppURLs.forgetPasswordURL, data: body);
+      Response response = await DioClient()
+          .postData(url: AppURLs.forgetPasswordURL, data: body);
       return ForgetPasswordResponse.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e, context: context);
@@ -309,15 +319,34 @@ class ApiHandler {
   }
 
   callPostResetPasswordApi(body, context) async {
-    final accessToken =
-        'Bearer ${await AppPreferences().getSharedPreferences(AppConstants.token)}';
+    String? token = await Utils().ReadToken();
+    final accessToken = 'Bearer $token}';
     try {
       if (dio == null) initDio();
-      final Response response = await dio!.post(AppURLs.resetPasswordURL,
-          data: body,
-          options:
-              Options(headers: <String, String>{'Authorization': accessToken}));
+      Response response = await DioClient().postData(
+          url: AppURLs.resetPasswordURL,
+          header: <String, String>{
+            'Authorization': accessToken,
+          },
+          data: body);
       return ResetPasswordResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      _handleError(e, context: context);
+    }
+  }
+
+  callDeleteUserAddressApi(body, BuildContext context) async {
+    String? token = await Utils().ReadToken();
+    final accessToken = 'Bearer $token';
+    try {
+      if (dio == null) initDio();
+      Response response = await DioClient().postData(
+          url: AppURLs.deleteUserAddress,
+          header: <String, String>{
+            'Authorization': accessToken,
+          },
+          data: body);
+      return UserAddress.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e, context: context);
     }
@@ -326,7 +355,7 @@ class ApiHandler {
   _handleError(DioException e, {BuildContext? context}) {
     showDialog(
         builder: (context) {
-          ApiException apiExp = e.error as ApiException;
+          String apiExp = e.response!.data["message"] ?? "";
           return AlertDialog(
             surfaceTintColor: AppColors.white,
             content: Column(
@@ -349,7 +378,7 @@ class ApiHandler {
                 ),
                 const SizedBox(height: 10),
                 TextWidget(
-                  text: apiExp.cause.toString(),
+                  text: apiExp.toString(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 14),

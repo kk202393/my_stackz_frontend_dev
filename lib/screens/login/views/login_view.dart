@@ -121,29 +121,7 @@ class LoginView extends StatelessWidget {
                                         await controller.validateFields(
                                             formKey, homeController, context);
                                     if (_isSuccess) {
-                                      bool another = await homeController
-                                          .callGetViewHomePageApi(context);
-
-                                      homeController.isLoading.value = false;
-                                      debugPrint('homeController $another');
-
-                                      if (another) {
-                                        Navigator.pushNamedAndRemoveUntil(
-                                          context,
-                                          Routes.HOME,
-                                          (route) => false,
-                                        );
-                                      } else {
-                                        String msg = "Failed to fetch data";
-                                        DialogHelper().showSnackBar(
-                                          context: context,
-                                          msg: msg,
-                                          backgroundColor: Colors.red.shade600,
-                                        );
-                                        homeController.isLoading.value = false;
-                                      }
-                                    } else {
-                                      homeController.isLoading.value = false;
+                                      Navigator.pushNamed(context, Routes.MPIN);
                                     }
                                   },
                                 ),

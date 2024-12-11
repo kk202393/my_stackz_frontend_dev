@@ -210,12 +210,11 @@ class HomeProvider with ChangeNotifier {
         isLoading.value = false;
         return false;
       }
-      _response = await ApiHandler().callGetViewHomePageApi(token,context);
+      _response = await ApiHandler().callGetViewHomePageApi(token, context);
       debugPrint('callGetViewHomePageApi $_response');
       isLoading.value = false;
       if (_response != null && _response!.allCategories != null) {
         categoryList.value = _response!.allCategories;
-        print("object=$_response");
         notifyListeners();
         return true;
       } else {
@@ -233,7 +232,8 @@ class HomeProvider with ChangeNotifier {
     //     .ensureInitialized(); // Ensure Flutter binding is initialized
     try {
       isLoading.value = true;
-      LogoutResponse response = await ApiHandler().callLogoutApi(token,context);
+      LogoutResponse response =
+          await ApiHandler().callLogoutApi(token, context);
       if (response.success! && response.message == "Log Out Successfully") {
         // Snack.show(
         //     content: response.message ?? '',

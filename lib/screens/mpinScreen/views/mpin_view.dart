@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:my_stackz/screens/mpinScreen/views/pin_fields.dart';
 import 'package:my_stackz/themes/custom_text_theme.dart';
+import 'package:my_stackz/widgets/text_widget.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images.dart';
@@ -18,11 +19,10 @@ class MpinView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.white,
       body: SafeArea(
-        child:
-        Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 20, vertical: 15),
-            child: Column(children: [
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          child: Column(
+            children: [
               Align(
                 alignment: Alignment.center,
                 child: Image.asset(
@@ -31,31 +31,23 @@ class MpinView extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.8,
                 ),
               ),
-              SizedBox(height: size.height*0.08),
-              FractionallySizedBox(
+              const Text(
+                'Enter your Mpin',
+                style: TextStyle(
+                  color: Color(0xFF000000),
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(height: size.height * 0.02),
+              const FractionallySizedBox(
                 widthFactor: 1,
                 child: PinputExample(),
               ),
-              SizedBox(height: size.height*0.2),
-              RichText(
-                  textAlign: TextAlign.start,
-                  text: TextSpan(
-                      text: StringConstants.notHaveAccount,
-                      style: context.titleMedium,
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: "${StringConstants.signUp}!",
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.pushNamed(
-                                    context, Routes.SIGN_UP);
-                              },
-                            style: context.titleMedium.copyWith(
-                                color: AppColors.cyanBlue,
-                                fontWeight: FontWeight.w700)),
-                      ])),
-              const SizedBox(height: 20)
-            ])),
+              SizedBox(height: size.height * 0.2),
+            ],
+          ),
+        ),
       ),
     );
   }

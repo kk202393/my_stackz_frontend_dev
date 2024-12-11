@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_stackz/api/dio_client.dart';
 import 'package:my_stackz/api/fcm_service.dart';
 import 'package:my_stackz/firebase_options.dart';
 import 'package:my_stackz/routes/app_pages.dart';
@@ -59,7 +60,7 @@ void main() async {
         create: (context) => SignUpProvider(),
         lazy: true,
       ),
-       ChangeNotifierProvider(
+      ChangeNotifierProvider(
         create: (context) => SettingsProvider(),
         lazy: true,
       ),
@@ -75,7 +76,6 @@ void main() async {
         create: (context) => HandymanProvider(),
         lazy: true,
       ),
-      
       ChangeNotifierProvider(
         create: (context) => PaymentProvider(),
         lazy: true,
@@ -139,6 +139,8 @@ class _MyStackzState extends State<MyStackz> {
   @override
   void initState() {
     super.initState();
+    DioClient().createDio();
+
     // token = false;
     // WidgetsBinding.instance.addPostFrameCallback(
     //   (_) async {

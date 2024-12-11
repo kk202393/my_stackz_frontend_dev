@@ -1,6 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:my_stackz/constants/app_colors.dart';
+import 'package:my_stackz/routes/app_pages.dart';
+import 'package:my_stackz/screens/home/controllers/home_controller.dart';
+import 'package:my_stackz/utils/utils.dart';
+import 'package:my_stackz/widgets/dialoge.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 class PinputExample extends StatefulWidget {
@@ -69,26 +76,70 @@ class _PinputExampleState extends State<PinputExample> {
               defaultPinTheme: defaultPinTheme,
               separatorBuilder: (index) => const SizedBox(width: 8),
               validator: (value) {
-                return value == '2222' ? null : '               Wrong Pin';
+                if (value == null || value.isEmpty) {
+                  return 'This field cannot be empty';
+                }
+                final intValue = int.tryParse(value);
+                if (intValue == null) {
+                  return 'Please enter a valid integer';
+                }
+                return null; // Input is valid
               },
               hapticFeedbackType: HapticFeedbackType.lightImpact,
-              onCompleted: (pin) {
-                debugPrint('onCompleted: $pin');
+              onCompleted: (pin) async {
+                HomeProvider homeController =
+                    Provider.of(context, listen: false);
+                String? mpin = await Utils().ReadMPIN() ?? "";
+                if (mpin.trim().isEmpty) {
+                  Utils().storeMPIN(pin);
+                  bool another =
+                      await homeController.callGetViewHomePageApi(context);
+                  homeController.isLoading.value = false;
+                  if (another) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Routes.HOME,
+                      (route) => false,
+                    );
+                  }
+                } else {
+                  if (mpin.trim() == pin.trim()) {
+                    bool another =
+                        await homeController.callGetViewHomePageApi(context);
+                    homeController.isLoading.value = false;
+                    if (another) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        Routes.HOME,
+                        (route) => false,
+                      );
+                    }
+                  } else {
+                    homeController.isLoading.value = false;
+                    String msg = "Invalid Mpin";
+                    DialogHelper().showSnackBar(
+                      context: context,
+                      msg: msg,
+                      backgroundColor: Colors.red.shade600,
+                    );
+                    homeController.isLoading.value = false;
+                  }
+                }
               },
               onChanged: (value) {
-                debugPrint('onChanged: $value');
+                // debugPrint('onChanged: $value');
               },
-              cursor: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 9),
-                    width: 22,
-                    height: 1,
-                    color: focusedBorderColor,
-                  ),
-                ],
-              ),
+              // cursor: Column(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     Container(
+              //       margin: const EdgeInsets.only(bottom: 9),
+              //       width: 22,
+              //       height: 1,
+              //       color: focusedBorderColor,
+              //     ),
+              //   ],
+              // ),
               focusedPinTheme: defaultPinTheme.copyWith(
                 decoration: defaultPinTheme.decoration!.copyWith(
                   borderRadius: BorderRadius.circular(8),
@@ -107,19 +158,28 @@ class _PinputExampleState extends State<PinputExample> {
               ),
             ),
           ),
-          const SizedBox(height: 20,),
-          TextButton(
-            onPressed: () {
-              focusNode.unfocus();
-              formKey.currentState!.validate();
-            },
-            child: const Text('Validate', style: TextStyle(color: AppColors.selectiveYellow, fontSize: 18),),
+          const SizedBox(
+            height: 20,
           ),
+          // TextButton(
+          //   onPressed: () {
+          //     focusNode.unfocus();
+          //     formKey.currentState!.validate();
+          //   },
+          //   child: const Text(
+          //     'Validate',
+          //     style: TextStyle(
+          //       color: AppColors.selectiveYellow,
+          //       fontSize: 18,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
   }
 }
+
 class SmsRetrieverImpl implements SmsRetriever {
   const SmsRetrieverImpl(this.smartAuth);
 

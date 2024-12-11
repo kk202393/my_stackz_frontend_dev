@@ -22,7 +22,6 @@ class _SplaceScreenState extends State<SplaceScreen> {
   void initState() {
     _handleLoading(context);
     super.initState();
-    DioClient().createDio();
   }
 
   @override
@@ -56,26 +55,33 @@ class _SplaceScreenState extends State<SplaceScreen> {
 
   Future<void> _readTokenAndNavigate(BuildContext context) async {
     try {
-      String? token = await Utils().ReadToken();
-      HomeProvider homeController =
-          Provider.of<HomeProvider>(context, listen: false);
-      LoginProvider loginProvider =
-          Provider.of<LoginProvider>(context, listen: false);
+      // String? token = await Utils().ReadToken();
+      String? mpin = await Utils().ReadMPIN() ?? "";
+      // HomeProvider homeController =
+      //     Provider.of<HomeProvider>(context, listen: false);
+      // LoginProvider loginProvider =
+      //     Provider.of<LoginProvider>(context, listen: false);
 
-      if (token != null && token.isNotEmpty) {
-        bool profileLoaded = await loginProvider.getMyProfile(context);
-        if (profileLoaded) {
-          bool homePageLoaded =
-              await homeController.callGetViewHomePageApi(context);
-          if (homePageLoaded) {
-            homeController.isLoading.value = false;
-            Navigator.pushReplacementNamed(context, Routes.HOME);
-          }
-        } else {
-          Navigator.pushReplacementNamed(context, Routes.LOGIN);
-        }
+      if (mpin.trim().isNotEmpty) {
+        Navigator.pushNamed(context, Routes.MPIN);
       } else {
         Navigator.pushReplacementNamed(context, Routes.LOGIN);
+        // if (token != null && token.isNotEmpty) {
+        //   // bool profileLoaded = await loginProvider.getMyProfile(context);
+        //   // if (profileLoaded) {
+        //   //   bool homePageLoaded =
+        //   //       await homeController.callGetViewHomePageApi(context);
+        //   //   if (homePageLoaded) {
+        //   //     homeController.isLoading.value = false;
+        //   //     Navigator.pushReplacementNamed(context, Routes.HOME);
+        //   //     //  Navigator.pushNamed(context, Routes.MPIN);
+        //   //   }
+        //   // } else {
+        //   //   Navigator.pushReplacementNamed(context, Routes.LOGIN);
+        //   // }
+        // } else {
+        //   Navigator.pushReplacementNamed(context, Routes.LOGIN);
+        // }
       }
     } catch (e) {
       debugPrint("Error during loading: $e");
