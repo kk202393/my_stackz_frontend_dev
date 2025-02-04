@@ -294,13 +294,10 @@ class ApiHandler {
     final accessToken = 'Bearer $body';
     try {
       if (dio == null) initDio();
-      Response response = await DioClient().postData(
-        url: AppURLs.logoutURL,
-        header: <String, String>{
-          'Authorization': accessToken,
-        },
-        data: {}
-      );
+      Response response = await DioClient()
+          .postData(url: AppURLs.logoutURL, header: <String, String>{
+        'Authorization': accessToken,
+      }, data: {});
       return LogoutResponse.fromJson(response.data);
     } on DioException catch (e) {
       _handleError(e, context: context);
@@ -355,7 +352,7 @@ class ApiHandler {
   _handleError(DioException e, {BuildContext? context}) {
     showDialog(
         builder: (context) {
-          String apiExp = e.response!.data["message"] ?? "";
+          String apiExp = e.response?.data["message"] ?? "";
           return AlertDialog(
             surfaceTintColor: AppColors.white,
             content: Column(
@@ -391,7 +388,7 @@ class ApiHandler {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  buttonText: 'ok',
+                  buttonText: 'Okay',
                 ),
               ),
             ],
