@@ -24,7 +24,13 @@ class SignUpView extends StatelessWidget {
       backgroundColor: context.getTheme.primaryColor,
       appBar: AppBar(
         leading: InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: () {
+              controller.emailController.clear();
+              controller.nameController.clear();
+              controller.passwordController.clear();
+              controller.phoneController.clear();
+              Navigator.pop(context);
+            },
             child: const Icon(Icons.close)),
         title: const TextWidget(
           text: StringConstants.signUp,

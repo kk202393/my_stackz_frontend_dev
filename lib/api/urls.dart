@@ -1,5 +1,5 @@
 class AppURLs {
-  static const String appBaseURL = 'https://www.cospazes.com';
+  static const String appBaseURL = 'http://65.2.150.188';
   static const String createNewAddress = '$appBaseURL/api/v1/address';
   static const String loginURL = '$appBaseURL/api/v1/login';
   static const String homePageURL = '$appBaseURL/api/v1/dashboard';

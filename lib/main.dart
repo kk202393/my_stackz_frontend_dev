@@ -105,7 +105,9 @@ void main() async {
         lazy: true,
       ),
       ChangeNotifierProvider(
-          create: (context) => PollingProvider(), lazy: true),
+        create: (context) => PollingProvider(),
+        lazy: true,
+      ),
     ], child: const MyStackz()),
   );
 }
