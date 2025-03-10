@@ -352,7 +352,10 @@ class ApiHandler {
   _handleError(DioException e, {BuildContext? context}) {
     showDialog(
         builder: (context) {
-          String apiExp = e.response?.data["message"] ?? "";
+          ApiException err = e.error as ApiException;
+          String apiExp = err.cause.toString().isEmpty
+              ? e.response!.data["message"].toString()
+              : err.cause.toString();
           return AlertDialog(
             surfaceTintColor: AppColors.white,
             content: Column(

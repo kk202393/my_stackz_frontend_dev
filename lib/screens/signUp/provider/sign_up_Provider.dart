@@ -57,12 +57,13 @@ class SignUpProvider with ChangeNotifier {
     obscureText.value = !obscureText.value;
   }
 
-  validateFields(BuildContext context) {
+  Future<bool> validateFields(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
-      return;
+      return false;
     } else {
       // callCreateAccountApi();
       /*Navigator.pushNamed(context, Routes.DASHBOARD);*/
+      return true;
     }
   }
 
@@ -72,12 +73,12 @@ class SignUpProvider with ChangeNotifier {
       "username": nameController.text,
       "user_role": "2",
       "first_name": nameController.text,
-      "last_name": "Kumar",
+      "last_name": " ",
       "email": emailController.text,
       "password": passwordController.text,
       "phone_number": "+91${phoneController.text}",
       // "address": address.value,
-      "dob": "18/09/1998"
+      "dob": " "
     };
     try {
       CreateAccountResponse response =

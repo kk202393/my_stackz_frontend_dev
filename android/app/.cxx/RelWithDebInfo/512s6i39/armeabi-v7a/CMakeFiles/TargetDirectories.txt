@@ -1,0 +1,2 @@
+/Users/poojasingh/Documents/my_stackz/my_stackz_frontend/android/app/.cxx/RelWithDebInfo/512s6i39/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/Users/poojasingh/Documents/my_stackz/my_stackz_frontend/android/app/.cxx/RelWithDebInfo/512s6i39/armeabi-v7a/CMakeFiles/edit_cache.dir

@@ -60,16 +60,17 @@ class SignUpView extends StatelessWidget {
                         const SizedBox(height: 50),
                         ButtonWidget(
                           buttonText: StringConstants.signUp,
-                          onTap: () {
-                            controller.validateFields(context);
-                            controller.callCreateAccountApi(context).then(
-                              (value) {
-                                controller.isLoading.value = false;
-                                if (value) {
-                                  Navigator.pushNamed(context, Routes.LOGIN);
-                                }
-                              },
-                            );
+                          onTap: () async {
+                            if (await controller.validateFields(context)) {
+                              controller.callCreateAccountApi(context).then(
+                                (value) {
+                                  controller.isLoading.value = false;
+                                  if (value) {
+                                    Navigator.pushNamed(context, Routes.LOGIN);
+                                  }
+                                },
+                              );
+                            }
                           },
                         ),
                       ],
